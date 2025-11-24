@@ -1054,7 +1054,7 @@ describe('Módulo - Profissionais', () => {
     })
 
     describe('Módulo - Profissional - Consultar perfil do profissional', () => {
-        
+
         it('Validar retorno 200 - /api/v1/profissionais/{id}/perfil', () => {
             const token = Cypress.env('access_token');
 
@@ -1105,7 +1105,7 @@ describe('Módulo - Profissionais', () => {
     })
 
     describe('Módulo - Profissional - Remover perfil do profissional', () => {
-        
+
         it('Validar retorno 200 - /api/v1/profissionais/perfil/{id}', () => {
             const token = Cypress.env('access_token');
 
@@ -1156,71 +1156,867 @@ describe('Módulo - Profissionais', () => {
     })
 
     describe('Módulo - Profissional - Listar profissionais que seja responsavel da clinica', () => {
-        
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/responsible-clinic', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/responsible-clinic',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/responsible-clinic', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/responsible-clinic',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Ativar ou Desativar profissional por id', () => {
-        
+
+        it('Validar retorno 201 - /api/v1/profissionais/activation/toggle/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/activation/toggle/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/activation/toggle/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/activation/toggle/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/activation/toggle/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/activation/toggle/{id}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Lista especialidades do profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/{id}/specialties', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/specialties',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/{id}/specialties', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/specialties',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/{id}/specialties', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/specialties',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Lista repasses a receber de um profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/{id}/repasses', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/repasses',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/{id}/repasses', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/repasses',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/{id}/repasses', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/repasses',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
-        
+
+        it('Validar retorno 201 - /api/v1/profissionais/update-email', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: '',
+                url: '/api/v1/profissionais/update-email',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body:
+                {
+                    "employeeId": 123,
+                    "newEmail": "teste@teste.com"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/update-email', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: '',
+                url: '/api/v1/profissionais/update-email',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/update-email', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: '',
+                url: '/api/v1/profissionais/update-email',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body:
+                {
+                    "employeeId": 123,
+                    "newEmail": "teste@teste.com"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Retorna uma lista de Titulos para o profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/list/degree', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/list/degree',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/list/degree', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/list/degree',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Retorna uma lista de profissionais por especialidades', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/especialidades/{expertiseAreaIds}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/especialidades/{expertiseAreaIds}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/especialidades/{expertiseAreaIds}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/especialidades/{expertiseAreaIds}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Listar profissionais com paginação e filtros', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/buscar-por-cpf/{cpf}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/buscar-por-cpf/{cpf}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/buscar-por-cpf/{cpf}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/buscar-por-cpf/{cpf}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/buscar-por-cpf/{cpf}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/buscar-por-cpf/{cpf}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Cadastrar restrições do profissional', () => {
-        
+
+        it('Validar retorno 201 - /api/v1/profissionais/{id}/professional-restrictions', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/{id}/professional-restrictions',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "restrictionType": {
+                        "age": true,
+                        "gender": true,
+                        "newPatients": true
+                    },
+                    "ageRange": {
+                        "ageStart": 0,
+                        "ageEnd": 10
+                    },
+                    "gender": {
+                        "male": true,
+                        "female": true,
+                        "notDefined": true
+                    }
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/{id}/professional-restrictions', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/{id}/professional-restrictions',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/{id}/professional-restrictions', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/{id}/professional-restrictions',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "restrictionType": {
+                        "age": true,
+                        "gender": true,
+                        "newPatients": true
+                    },
+                    "ageRange": {
+                        "ageStart": 0,
+                        "ageEnd": 10
+                    },
+                    "gender": {
+                        "male": true,
+                        "female": true,
+                        "notDefined": true
+                    }
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Listar restrições do profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/{id}/professional-restrictions', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/professional-restrictions',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/{id}/professional-restrictions', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/professional-restrictions',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/{id}/professional-restrictions', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/{id}/professional-restrictions',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Listar restrições do profissional por grade', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/restrictions-schedule/{scheduleId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/restrictions-schedule/{scheduleId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/restrictions-schedule/{scheduleId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/restrictions-schedule/{scheduleId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/restrictions-schedule/{scheduleId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/restrictions-schedule/{scheduleId}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Deletar restrições do profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/professional-restrictions/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/profissionais/professional-restrictions/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/professional-restrictions/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/profissionais/professional-restrictions/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/professional-restrictions/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/profissionais/professional-restrictions/{id}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Verificar se o paciente está nas restrições do profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/restrictions-patient/{patientId}/schedule/{scheduleId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/restrictions-patient/{patientId}/schedule/{scheduleId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/restrictions-patient/{patientId}/schedule/{scheduleId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/restrictions-patient/{patientId}/schedule/{scheduleId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/restrictions-patient/{patientId}/schedule/{scheduleId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/restrictions-patient/{patientId}/schedule/{scheduleId}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Observações do profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/observations/{professionalId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/observations/{professionalId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/observations/{professionalId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/observations/{professionalId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/observations/{professionalId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/observations/{professionalId}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Retorna a quantidade assinaturas do profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/signatures/{professionalId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/signatures/{professionalId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/signatures/{professionalId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/signatures/{professionalId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/signatures/{professionalId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/signatures/{professionalId}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Cadastra um token Memed para um profissional', () => {
-        
+
+        it('Validar retorno 201 - /api/v1/profissionais/token-memed/professional/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/token-memed/professional/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/token-memed/professional/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/token-memed/professional/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/token-memed/professional/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais/token-memed/professional/{id}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 
     describe('Módulo - Profissional - Retorna um token Memed por cpf de um profissional', () => {
-        
+
+        it('Validar retorno 200 - /api/v1/profissionais/token-memed/professional/{cpf}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/token-memed/professional/{cpf}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/profissionais/token-memed/professional/{cpf}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/token-memed/professional/{cpf}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais/token-memed/professional/{cpf}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/profissionais/token-memed/professional/{cpf}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 })
