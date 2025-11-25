@@ -8,7 +8,7 @@ describe('Módulo - Horários/Grade Profissional', () => {
 
     describe('Módulo - Horários/Grade Profissional - Cria um horário disponível para o profissional', () => {
 
-        it('Validar retorno 201 - /api/v1/schedule', () => {
+        it.only('Validar retorno 201 - /api/v1/schedule', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -20,28 +20,26 @@ describe('Módulo - Horários/Grade Profissional', () => {
                 },
                 body: {
                     "diasSemana": [
-                        3
+                        2
                     ],
                     "tempo": 10,
-                    "compartilharGrade": true,
+                    "compartilharGrade": false,
                     "necessitaAcolhimento": false,
                     "overbooking": false,
-                    "diaInicio": 20250402,
-                    "diaTermino": 20250403,
-                    "horaInicio": "18:00",
-                    "horaTermino": "20:30",
+                    "diaInicio": "20251125",
+                    "diaTermino": "20251126",
+                    "horaInicio": "10:00",
+                    "horaTermino": "23:00",
                     "maximoRetornos": null,
                     "deletado": false,
-                    "profissionalId": 3821,
-                    "localId": 59,
+                    "profissionalId": 4033,
+                    "localId": 10610,
                     "clinicaId": 483,
                     "procedimentos": [
-                        25799,
-                        25800
+                        20357
                     ],
                     "areasAtuacao": [
-                        611,
-                        635
+                        611
                     ],
                     "restrictions": []
                 },

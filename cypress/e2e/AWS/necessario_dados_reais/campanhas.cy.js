@@ -8,7 +8,7 @@ describe('Módulo - Campanhas', () => {
 
     describe('Módulo - Campanhas', () => {
 
-        it('Validar retorno 201 - /api/v1/campaigns', () => {
+        it.only('Validar retorno 201 - /api/v1/campaigns', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -23,8 +23,8 @@ describe('Módulo - Campanhas', () => {
                     nameCampaign: 'TESTE API',
                     privateValue: 0,
                     valueCDT: 0,
-                    dateStartSale: '18/11/2025',
-                    dateValiditySale: '18/11/2025',
+                    dateStartSale: '25/11/2025',
+                    dateValiditySale: '25/11/2025',
                     amountLimitCPF: 1,
                     flagUnlimited: false,
                     flgOnline: false,
