@@ -200,35 +200,31 @@ describe('Módulo - Profissionais', () => {
         })
     })
 
-    describe.only('Módulo - Profissionais - Cadastrar fotografia do profissional', () => {
+    describe('Módulo - Profissionais - Cadastrar fotografia do profissional', () => {
 
-        it('Validar retorno 201 - /api/v1/profissionais/avatar/{id}', () => {
+        it.only('Validar retorno 201 - /api/v1/profissionais/avatar/{id}', () => {
             const token = Cypress.env('access_token');
             const id = 4033;
 
-            cy.fixture('testedeFoto.bmp', 'binary')
-                .then(Cypress.Blob.binaryStringToBlob)
-                .then(fileBlob => {
+            cy.fixture('testedeFoto.bmp', 'binary').then((fileContent) => {
+                const formData = new FormData();
+                formData.append('file', new Blob([fileContent], { type: 'text/plain' }), 'testedeFoto.bmp');
 
-                    const formData = new FormData();
-                    formData.append('avatar', fileBlob, 'testedeFoto.bmp');
-
-                    cy.request({
-                        method: 'POST',
-                        url: `/api/v1/profissionais/avatar/${id}`,
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: {
-                            formData,
-                            form: false,
-                            encoding: 'binary'
-                        },
-                        failOnStatusCode: false
-                    }).then(response => {
-                        expect(response.status).to.eq(201);
-                    });
+                cy.request({
+                    method: 'POST',
+                    url: `/api/v1/profissionais/avatar/${id}`,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    body: {
+                        formData
+                    },
+                    failOnStatusCode: false
+                }).then(response => {
+                    expect(response.status).to.eq(201);
                 });
+            });
         });
 
 
@@ -265,7 +261,7 @@ describe('Módulo - Profissionais', () => {
         })
     })
 
-    describe.only('Módulo - Profissionais - Baixar fotografia do profissional', () => {
+    describe('Módulo - Profissionais - Baixar fotografia do profissional', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/avatar/{id}', () => {
             const token = Cypress.env('access_token');
@@ -301,7 +297,7 @@ describe('Módulo - Profissionais', () => {
 
     })
 
-    describe.only('Módulo - Profissionais - Remove fotografia do profissional', () => {
+    describe('Módulo - Profissionais - Remove fotografia do profissional', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/avatar/{id}', () => {
             const token = Cypress.env('access_token');

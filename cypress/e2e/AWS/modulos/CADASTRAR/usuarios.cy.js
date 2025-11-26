@@ -199,7 +199,6 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Usuários - Alterar a senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user', () => {
@@ -214,7 +213,7 @@ describe('Módulo - Usuários', () => {
                         email: 'ivan.santos+1@amorsaude.com',
                         password: 'Iv@n198529'
                     },
-                    failOnStatusCode: false // normalmente esse cod refere-se a uma api pra nao dar erro de false
+                    failOnStatusCode: false
                 }).then((loginResponse) => {
                     expect(loginResponse.status).to.eq(200)
 
@@ -344,7 +343,6 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Usuários - Criar a senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user/change-password', () => {
@@ -358,9 +356,9 @@ describe('Módulo - Usuários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    email: "usuarioTesteAPI1753211020093@email.com",
-                    newPassword: "@Password5916",
-                    confirmPassword: "@Password5916"
+                    "email": "roger.mazzali@amorsaude.com",
+                    "newPassword": "@Password5916",
+                    "confirmPassword": "@Password5916"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -458,8 +456,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
+    describe.only('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
 
         it('Validar retorno 201 - /api/v1/user/recovery-password', () => {
             const token = Cypress.env('access_token');
@@ -472,7 +469,9 @@ describe('Módulo - Usuários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    email: "ivan.santos+1@amorsaude.com",
+                    email: "roger.mazzali@amorsaude.com",
+                    actualPassword: "Rrm@amor204",
+                    newPassword: "Amor@100"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -524,7 +523,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe('Módulo - Usuários - Recuperar senha', () => {
+    describe.only('Módulo - Usuários - Recuperar senha', () => {
 
         it('Validar retorno 201 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');
@@ -569,8 +568,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
+    describe.only('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');
@@ -583,8 +581,8 @@ describe('Módulo - Usuários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "newPassword": "string",
-                    "confirmPassword": "string",
+                    "newPassword": "roger.mazzali@amorsaude.com",
+                    "confirmPassword": "Rrm@amor204",
                     "hash": "string"
                 },
                 failOnStatusCode: false
