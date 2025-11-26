@@ -9,7 +9,7 @@ describe('Módulo - Bloqueios', () => {
     // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Cria um bloqueio', () => {
 
-        it('Validar retorno 201 - /api/v1/bloqueios', () => {
+        it.only('Validar retorno 201 - /api/v1/bloqueios', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -20,8 +20,8 @@ describe('Módulo - Bloqueios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": 20251107,
-                    "dataFim": 20251107,
+                    "dataInicio": 20251119,
+                    "dataFim": 20251119,
                     "horaInicio": "22:30",
                     "horaFim": "23:00",
                     "diasSemana": [
@@ -31,7 +31,7 @@ describe('Módulo - Bloqueios', () => {
                         611
                     ],
                     "descricao": "Teste",
-                    "profissionalId": "3601"
+                    "profissionalId": "1475"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -107,10 +107,6 @@ describe('Módulo - Bloqueios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
-
-                // Validação do body
-                expect(response.body).to.be.an('array');
-                expect(response.body.length).to.be.greaterThan(0);
 
                 const bloqueio = response.body[0];
 

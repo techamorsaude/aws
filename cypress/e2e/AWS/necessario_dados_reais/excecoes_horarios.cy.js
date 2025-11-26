@@ -20,23 +20,18 @@ describe('Módulo - Exceções Horários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": "20251029",
-                    "dataFim": "20251029",
-                    "horaInicio": "13:00",
-                    "horaFim": "14:00",
-                    "tempo": 10,
-                    "procedimentos": [
-                        {
-                            "id": 20357
-                        }
+                    "dataInicio": "20251117",
+                    "dataFim": "20251117",
+                    "horaInicio": "22:00",
+                    "horaFim": "23:00",
+                    "diasSemana": [
+                        1
                     ],
-                    "especialidades": [
-                        {
-                            "id": 611
-                        }
+                    "especialidadeIds": [
+                        611
                     ],
-                    "localId": 59,
-                    "profissionalId": 3601
+                    "descricao": "teste",
+                    "profissionalId": "3601"
                 },
                 failOnStatusCode: false,
             }).then((response) => {

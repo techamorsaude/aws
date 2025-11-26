@@ -1119,7 +1119,6 @@ describe('Módulo - Contas a Receber', () => {
 
     // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
-
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/lancamento-financeiro', () => {
             const token = Cypress.env('access_token');
 

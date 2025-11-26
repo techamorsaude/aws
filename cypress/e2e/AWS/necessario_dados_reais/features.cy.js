@@ -189,7 +189,7 @@ describe('Módulo - Features', () => {
     it('Validar retorno 200 - /api/v1/features/{id}', () => {
 
       const token = Cypress.env('access_token')
-      const idFeature = 1953;
+      const idFeature = 1976;
 
       cy.request({
         method: 'PATCH',
@@ -199,7 +199,7 @@ describe('Módulo - Features', () => {
           'Content-Type': 'application/json'
         },
         body: {
-          feature: 'QA-1750860022218',
+          feature: 'QA-1758562126049',
           isActive: 0,
           defaultValueForNewUnits: 1
         },

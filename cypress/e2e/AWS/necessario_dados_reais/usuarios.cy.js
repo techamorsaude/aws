@@ -570,7 +570,7 @@ describe('Módulo - Usuários', () => {
     })
 
     // Precisa de dados reais do Amei
-    describe.only('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
+    describe('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');

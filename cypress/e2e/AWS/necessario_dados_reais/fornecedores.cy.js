@@ -2037,7 +2037,7 @@ describe('Módulo - Fornecedores', () => {
     })
 
     //GET - FINALIZADO
-    describe.only('Módulo - Fornecedores - Retorna os procedimentos do fornecedor, com paginação, buscando por parceiro E/OU nome E/OU grupo E/OU Tipo de procedimentos', () => {
+    describe('Módulo - Fornecedores - Retorna os procedimentos do fornecedor, com paginação, buscando por parceiro E/OU nome E/OU grupo E/OU Tipo de procedimentos', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/filter', () => {
             const token = Cypress.env('access_token');
@@ -2098,7 +2098,7 @@ describe('Módulo - Fornecedores', () => {
 
     // Precisa de dados reais do Amei
     //PUT - FINALIZADO
-    describe.only('Módulo - Fornecedores - Atualiza os dados do procedimento do fornecedor', () => {
+    describe('Módulo - Fornecedores - Atualiza os dados do procedimento do fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
             const token = Cypress.env('access_token');
@@ -2164,7 +2164,7 @@ describe('Módulo - Fornecedores', () => {
 
     // Precisa de dados reais do Amei
     //DELETE - FINALIZADO
-    describe.only('Módulo - Fornecedores - Inativa o procedimento do fornecedor', () => {
+    describe('Módulo - Fornecedores - Inativa o procedimento do fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
             const token = Cypress.env('access_token');

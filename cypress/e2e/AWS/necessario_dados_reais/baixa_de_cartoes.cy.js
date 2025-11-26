@@ -159,13 +159,13 @@ describe('Módulo - Baixa de Cartões', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    pagamentos: [
+                    "pagamentos": [
                         {
-                            id: 75331,
-                            valor: 1,
-                            dataCredito: "20251001",
-                            dataVencimento: "20250814",
-                            conciliado: false
+                            "id": 69960,
+                            "valor": 5,
+                            "dataCredito": "2025-11-18",
+                            "dataVencimento": "2025-02-01",
+                            "conciliado": false
                         }
                     ]
                 },

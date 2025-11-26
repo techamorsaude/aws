@@ -663,7 +663,7 @@ describe('Módulo - Parceiros', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
             const token = Cypress.env('access_token');
-            const idParceiro = 241;
+            const idParceiro = 1;
 
             cy.request({
                 method: 'GET',
@@ -786,7 +786,7 @@ describe('Módulo - Parceiros', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/parceiros/241',
+                url: '/api/v1/parceiros/1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -876,7 +876,7 @@ describe('Módulo - Parceiros', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/parceiros/241/unidades?regionaisIds=1&regionaisIds=1',
+                url: '/api/v1/parceiros/1/unidades?regionaisIds=1&regionaisIds=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

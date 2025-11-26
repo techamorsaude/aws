@@ -20,23 +20,23 @@ describe('Módulo - Acolhimentos', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    atendimentoId: 129003,
-                    agendamentoId: 151586,
-                    peso: 70,
-                    altura: 171,
-                    imc: 23.94,
-                    perimetroCefalico: 100,
-                    circunferenciaAbdominal: 90,
-                    posicaoPa: "Deitado",
-                    paSistolica: 118,
-                    paDiastolica: 120,
-                    freqCardiaca: 123,
-                    freqRespiratoria: 123,
-                    temperaturaAux: 36,
-                    glicemiaCapilar: 13,
-                    oximetria: 29,
-                    time: "00:01:40",
-                    anamnese: "testeAPI"
+                    "atendimentoId": 132236,
+                    "agendamentoId": 178893,
+                    "peso": 0,
+                    "altura": 0,
+                    "imc": 0,
+                    "perimetroCefalico": 0,
+                    "circunferenciaAbdominal": 0,
+                    "posicaoPa": "",
+                    "paSistolica": 0,
+                    "paDiastolica": 0,
+                    "freqCardiaca": 0,
+                    "freqRespiratoria": 0,
+                    "temperaturaAux": 0,
+                    "glicemiaCapilar": 0,
+                    "oximetria": 0,
+                    "time": "00:00:22",
+                    "anamnese": ""
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -264,7 +264,7 @@ describe('Módulo - Acolhimentos', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/acolhimentos/iniciar/26763511',
+                url: '/api/v1/acolhimentos/iniciar/178893',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -323,12 +323,12 @@ describe('Módulo - Acolhimentos', () => {
 
     describe('Módulo - Acolhimentos - Appointments by Status', () => {
 
-        it('Validar retorno 200 - /api/v1/acolhimentos/list-appointments-by-status', () => {
+        it.only('Validar retorno 200 - /api/v1/acolhimentos/list-appointments-by-status', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/acolhimentos/list-appointments-by-status?date=20251010&page=1&perPage=10',
+                url: '/api/v1/acolhimentos/list-appointments-by-status?date=20251117&page=1&perPage=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -338,8 +338,6 @@ describe('Módulo - Acolhimentos', () => {
                 expect(response.status).to.eq(200)
 
                 const body = response.body;
-
-
                 expect(body).to.have.property('meta').to.include.all.keys(
                     'page',
                     'perPage',
@@ -347,19 +345,17 @@ describe('Módulo - Acolhimentos', () => {
                 )
                 expect(body).to.have.property('data').to.be.an('array')
                 body.data.forEach((item) => {
-                    expect(item).to.have.property('procedimento');
+                    expect(item).to.have.property('procedimento').to.be.an('array');
                     expect(item).to.have.property('dataAtendimentoISO');
-                    expect(item).to.have.property('flgNecessitaAcolhimento');
+                    expect(item).to.have.property('flgNecessitaAcolhimento').to.be.an('array');
                     expect(item).to.have.property('horaInicio');
                     expect(item).to.have.property('horaChegada');
                     expect(item).to.have.property('horaCheckIn');
                     expect(item).to.have.property('pacienteIdade');
                     expect(item).to.have.property('professional');
-                    //expect(item).to.have.property('professionalId');
                     expect(item).to.have.property('id');
                     expect(item).to.have.property('statusId');
                     expect(item).to.have.property('status');
-                    //expect(item).to.have.property('usuarioId');
                 })
             })
         })
