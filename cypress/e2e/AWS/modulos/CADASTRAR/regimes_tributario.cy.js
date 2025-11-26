@@ -26,8 +26,6 @@ describe('Módulo - Regime Tributário', () => {
         response.body.forEach((regime) => {
           expect(regime).to.have.property('id');
           expect(regime).to.have.property('regime')
-
-
         });
       });
     })
