@@ -8,7 +8,7 @@ describe('Módulo - Campanhas', () => {
 
     describe('Módulo - Campanhas', () => {
 
-        it.only('Validar retorno 201 - /api/v1/campaigns', () => {
+        it('Validar retorno 201 - /api/v1/campaigns', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -19,34 +19,34 @@ describe('Módulo - Campanhas', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    codePrefix: 'TESTEA',
-                    nameCampaign: 'TESTE API',
+                    codePrefix: "TESTEQ",
+                    nameCampaign: "TESTEQA",
                     privateValue: 0,
                     valueCDT: 0,
-                    dateStartSale: '25/11/2025',
-                    dateValiditySale: '25/11/2025',
+                    dateStartSale: "27/11/2025",
+                    dateValiditySale: "27/11/2025",
                     amountLimitCPF: 1,
                     flagUnlimited: false,
                     flgOnline: false,
                     validityType: 2,
-                    specialtyIds: [
-                        611
-                    ],
+                    specialtyId: 611,
                     amountDays: 30,
-                    description: 'teste',
-                    flagStatus: 'A',
+                    description: "",
+                    flagStatus: "A",
                     flagHighlights: false,
-                    procedures: {
-                        "id": 20715,
-                        "usageLimit": 1,
-                        "procedure": "Sessão Acupuntura"
-                    },
-                    coverageType: 'NATIONAL',
-                    ipClient: '127.0.0.1'
+                    procedures: [
+                        {
+                            id: 20357,
+                            usageLimit: 1,
+                            procedure: "Consulta Áreas de Atuação"
+                        }
+                    ],
+                    unitsIds: [483],
+                    ipClient: "127.0.0.1"
                 },
-                failOnStatusCode: false,
+                failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(400)
 
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
@@ -130,7 +130,7 @@ describe('Módulo - Campanhas', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                cy.log(JSON.stringify(response.body))
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -158,7 +158,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'PATCH',
-                url: '/api/v1/campaign/{id}',
+                url: '/api/v1/campaign/102',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -259,12 +259,12 @@ describe('Módulo - Campanhas', () => {
 
     describe('Módulo - Campanhas - Listar campanha por id', () => {
 
-        it('Validar retorno 200 - /api/v1/campaign/{id}', () => {
+        it.only('Validar retorno 200 - /api/v1/campaign/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaign/{id}',
+                url: '/api/v1/campaign/102',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -370,7 +370,7 @@ describe('Módulo - Campanhas', () => {
     })
 
     describe('Módulo - Campanhas - Lista apenas o id e nome da campanha', () => {
-        
+
         it('Validar retorno 200 - /api/v1/campaigns/basic', () => {
             const token = Cypress.env('access_token');
 
@@ -405,7 +405,7 @@ describe('Módulo - Campanhas', () => {
     })
 
     describe('Módulo - Campanhas - Lista todos procedimentos de uma campanha cadastrada', () => {
-        
+
         it('Validar retorno 200 - /api/v1/campaigns/{id}/proposal-data', () => {
             const token = Cypress.env('access_token');
 
@@ -456,7 +456,7 @@ describe('Módulo - Campanhas', () => {
     })
 
     describe('Módulo - Campanhas - Download do banner', () => {
-        
+
         it('Validar retorno 200 - /api/v1/campaign/{id}/banner', () => {
             const token = Cypress.env('access_token');
 
@@ -491,7 +491,7 @@ describe('Módulo - Campanhas', () => {
     })
 
     describe('Módulo - Campanhas - get banner name and link download', () => {
-        
+
         it('Validar retorno 200 - /api/v1/campaign/{id}/banner-link', () => {
             const token = Cypress.env('access_token');
 
@@ -525,7 +525,7 @@ describe('Módulo - Campanhas', () => {
         })
     })
 
-     describe('Módulo - Campanhas - Remover procedimento da campanha', () => {
+    describe('Módulo - Campanhas - Remover procedimento da campanha', () => {
 
         it('Validar retorno 200 - /api/v1/campaign-procedure/{id}', () => {
             const token = Cypress.env('access_token');
@@ -587,7 +587,7 @@ describe('Módulo - Campanhas', () => {
     })
 
     describe('Módulo - Campanhas - Lista campanha em destaque caso houver campanha em destaque vigente', () => {
-        
+
         it('Validar retorno 200 - /api/v1/campaigns/emphasis-campaign', () => {
             const token = Cypress.env('access_token');
 

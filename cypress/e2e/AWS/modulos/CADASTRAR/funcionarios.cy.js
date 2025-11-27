@@ -14,7 +14,7 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/employees?unidadeId=483',
+                url: '/api/v1/employees?unidadeId=483&nome=Teste',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -324,7 +324,7 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'GET',
-                url: `/api/v1/employees/${idFuncionario}`,
+                url: '/api/v1/employees/325',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -395,7 +395,6 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Funcionários - Atualiza um funcionário por id', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}', () => {
@@ -412,36 +411,33 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/employees/${idFuncionario}`,
+                url: '/api/v1/employees/19411',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
                     "status": "1",
-                    "nome": "Julio",
-                    "sobrenome": "Silva",
+                    "nome": "aaaJosiane",
+                    "sobrenome": "Automação",
                     "foto": "",
-                    "cpf": "12345678900",
-                    "rg": "42.418.401-1",
-                    "dataNascimento": "1995-07-17",
+                    "cpf": "09970700804",
+                    "rg": "123456789",
+                    "dataNascimento": null,
                     "dataDemissao": null,
-                    "dataAdmissao": "2025-10-01",
+                    "dataAdmissao": null,
                     "tipoFuncionario": "Interno",
                     "origemExterno": "",
-                    "cep": "13580-970",
-                    "sexoId": 1,
-                    "setorId": 3,
+                    "cep": "08505-450",
+                    "sexoId": 2,
                     "observacao": "",
-                    "celular": "16992788783",
-                    "bairro": "Centro",
-                    "email": "julio.silva@email.com",
-                    "endereco": "Rua São Paulo",
-                    "numero": "121",
+                    "celular": "11987542212",
+                    "bairro": "Jardim Valentim",
+                    "email": email,
+                    "endereco": "Rua Professor Doutor Hely Lopes Meireles",
+                    "numero": "122",
                     "complemento": "",
-                    "funcaoId": 1,
-                    "perfilAcessoId": 1,
-                    "municipioId": 4918,
+                    "municipioId": 81,
                     "usuarioUnidadeId": 483
                 },
                 failOnStatusCode: false,
@@ -536,7 +532,6 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
@@ -556,7 +551,7 @@ describe('Módulo - Funcionários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    employeeId: 974,
+                    employeeId: 1271,
                     newEmail: email
                 },
                 failOnStatusCode: false
@@ -771,7 +766,7 @@ describe('Módulo - Funcionários', () => {
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
             cy.request({
                 method: 'GET',
-                url: `/api/v1/employees/${idFuncionario}/perfil`,
+                url: '/api/v1/employees/1271/perfil',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -829,8 +824,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Funcionários - Remover perfil ao funcionário', () => {
+    describe.only('Módulo - Funcionários - Remover perfil ao funcionário', () => {
 
         it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
             const token = Cypress.env('access_token');
@@ -873,7 +867,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Excluir um funcionário por id', () => {
+    describe.only('Módulo - Funcionários - Excluir um funcionário por id', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');

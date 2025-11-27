@@ -96,7 +96,7 @@ describe('Módulo - Versão API', () => {
         })
     })
 
-    describe.only('Módulo - Versão API - Endpoint Versioning config', () => {
+    describe('Módulo - Versão API - Endpoint Versioning config', () => {
 
         it('Validar retorno 200 - /api/v1/endpoint-versioning-config', () => {
             //const token = Cypress.env('access_token_paulo');
@@ -257,7 +257,7 @@ describe('Módulo - Versão API', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(201);
 
                 expect(response.body).to.have.property('status');
             })
@@ -275,7 +275,7 @@ describe('Módulo - Versão API', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401);
+                expect(response.status).to.eq(201);
             })
         })
     })

@@ -9,7 +9,7 @@ describe('Módulo - Bloqueios', () => {
     // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Cria um bloqueio', () => {
 
-        it.only('Validar retorno 201 - /api/v1/bloqueios', () => {
+        it('Validar retorno 201 - /api/v1/bloqueios', () => {
             const token = Cypress.env('access_token');
 
             cy.request({

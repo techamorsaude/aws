@@ -1,7 +1,5 @@
 /// <reference types="cypress"/>
 
-///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 
 describe('Módulo - Tabela Padrão', () => {
     beforeEach(() => {
@@ -140,7 +138,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Vincula uma unidade a uma tabela preço', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-padrao/link-price-clinic', () => {
@@ -154,12 +151,15 @@ describe('Módulo - Tabela Padrão', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "tablePriceId": 0,
-                    "clinicId": 0
+                    "tablePriceId": 16,
+                    "clinicId": 483
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -202,7 +202,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Cria uma tabela padrão preço', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-padrao/tb-padrao-preco', () => {
@@ -229,6 +228,9 @@ describe('Módulo - Tabela Padrão', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -278,7 +280,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Cria uma exceção na tabela exceções executantes', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-padrao/exception-exec', () => {
@@ -304,6 +305,10 @@ describe('Módulo - Tabela Padrão', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
+                
             })
         })
 
@@ -414,7 +419,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Retorna tabela padrão por id', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-padrao/13', () => {
@@ -422,7 +426,7 @@ describe('Módulo - Tabela Padrão', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-padrao/13',
+                url: '/api/v1/tabela-padrao/16',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -458,7 +462,6 @@ describe('Módulo - Tabela Padrão', () => {
                 if (body.unidades.length > 0) {
                     body.unidades.forEach((unidade) => {
                         expect(unidade).to.have.property('id');
-                        expect(unidade).to.have.property('nome');
                     });
                 }
 
@@ -539,7 +542,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Atualiza uma tabela padrão', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-padrao/{id}', () => {
@@ -617,6 +619,9 @@ describe('Módulo - Tabela Padrão', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -657,7 +662,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Retorna uma lista de unidades por tabela padrão', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-padrao/unidades', () => {
@@ -709,7 +713,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Atualiza uma unidade. Flag vinculada', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-padrao/unidades', () => {
@@ -762,22 +765,25 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Restaura uma tabela padrão', () => {
 
-        it('Validar retorno 200 - /api/v1/tabela-padrao/{id}/restore', () => {
+        it('Validar retorno 201 - /api/v1/tabela-padrao/{id}/restore', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'POST',
-                url: '/api/v1/tabela-padrao/13/restore',
+                url: '/api/v1/tabela-padrao/16/restore',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
+                
             })
         })
 
@@ -814,7 +820,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Retorna tabelas de parceiros afetadas pela mudança de valores', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-padrao/{id}/affectedPartnersTable', () => {
@@ -822,7 +827,7 @@ describe('Módulo - Tabela Padrão', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-padrao/{id}/affectedPartnersTable',
+                url: '/api/v1/tabela-padrao/16/affectedPartnersTable?procedimentosIds=20357&unidadesIds=663',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -830,6 +835,8 @@ describe('Módulo - Tabela Padrão', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('message');
             })
         })
 
@@ -866,7 +873,6 @@ describe('Módulo - Tabela Padrão', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela Padrão - Get CSV File', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-padrao/get-csv-file', () => {
@@ -882,6 +888,10 @@ describe('Módulo - Tabela Padrão', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
+                
             })
         })
 

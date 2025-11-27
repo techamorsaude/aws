@@ -10,7 +10,7 @@ describe('Módulo - Unidades', () => {
     // Precisa de dados reais do Amei
     describe.only('Módulo - Unidades - Criar uma unidade ', () => {
 
-        it('Validar retorno 201 - /api/v1/unidades', () => {
+        it.only('Validar retorno 201 - /api/v1/unidades', () => {
             const token = Cypress.env('access_token');
             const random = Math.floor(Math.random() * 100000); // número aleatório
 
