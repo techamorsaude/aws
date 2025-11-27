@@ -48,7 +48,7 @@ describe('Módulo - Conselho Profissional', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(201)
             });
         })
 

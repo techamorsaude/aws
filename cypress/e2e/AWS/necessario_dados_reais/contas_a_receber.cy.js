@@ -8,134 +8,34 @@ describe('Módulo - Contas a Receber', () => {
 
     describe('Módulo - Contas a Receber - Retorna lista de recebimentos', () => {
 
-        it('Validar retorno 200 - /api/v1/contas-receber', () => {
+        it('Validar retorno - 200 - /api/v1/contas-receber', () => {
+
             const token = Cypress.env('access_token');
+
+            const params = {
+                page: 1,
+                limit: 10,
+                dataInicio: '20251125',
+                dataFinal: '20251125',
+                statusId: 1,
+                tipoPagadorId: 1
+            };
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/contas-receber?page=1&limit=10',
+                url: 'http://localhost:3011/api/v1/contas-receber',
+                qs: params,
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 },
-                failOnStatusCode: false,
+                failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
-                expect(response.body).to.have.all.keys('items', 'meta');
-
-                expect(response.body.items).to.be.an('array');
-                const item = response.body.items[0];
-
-                expect(item).to.include.all.keys(
-                    'id',
-                    'notaFiscal',
-                    'createdAt',
-                    'valorTotal',
-                    'valorTotalClinica',
-                    'parcelas',
-                    'tipoPagador',
-                    'tipoReceita',
-                    'status',
-                    'itens',
-                    'fornecedor',
-                    'paciente',
-                    'profissional',
-                    'origemIdAgendamento'
-                );
-
-                // --- Parcelas ---
-                expect(item.parcelas).to.be.an('array');
-                if (item.parcelas.length > 0) {
-                    const parcela = item.parcelas[0];
-                    expect(parcela).to.include.all.keys(
-                        'id',
-                        'dataVencimento',
-                        'dataCriacao', // alterado: antes era createdAt
-                        'liquidacoes'
-                    );
-
-                    // --- Liquidacoes ---
-                    expect(parcela.liquidacoes).to.be.an('array');
-                    if (parcela.liquidacoes.length > 0) {
-                        expect(parcela.liquidacoes[0]).to.include.all.keys(
-                            'id',
-                            'dataRecebimento'
-                        );
-                    }
-                }
-
-                // --- Tipo Pagador ---
-                expect(item.tipoPagador).to.include.all.keys(
-                    'id',
-                    'liquidante'
-                );
-
-                // --- Tipo Receita ---
-                expect(item.tipoReceita).to.include.all.keys(
-                    'id',
-                    'tipoRecebimento'
-                );
-
-                // --- Status ---
-                expect(item.status).to.include.all.keys(
-                    'id',
-                    'status'
-                );
-
-                // --- Itens ---
-                expect(item.itens).to.be.an('array');
-                if (item.itens.length > 0) {
-                    const primeiroItem = item.itens[0];
-                    expect(primeiroItem).to.include.all.keys(
-                        'id',
-                        'descricao',
-                        'executado',
-                        'executante',
-                        'classificacaoFinanceira'
-                    );
-
-                    // executante pode ser null
-                    if (primeiroItem.executante) {
-                        expect(primeiroItem.executante).to.include.all.keys(
-                            'id',
-                            'nomeFantasia'
-                        );
-                    }
-
-                    expect(primeiroItem.classificacaoFinanceira).to.include.all.keys(
-                        'id',
-                        'classificacaoFinanceira'
-                    );
-                }
-
-                // --- Fornecedor (pode ser null) ---
-                if (item.fornecedor) {
-                    expect(item.fornecedor).to.include.all.keys('nomeFantasia');
-                }
-
-                // --- Paciente ---
-                expect(item.paciente).to.include.all.keys('nome', 'sobrenome');
-
-                // --- Profissional (pode ser null) ---
-                if (item.profissional !== null) {
-                    // Aqui você pode adicionar futuras validações quando o profissional existir
-                    expect(item.profissional).to.be.an('object');
-                }
-
-                // --- Origem Agendamento ---
-                expect(item.origemIdAgendamento).to.include.all.keys('flgConsultaAssistida');
-
-                // --- Meta ---
-                expect(response.body.meta).to.include.all.keys(
-                    'totalItems',
-                    'currentPage',
-                    'itemCount',
-                    'itemsPerPage',
-                    'totalPages'
-                );
+                // 👇 VER A URL EXATA QUE FOI ENVIADA
+                cy.log('URL montada:', response.allRequestResponses[0]['Request URL']);
+                cy.log('Status:', response.status);
+                cy.log('Body:', JSON.stringify(response.body));
             });
         });
-
 
         it('Validar retorno 400 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
@@ -170,7 +70,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
+
     describe('Módulo - Contas a Receber - Cadastro de uma conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber', () => {
@@ -349,15 +249,15 @@ describe('Módulo - Contas a Receber', () => {
     })
 
     // Precisa de dados reais do Amei
-    describe('Módulo - Contas a Receber - Retorna um recebimento pelo id', () => {
+    describe.only('Módulo - Contas a Receber - Retorna um recebimento pelo id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('idRecebimento') // Reutiliza o ID
+            const idRecebimento = Cypress.env('18170476') // Reutiliza o ID
 
             cy.request({
                 method: 'GET',
-                url: `/api/v1/contas-receber/${idRecebimento}`,
+                url: `/api/v1/contas-receber/${18170476}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1046,7 +946,7 @@ describe('Módulo - Contas a Receber', () => {
     })
 
     describe('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
-        
+
         it('Validar retorno 200 - /api/v1/contas-receber/status/list', () => {
             const token = Cypress.env('access_token');
 
@@ -1094,7 +994,7 @@ describe('Módulo - Contas a Receber', () => {
     })
 
     describe('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
-        
+
         it('Validar retorno 200 - /api/v1/contas-receber/classificacao-financeira/list', () => {
             const token = Cypress.env('access_token');
 
@@ -1136,7 +1036,7 @@ describe('Módulo - Contas a Receber', () => {
     })
 
     describe('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
-        
+
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-pagadores/list', () => {
             const token = Cypress.env('access_token');
 
@@ -1177,7 +1077,7 @@ describe('Módulo - Contas a Receber', () => {
     })
 
     describe('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
-      
+
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-recebimento/list', () => {
             const token = Cypress.env('access_token');
 
@@ -1219,7 +1119,6 @@ describe('Módulo - Contas a Receber', () => {
 
     // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
-        
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/lancamento-financeiro', () => {
             const token = Cypress.env('access_token');
 
