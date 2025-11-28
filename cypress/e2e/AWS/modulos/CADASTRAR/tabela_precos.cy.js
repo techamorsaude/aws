@@ -147,7 +147,6 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela de Preços - Retorna o(s) preço(s) do(s) procedimento(s) para o parceiro e unidade informados', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/precos-procedimentos', () => {
@@ -155,7 +154,7 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-precos/precos-procedimentos',
+                url: 'api/v1/tabela-precos/precos-procedimentos?parceiroId=42&unidadeId=483&procedimentosIds=20357&procedimentosIds=20357&data=2024-05-25&pacienteId=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -613,7 +612,6 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-precos/{id}', () => {
@@ -621,14 +619,14 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'POST',
-                url: '/api/v1/tabela-precos/1029',
+                url: '/api/v1/tabela-precos/25413',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
                     "procedimentos": [
-                        21382
+                        20357
                     ]
                 },
                 failOnStatusCode: false
@@ -886,7 +884,6 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
@@ -894,7 +891,7 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/tabela-precos/4510',
+                url: '/api/v1/tabela-precos/25413',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -902,7 +899,9 @@ describe('Módulo - Tabela de Preços', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                // Falta desenvolver o body
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
