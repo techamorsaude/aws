@@ -158,7 +158,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'PATCH',
-                url: '/api/v1/campaign/102',
+                url: '/api/v1/campaign/103',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -257,14 +257,14 @@ describe('Módulo - Campanhas', () => {
         })
     })
 
-    describe('Módulo - Campanhas - Listar campanha por id', () => {
+    describe.only('Módulo - Campanhas - Listar campanha por id', () => {
 
-        it.only('Validar retorno 200 - /api/v1/campaign/{id}', () => {
+        it('Validar retorno 200 - /api/v1/campaign/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaign/102',
+                url: '/api/v1/campaign/271',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

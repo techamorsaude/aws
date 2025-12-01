@@ -6,7 +6,6 @@ describe('Módulo - Exceções Horários', () => {
         cy.refreshToken()
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Exceções Horários - Cria uma excecao', () => {
 
         it('Validar retorno 201 - /api/v1/excecoes-horarios', () => {
@@ -20,18 +19,18 @@ describe('Módulo - Exceções Horários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": "20251117",
-                    "dataFim": "20251117",
-                    "horaInicio": "22:00",
-                    "horaFim": "23:00",
+                    "dataInicio": "20251201",
+                    "dataFim": "20251201",
+                    "horaInicio": "20:00",
+                    "horaFim": "21:00",
                     "diasSemana": [
                         1
                     ],
                     "especialidadeIds": [
                         611
                     ],
-                    "descricao": "teste",
-                    "profissionalId": "3601"
+                    "descricao": "Teste",
+                    "profissionalId": 1528
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -256,7 +255,7 @@ describe('Módulo - Exceções Horários', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/excecoes-horarios/726',
+                url: '/api/v1/excecoes-horarios/468',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -398,7 +397,6 @@ describe('Módulo - Exceções Horários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Exceções Horários - Atualizar excecao por id', () => {
 
         it('Validar retorno 200 - /api/v1/excecoes-horarios/{id}', () => {
@@ -406,29 +404,24 @@ describe('Módulo - Exceções Horários', () => {
 
             cy.request({
                 method: 'PATCH',
-                url: '/api/v1/excecoes-horarios/726',
+                url: '/api/v1/excecoes-horarios/397294',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": "20251028",
-                    "dataFim": "20251028",
-                    "horaInicio": "13:00",
-                    "horaFim": "14:00",
-                    "tempo": 10,
-                    "procedimentos": [
-                        {
-                            "id": 20357
-                        }
+                    dataInicio: "20251201",
+                    dataFim: "20251201",
+                    horaInicio: "20:30",
+                    horaFim: "21:00",
+                    diasSemana: [
+                        1
                     ],
-                    "especialidades": [
-                        {
-                            "id": 611
-                        }
+                    especialidadeIds: [
+                        611
                     ],
-                    "localId": 59,
-                    "profissionalId": 3601
+                    descricao: "Testefrfrdedere",
+                    profissionalId: 1528
                 },
                 failOnStatusCode: false
             }).then((response) => {
@@ -493,7 +486,6 @@ describe('Módulo - Exceções Horários', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Exceções Horários - Deletar excecao', () => {
 
         it('Validar retorno 200 - /api/v1/excecoes-horarios/{id}', () => {
@@ -501,7 +493,7 @@ describe('Módulo - Exceções Horários', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/excecoes-horarios/3601',
+                url: '/api/v1/excecoes-horarios/3374',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
