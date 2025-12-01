@@ -257,7 +257,7 @@ describe('Módulo - Campanhas', () => {
         })
     })
 
-    describe.only('Módulo - Campanhas - Listar campanha por id', () => {
+    describe('Módulo - Campanhas - Listar campanha por id', () => {
 
         it('Validar retorno 200 - /api/v1/campaign/{id}', () => {
             const token = Cypress.env('access_token');
@@ -371,12 +371,12 @@ describe('Módulo - Campanhas', () => {
 
     describe('Módulo - Campanhas - Lista apenas o id e nome da campanha', () => {
 
-        it('Validar retorno 200 - /api/v1/campaigns/basic', () => {
+        it.only('Validar retorno 200 - /api/v1/campaigns/basic', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaigns/basic',
+                url: '/api/v1/campaigns/basic?id=1161&nameCampaign=TESTEQA3&partnerId=2&patientId=3',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -384,6 +384,7 @@ describe('Módulo - Campanhas', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 

@@ -20,10 +20,10 @@ describe('Módulo - Informações Adicionais', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "attendanceId": 1,
-                    "observation": "teste",
+                    "attendanceId": 31207743,
+                    "observation": "Teste API",
                     "medicalPrescription": {
-                        "attendanceId": 1,
+                        "attendanceId": 31207743,
                         "typePrescriptionId": 1,
                         "prescriptionsMedical": [
                             {
@@ -36,15 +36,19 @@ describe('Módulo - Informações Adicionais', () => {
                                 "UseControlled": 1
                             }
                         ],
-                        "memedPrescritionUuid": "e123",
+                        "memedPrescritionUuid": "1111",
                         "ipClient": "1.11",
-                        "cpf": "312.123.223.11",
-                        "password": "senha123"
+                        "cpf": "715.915.228-03",
+                        "password": "Profissional@#2025"
                     }
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body))
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -106,15 +110,14 @@ describe('Módulo - Informações Adicionais', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Informações Adicionais - Busca informações adicionais de um agendamento', () => {
-        
+
         it('Validar retorno 200 - /api/v1/attendance/additional-information/agendamento/{atendimentoId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/additional-information/agendamento/{atendimentoId}',
+                url: '/api/v1/attendance/additional-information/agendamento/998894',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -122,6 +125,8 @@ describe('Módulo - Informações Adicionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('canInsertAdditionalInfo');
+                expect(response.body).to.have.property('additionalInfos');
             })
         })
 
@@ -156,5 +161,5 @@ describe('Módulo - Informações Adicionais', () => {
                 expect(response.status).to.eq(401);
             })
         })
-    });
+    })
 })
