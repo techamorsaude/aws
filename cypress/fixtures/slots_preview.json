@@ -1,0 +1,31 @@
+[
+  {
+    "professional": { "name": "Dr. QA Médico", "id": 2155 },
+    "grid": { "restriction": null },
+    "hours": [
+      {
+        "id": 37130964,
+        "formatedHour": "16:30",
+        "hour": 16.5,
+        "date": "28/11/2025",
+        "specialtyId": 616,
+        "specialtyName": "Cardiologia",
+        "appointmentId": null,
+        "appointmentStatus": null,
+        "hasCanceledAppointments": false,
+        "patient": null,
+        "encaixe": false,
+        "isAssistedScheduling": false,
+        "overbookingAppointment": false,
+        "idSchedule": 1111545,
+        "interval": 10,
+        "status": "Livre",
+        "returnAvailable": false,
+        "attendanceLocalId": 0,
+        "idProfessional": 2155,
+        "professionalName": "QA Médico",
+        "overbookingSchedule": false
+      }
+    ]
+  }
+]
