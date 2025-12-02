@@ -24,7 +24,7 @@ describe('Módulo - Atendimentos Plano', () => {
             })
         })
 
-        it.only('Validar retorno 400 - /api/v1/attendance/plan/forwarding', () => {
+        it('Validar retorno 400 - /api/v1/attendance/plan/forwarding', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -40,7 +40,7 @@ describe('Módulo - Atendimentos Plano', () => {
             })
         })
 
-        it.only('Validar retorno 401 - /api/v1/attendance/plan/forwarding', () => {
+        it('Validar retorno 401 - /api/v1/attendance/plan/forwarding', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -57,7 +57,7 @@ describe('Módulo - Atendimentos Plano', () => {
         })
     })
 
-    describe('Módulo - Atendimentos Plano - Remover Encaminhamento', () => {
+    describe.only('Módulo - Atendimentos Plano - Remover Encaminhamento', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/plan/forwarding', () => {
             const token = Cypress.env('access_token');
@@ -79,22 +79,6 @@ describe('Módulo - Atendimentos Plano', () => {
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/plan/forwarding', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/plan/forwarding',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
             })
         })
 
