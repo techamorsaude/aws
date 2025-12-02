@@ -1,0 +1,32 @@
+{
+  "clinicaId": { "id": 483 },
+  "pacienteId": { "id": 73749 },
+  "profissionalId": { "id": 2155 },
+  "flgConsultaAssistida": 0,
+  "especialidadeId": { "id": 616 },
+  "statusAgendamentoId": { "id": 2 },
+  "data": "20251209",
+  "horaInicio": "10:00",
+  "interval": 10,
+  "encaixe": false,
+  "retorno": false,
+  "parceiroId": { "id": 41 },
+  "canalId": { "id": 3 },
+  "observacao": "",
+  "enviarSms": true,
+  "enviarEmail": true,
+  "valorTotal": "5",
+  "repeticaoPeriodicidade": "Diaria",
+  "agendamentosProcedimentos": [
+    {
+      "procedimentoId": { "id": 20357 },
+      "valor": 5,
+      "localAtendimentoId": 10610,
+      "parceiroId": 41
+    }
+  ],
+  "primeiraConsulta": 1,
+  "scheduleId": 1356092,
+  "listaEsperaId": 0,
+  "optin": { "healthData": true, "appointmentData": true }
+}

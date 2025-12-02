@@ -1,0 +1,19 @@
+{
+  "diasSemana": [2],
+  "tempo": 10,
+  "compartilharGrade": true,
+  "necessitaAcolhimento": false,
+  "overbooking": false,
+  "diaInicio": "20251121",
+  "diaTermino": "20251121",
+  "horaInicio": "18:00",
+  "horaTermino": "20:00",
+  "maximoRetornos": null,
+  "deletado": false,
+  "profissionalId": 2155,
+  "localId": 59,
+  "clinicaId": 483,
+  "procedimentos": [20357],
+  "areasAtuacao": [616],
+  "restrictions": []
+}

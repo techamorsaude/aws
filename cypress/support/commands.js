@@ -8,6 +8,13 @@ Cypress.Commands.add('login', () => {
       password: 'Iv@n198529'
     }
   }).then((response) => {
+    // load date/time schedule helpers and commands
+    try {
+      require('./dataEHora')
+    } catch (e) {
+      // ignore if file missing during partial edits
+    }
+
     // Salva o token inicial globalmente
     Cypress.env('access_token', response.body.access_token)
     return response
