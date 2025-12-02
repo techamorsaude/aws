@@ -1,0 +1,16 @@
+[
+  {
+    "name": "update-1",
+    "tempo": 20,
+    "compartilharGrade": false,
+    "necessitaAcolhimento": true,
+    "overbooking": true
+  },
+  {
+    "name": "update-2",
+    "tempo": 15,
+    "compartilharGrade": true,
+    "necessitaAcolhimento": false,
+    "overbooking": false
+  }
+]

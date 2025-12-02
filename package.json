@@ -39,27 +39,19 @@
     "test:modulos:allure:producao": "npm run allure:clear && cmd /c \"cypress run --spec 'cypress/e2e/AWS/{recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas,parametros,acolhimentos,conselho_profissional,cartao_de_todos_integration,painel_de_controle,pagamento_faturado}.cy.js' || exit /b 0\" && npm run allure:generate && npm run allure:open",
     "cypress:run:allure:homologacao": "cross-env CYPRESS_ENV=homolog CYPRESS_allure=true cypress run",
     "test:all:homologacao:allure": "npm run allure:clear && npm run cypress:run:allure:homologacao -- --browser chrome && npm run allure:generate && npm run allure:open",
-
-  "test:agendar": "cypress run --spec \"cypress/e2e/AWS/modulos/AGENDAR/{cartao_de_todos_integration,cartao_de_todos,restricoes,status_agendamento}.cy.js\"",
-  
-  "test:atender": "cypress run --spec \"cypress/e2e/AWS/modulos/ATENDER/classificacao_medica.cy.js\"",
-
-  "test:cadastrar": "cypress run --spec \"cypress/e2e/AWS/modulos/CADASTRAR/{canais,conselho_profissional,convenios,especialidades,fornecedor_integracao,funcionarios_funcoes,funcoes,fuso_horario,grupo_de_regras_acesso,login,municipio_estado,origens,parceiro_institucional,parcerias,perfil_acesso,perfis,portes_tabelas,profissoes,recursos,refresh_token,regimes_tributario,regioes,setores,tipo_documentos,tipo_segmento,tipo_unidade,venda_campanha}.cy.js\"",
-
-  "test:coletar": "cypress run --spec \"cypress/e2e/AWS/modulos/coletar/{dashboard_profissionais,vinculo_unidade_laboratorio}.cy.js\"",
-
-  "test:faturar": "cypress run --spec \"cypress/e2e/AWS/modulos/faturar/{cadeado,fechar_cadeado,pagamento_faturado,painel_de_controle,parametros,plano_de_contas,royalties}.cy.js\"",
-
-  "test:produzir": "cypress run --spec \"cypress/e2e/AWS/modulos/produzir/report.cy.js\"",
-
-  "test:all-modules": "npm run allure:clear && npm run test:agendar && npm run test:atender && npm run test:cadastrar && npm run test:coletar && npm run test:faturar && npm run test:produzir && npm run allure:generate && npm run allure:open"
-
+    "test:agendar": "cypress run --spec \"cypress/e2e/AWS/modulos/AGENDAR/{cartao_de_todos_integration,cartao_de_todos,restricoes,status_agendamento}.cy.js\"",
+    "test:atender": "cypress run --spec \"cypress/e2e/AWS/modulos/ATENDER/classificacao_medica.cy.js\"",
+    "test:cadastrar": "cypress run --spec \"cypress/e2e/AWS/modulos/CADASTRAR/{canais,conselho_profissional,convenios,especialidades,fornecedor_integracao,funcionarios_funcoes,funcoes,fuso_horario,grupo_de_regras_acesso,login,municipio_estado,origens,parceiro_institucional,parcerias,perfil_acesso,perfis,portes_tabelas,profissoes,recursos,refresh_token,regimes_tributario,regioes,setores,tipo_documentos,tipo_segmento,tipo_unidade,venda_campanha}.cy.js\"",
+    "test:coletar": "cypress run --spec \"cypress/e2e/AWS/modulos/coletar/{dashboard_profissionais,vinculo_unidade_laboratorio}.cy.js\"",
+    "test:faturar": "cypress run --spec \"cypress/e2e/AWS/modulos/faturar/{cadeado,fechar_cadeado,pagamento_faturado,painel_de_controle,parametros,plano_de_contas,royalties}.cy.js\"",
+    "test:produzir": "cypress run --spec \"cypress/e2e/AWS/modulos/produzir/report.cy.js\"",
+    "test:all-modules": "npm run allure:clear && npm run test:agendar && npm run test:atender && npm run test:cadastrar && npm run test:coletar && npm run test:faturar && npm run test:produzir && npm run allure:generate && npm run allure:open"
   },
   "devDependencies": {
     "@mmisty/cypress-allure-adapter": "^3.2.3",
     "allure-commandline": "^2.24.1",
     "cross-env": "^10.0.0",
-    "cypress": "^12.2.0",
+    "cypress": "^12.17.4",
     "rimraf": "^5.0.10"
   }
 }
