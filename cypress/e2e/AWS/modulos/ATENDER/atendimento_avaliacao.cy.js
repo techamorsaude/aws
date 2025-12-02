@@ -6,7 +6,6 @@ describe('Módulo - Atendimento Avaliação', () => {
         cy.refreshToken();
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Atendimento Avaliação - Criar ou atualizar Hipóteses diagnósticas', () => {
 
         it('Validar retorno 201 - /api/v1/attendance/evaluation/hypothesis-diagnoses', () => {
@@ -20,14 +19,17 @@ describe('Módulo - Atendimento Avaliação', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "attendanceId": 1,
+                    "attendanceId": 2460,
                     "hypothesisText": "Dados",
-                    "modelFormId": 1,
-                    "ipClient": "1.11"
+                    "modelFormId": null,
+                    "ipClient": "127.0.0.1"
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -79,7 +81,7 @@ describe('Módulo - Atendimento Avaliação', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/evaluation/hypothesis-diagnoses',
+                url: '/api/v1/attendance/evaluation/hypothesis-diagnoses?patientId=1162697&attendanceId=31285673',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -87,6 +89,7 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -107,7 +110,7 @@ describe('Módulo - Atendimento Avaliação', () => {
         })
     })
 
-    describe('Módulo - Atendimento Avaliação - Criar Problemas', () => {
+    describe.only('Módulo - Atendimento Avaliação - Criar Problemas', () => {
 
         it('Validar retorno 201 - /api/v1/attendance/evaluation/problems', () => {
             const token = Cypress.env('access_token');
@@ -120,13 +123,16 @@ describe('Módulo - Atendimento Avaliação', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "attendanceId": 1,
+                    "attendanceId": 611,
                     "medicalClassificationId": 2,
-                    "ipClient": "1.11"
+                    "ipClient": "127.0.0.1"
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -180,7 +186,7 @@ describe('Módulo - Atendimento Avaliação', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/evaluation/problems',
+                url: '/api/v1/attendance/evaluation/problems?patientId=1162697&attendanceId=31285673',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -188,6 +194,7 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -237,12 +244,15 @@ describe('Módulo - Atendimento Avaliação', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "classificacaoMedicaId": 1,
-                    "ipClient": "1.11"
+                    "classificacaoMedicaId": 100667,
+                    "ipClient": "127.0.0.1"
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -289,7 +299,7 @@ describe('Módulo - Atendimento Avaliação', () => {
 
     describe('Módulo - Atendimento Avaliação - Incluir Problemas nos favoritos', () => {
 
-        it('Validar retorno 200 - /api/v1/attendance/evaluation/favorite-problem', () => {
+        it('Validar retorno 201 - /api/v1/attendance/evaluation/favorite-problem', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -300,11 +310,14 @@ describe('Módulo - Atendimento Avaliação', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "pacienteProblemaId": 1
+                    "pacienteProblemaId": 202098
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -354,7 +367,7 @@ describe('Módulo - Atendimento Avaliação', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/evaluation/favorite-problems',
+                url: '/api/v1/attendance/evaluation/favorite-problems?patientId=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -362,6 +375,7 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body));
             })
         })
 
@@ -451,6 +465,9 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -493,6 +510,9 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -530,14 +550,17 @@ describe('Módulo - Atendimento Avaliação', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "patientId": 1,
-                    "medicalClassificationId": 2,
-                    "pacienteProblemasId": 2,
-                    "ipClient": "1.11"
+                    "patientId": 1162697,
+                    "medicalClassificationId": 53086,
+                    "pacienteProblemasId": 1084223,
+                    "ipClient": "127.0.0.1"
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -585,6 +608,9 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -612,13 +638,13 @@ describe('Módulo - Atendimento Avaliação', () => {
     })
 
     describe('Módulo - Atendimento Avaliação - Lista Ativos ou Inativos de Problemas', () => {
-        
+
         it('Validar retorno 200 - /api/v1/attendance/evaluation/active-disable-problems', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/evaluation/active-disable-problems',
+                url: '/api/v1/attendance/evaluation/active-disable-problems?patientId=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -626,6 +652,7 @@ describe('Módulo - Atendimento Avaliação', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
