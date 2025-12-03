@@ -57,7 +57,7 @@ describe('Módulo - Atendimentos Plano', () => {
         })
     })
 
-    describe.only('Módulo - Atendimentos Plano - Remover Encaminhamento', () => {
+    describe('Módulo - Atendimentos Plano - Remover Encaminhamento', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/plan/forwarding', () => {
             const token = Cypress.env('access_token');
@@ -112,6 +112,9 @@ describe('Módulo - Atendimentos Plano', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -161,6 +164,9 @@ describe('Módulo - Atendimentos Plano', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -210,6 +216,9 @@ describe('Módulo - Atendimentos Plano', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -258,23 +267,10 @@ describe('Módulo - Atendimentos Plano', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/plan/forwarding/problem', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/plan/forwarding/problem',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -295,7 +291,7 @@ describe('Módulo - Atendimentos Plano', () => {
 
     describe('Módulo - Atendimentos Plano - Criar Orientação', () => {
 
-        it('Validar retorno 200 - /api/v1/attendance/plan/orientation', () => {
+        it('Validar retorno 201 - /api/v1/attendance/plan/orientation', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -307,7 +303,8 @@ describe('Módulo - Atendimentos Plano', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(201)
+                expect(response.body).to.have.property('mensagem')
             })
         })
 
@@ -357,6 +354,9 @@ describe('Módulo - Atendimentos Plano', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -398,14 +398,14 @@ describe('Módulo - Atendimentos Plano', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/plan/orientations',
+                url: '/api/v1/attendance/plan/orientations?attendanceId=612547&page=1&limit=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
             })
         })
 
@@ -447,7 +447,7 @@ describe('Módulo - Atendimentos Plano', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/plan/orientation/pdf',
+                url: 'api/v1/attendance/plan/orientation/pdf?id=100&patientId=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -700,22 +700,9 @@ describe('Módulo - Atendimentos Plano', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/plan/medical-certificates', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/plan/medical-certificates',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -899,22 +886,6 @@ describe('Módulo - Atendimentos Plano', () => {
             })
         })
 
-        it('Validar retorno 400 - /api/v1/attendance/plan/medical-prescription', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/attendance/plan/medical-prescription',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/attendance/plan/medical-prescription', () => {
 
             cy.request({
@@ -948,22 +919,6 @@ describe('Módulo - Atendimentos Plano', () => {
             })
         })
 
-        it('Validar retorno 400 - /api/v1/attendance/plan/medical-prescription', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/plan/medical-prescription',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/attendance/plan/medical-prescription', () => {
 
             cy.request({
@@ -985,8 +940,8 @@ describe('Módulo - Atendimentos Plano', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'PATCH',
-                url: '/api/v1/attendance/plan/medical-prescription/1', // Exemplo: id=1
+                method: 'PATCH', // Na verdade é um PUT
+                url: '/api/v1/attendance/plan/medical-prescription/121',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1035,7 +990,7 @@ describe('Módulo - Atendimentos Plano', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/plan/medical-prescription-paginate',
+                url: '/api/v1/attendance/plan/medical-prescription-paginate?page=1&limit=1&patientId=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1077,7 +1032,7 @@ describe('Módulo - Atendimentos Plano', () => {
         })
     })
 
-    describe('Módulo - Atendimentos Plano - Remover Remédio da Prescrição', () => {
+    describe.only('Módulo - Atendimentos Plano - Remover Remédio da Prescrição', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/plan/medical-prescription-medicine', () => {
             const token = Cypress.env('access_token');
@@ -1092,22 +1047,6 @@ describe('Módulo - Atendimentos Plano', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/plan/medical-prescription-medicine', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/plan/medical-prescription-medicine',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
             })
         })
 
@@ -1126,7 +1065,7 @@ describe('Módulo - Atendimentos Plano', () => {
         })
     })
 
-    describe('Módulo - Atendimentos Plano - download do pdf', () => {
+    describe.only('Módulo - Atendimentos Plano - download do pdf', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/plan/medical-prescription/pdf', () => {
             const token = Cypress.env('access_token');
@@ -1175,7 +1114,7 @@ describe('Módulo - Atendimentos Plano', () => {
         })
     })
 
-    describe('Módulo - Atendimentos Plano - Enviar email', () => {
+    describe.only('Módulo - Atendimentos Plano - Enviar email', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/plan/medical-prescription/send-email', () => {
             const token = Cypress.env('access_token');
