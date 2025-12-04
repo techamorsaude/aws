@@ -264,7 +264,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaign/271',
+                url: '/api/v1/campaign/722',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -321,7 +321,7 @@ describe('Módulo - Campanhas', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "id": 1,
+                    "id": 722,
                     "ipClient": "1.11"
                 },
                 failOnStatusCode: false
@@ -371,7 +371,7 @@ describe('Módulo - Campanhas', () => {
 
     describe('Módulo - Campanhas - Lista apenas o id e nome da campanha', () => {
 
-        it.only('Validar retorno 200 - /api/v1/campaigns/basic', () => {
+        it('Validar retorno 200 - /api/v1/campaigns/basic', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -412,7 +412,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaigns/{id}/proposal-data',
+                url: '/api/v1/campaigns/103/proposal-data?id=103&nameCampaign=teste%20ggggg&partnerId=2&patientId=3',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -463,7 +463,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaign/{id}/banner',
+                url: '/api/v1/campaign/274/banner',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -471,6 +471,7 @@ describe('Módulo - Campanhas', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -498,7 +499,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaign/{id}/banner-link',
+                url: '/api/v1/campaign/284/banner-link',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -506,6 +507,7 @@ describe('Módulo - Campanhas', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -533,7 +535,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/campaign-procedure/{id}',
+                url: '/api/v1/campaign-procedure/279',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
