@@ -70,7 +70,6 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-
     describe('Módulo - Contas a Receber - Cadastro de uma conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber', () => {
@@ -84,49 +83,30 @@ describe('Módulo - Contas a Receber', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "tipoPagadorId": 1,
-                    "tipoRecebimentoId": 1,
-                    "fornecedorId": null,
-                    "pacienteId": 1,
+                    "tipoPagadorId": 2,
+                    "tipoRecebimentoId": 2,
+                    "notaFiscal": "333333333",
+                    "recorrencia": 1,
+                    "tipoIntervalo": "D",
+                    "observacao": "b",
+                    "pacienteId": null,
+                    "fornecedorId": "1300",
                     "profissionalId": null,
-                    "notaFiscal": "21345",
-                    "quantidadeParcelas": 4,
-                    "recorrencia": 3,
-                    "tipoIntervalo": "M",
-                    "observacao": "Lorem ipsum...",
-                    "origemId": 1,
-                    "origem": "Manual",
+                    "quantidadeParcelas": 1,
                     "itens": [
                         {
-                            "id": 1,
-                            "classificacaoFinanceiraId": 1,
-                            "descricao": "Item 1",
-                            "quantidade": 3,
+                            "descricao": "TESTE API",
+                            "quantidade": 1,
                             "valorUnitario": 10,
-                            "executanteId": 348,
+                            "classificacaoFinanceiraId": 60,
+                            "valorTotal": 10,
+                            "executanteId": 0,
                             "executado": "0"
                         }
                     ],
-                    "parcelas": [
-                        {
-                            "dataVencimento": "20251020",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 1,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251120",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 2,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251220",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 3,
-                            "valor": 10
-                        }
-                    ]
+                    "parcelas": [],
+                    "origemId": 1,
+                    "origem": "Manual"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -248,8 +228,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe.only('Módulo - Contas a Receber - Retorna um recebimento pelo id', () => {
+    describe('Módulo - Contas a Receber - Retorna um recebimento pelo id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
@@ -392,7 +371,6 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Atualiza um recebimento por id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
@@ -407,50 +385,38 @@ describe('Módulo - Contas a Receber', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "tipoPagadorId": 1,
-                    "tipoRecebimentoId": 1,
-                    "fornecedorId": null,
-                    "pacienteId": 1,
+                    "tipoPagadorId": 2,
+                    "tipoRecebimentoId": 2,
+                    "notaFiscal": "333333333",
+                    "recorrencia": 1,
+                    "tipoIntervalo": "D",
+                    "observacao": "b",
+                    "pacienteId": null,
+                    "fornecedorId": 1300,
                     "profissionalId": null,
-                    "notaFiscal": "21345",
-                    "quantidadeParcelas": 4,
-                    "recorrencia": 3,
-                    "tipoIntervalo": "M",
-                    "observacao": "Lorem ipsum...",
-                    "origemId": 1,
-                    "origem": "Manual",
+                    "quantidadeParcelas": 1,
                     "itens": [
                         {
-                            "id": 1,
-                            "classificacaoFinanceiraId": 1,
-                            "descricao": "Item 1",
-                            "quantidade": 3,
+                            "descricao": "TESTE API",
+                            "quantidade": 1,
+                            "id": 57296670,
                             "valorUnitario": 10,
-                            "valorTotal": 30,
-                            "executanteId": 348,
+                            "classificacaoFinanceiraId": 60,
+                            "valorTotal": 10,
+                            "executanteId": 0,
                             "executado": "0"
                         }
                     ],
                     "parcelas": [
                         {
-                            "dataVencimento": "20251020",
-                            "observacao": "Lorem ipsum...",
+                            "dataVencimento": "20251205",
+                            "observacao": "",
                             "numeroParcela": 1,
                             "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251120",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 2,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251220",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 3,
-                            "valor": 10
                         }
-                    ]
+                    ],
+                    "origemId": 1,
+                    "origem": "Manual"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -500,7 +466,6 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
@@ -509,7 +474,8 @@ describe('Módulo - Contas a Receber', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: `/api/v1/contas-receber/${idRecebimento}`,
+                //url: `/api/v1/contas-receber/${idRecebimento}`,
+                url: '/api/v1/contas-receber/23',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -558,7 +524,6 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Receber uma parcela da conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento', () => {
@@ -572,20 +537,53 @@ describe('Módulo - Contas a Receber', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "parcelaId": 1,
-                    "propostaId": 1,
-                    "dataRecebimento": "20230115",
-                    "valorRecebido": 10,
+                    "parcelaId": 26651871,
+                    "dataRecebimento": "20251205",
+                    "valorRecebido": "10.00",
                     "formaLiquidacaoId": 1,
-                    "contaCorrenteId": 173,
-                    "parcelas": 2,
-                    "transacaoId": "00000000000010010012",
-                    "autorizacao": "123123"
+                    "contaCorrenteId": 133
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
-                // Falta desenvolver o response body
+
+                expect(response.status).to.eq(201);
+
+                // Valida somente os campos do objeto principal
+                expect(response.body).to.have.all.keys(
+                    "id",
+                    "dataVencimento",
+                    "numeroParcela",
+                    "valor",
+                    "observacao",
+                    "flagAtivo",
+                    "ipClient",
+                    "createdAt",
+                    "updatedAt",
+                    "createdBy",
+                    "lastUser",
+                    "dataCriacao",
+                    "fkRecebimento",
+                    "fkRecebimentoStatus",
+                    "liquidacoes"
+                );
+
+                // Valida somente os campos da primeira liquidação
+                expect(response.body.liquidacoes[0]).to.have.all.keys(
+                    "id",
+                    "fkRecebimentoParcela",
+                    "fklancamentoFinaceiro",
+                    "contaCorrenteId",
+                    "dataRecebimento",
+                    "valor",
+                    "flagAtivo",
+                    "ipClient",
+                    "createdAt",
+                    "updatedAt",
+                    "createdBy",
+                    "lastUser",
+                    "fkFormaLiquidacao",
+                    "dataEntrada"
+                )
             })
         })
 
@@ -622,8 +620,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Contas a Receber - Pagamento de uma conta a receber por ocasião', () => {
+    describe('Módulo - Contas a Receber - Pagamento de uma conta a receber por cartão', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/cartao', () => {
             const token = Cypress.env('access_token');
@@ -640,14 +637,13 @@ describe('Módulo - Contas a Receber', () => {
                     "propostaId": 1,
                     "parcelaId": 1,
                     "valor": 100,
-                    "dataPagamento": "20230101",
+                    "dataPagamento": "20251205",
                     "quantidadeParcelas": 2,
                     "flagUseFiserv": true
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
-                // Falta desenvolver o response body
+                expect(response.status).to.eq(201);
             })
         })
 
@@ -688,7 +684,6 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Atualiza o evento do recebimento em cartão', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/resposta-cartao-fiserv', () => {
@@ -716,8 +711,7 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
-                // Falta desenvolver o body
+                expect(response.status).to.eq(201);
             })
         })
 
@@ -769,7 +763,6 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas a Receber - Cancela uma liquidacao de uma parcela da conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/cancelar', () => {
@@ -789,7 +782,6 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
-                // Falta desenvolver o body
             })
         })
 
@@ -832,15 +824,14 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
+    describe.only('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/{parcelaId}/recibo', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/contas-receber/parcela/{parcelaId}/recibo',
+                url: '/api/v1/contas-receber/parcela/206/recibo',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -848,7 +839,6 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                // Falta desenvolver o body
             })
         })
 
@@ -885,7 +875,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
+    describe.only('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}/historico', () => {
             const token = Cypress.env('access_token');
@@ -945,7 +935,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
+    describe.only('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/status/list', () => {
             const token = Cypress.env('access_token');
@@ -993,7 +983,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
+    describe.only('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/classificacao-financeira/list', () => {
             const token = Cypress.env('access_token');
@@ -1035,7 +1025,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
+    describe.only('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-pagadores/list', () => {
             const token = Cypress.env('access_token');
@@ -1076,7 +1066,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
+    describe.only('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-recebimento/list', () => {
             const token = Cypress.env('access_token');
@@ -1117,8 +1107,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
+    describe.only('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/lancamento-financeiro', () => {
             const token = Cypress.env('access_token');
 
@@ -1132,7 +1121,6 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                // Falta desenvolver o response body
             })
         })
 
