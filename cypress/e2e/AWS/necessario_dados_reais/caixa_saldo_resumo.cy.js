@@ -78,7 +78,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/saldo-resumo/account',
+                url: '/api/v1/saldo-resumo/account?checkingAccountId=19092&date=20230721&finalDate=20230721&page=1&perPage=1&typeDate=0',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application'
@@ -86,6 +86,41 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                const body = response.body;
+                expect(body).to.have.property('data');
+                expect(body.data).to.have.property('lancamentos').to.be.an('array');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/saldo-resumo/account', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo/account',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/saldo-resumo/account', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo/account?checkingAccountId=19092&date=20230721&finalDate=20230721&page=1&perPage=1&typeDate=0',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -145,9 +180,25 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 expect(response.status).to.eq(200);
                 expect(response.body).to.have.property('accounts').to.be.an('array')
                 response.body.accounts.forEach((item) => {
-                    //expect(response.body).to.have.property('value');
-                    expect(response.body).to.have.property('label');
+                    expect(item).to.have.property('value');
+                    expect(item).to.have.property('label');
                 })
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/saldo-resumo/transfer', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo/transfer',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
             })
         })
     })

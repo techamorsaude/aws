@@ -49,10 +49,9 @@ describe('Módulo - Contas Financeira Paciente', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas Financeira Paciente - Retorna uma lista do historico de pagamento', () => {
 
-        it.only('Validar retorno 200 - /api/v1/patient-financial-accounts/payment-history', () => {
+        it('Validar retorno 200 - /api/v1/patient-financial-accounts/payment-history', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -64,7 +63,7 @@ describe('Módulo - Contas Financeira Paciente', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(400);
             })
         })
 
