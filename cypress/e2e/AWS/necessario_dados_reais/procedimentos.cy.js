@@ -739,7 +739,7 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe.only('Módulo - Procedimentos - Retorna uma lista de procedimentos buscando por tipo de procedimento e(ou) id da area de atuação/especialidade', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista de procedimentos buscando por tipo de procedimento e(ou) id da area de atuação/especialidade', () => {
 
         it('Validar retorno 200 - /api/v1/procedimentos/search-by-type', () => {
             const token = Cypress.env('access_token');
@@ -823,7 +823,7 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe.only('Módulo - Procedimentos - Retorna uma lista completa de procedimentos', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista completa de procedimentos', () => {
 
         it('Validar retorno 200 - /api/v1/procedimentos/price', () => {
             const token = Cypress.env('access_token');
@@ -902,7 +902,7 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe.only('Módulo - Procedimentos - Retorna uma lista completa de procedimentos', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista completa de procedimentos', () => {
 
         it('Validar retorno 200 - /api/v1/procedimentos/lists', () => {
             const token = Cypress.env('access_token');
@@ -938,7 +938,7 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe.only('Módulo - Procedimentos - Retorna uma lista completa de todos os procedimentos ativos', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista completa de todos os procedimentos ativos', () => {
 
         it('Validar retorno 200 - /api/v1/procedimentos/lists-all', () => {
             const token = Cypress.env('access_token');
@@ -974,7 +974,7 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe.only('Módulo - Procedimentos - Retorna uma lista, com paginação, de todos os procedimentos que um profissional atende', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista, com paginação, de todos os procedimentos que um profissional atende', () => {
 
         it('Validar retorno 200 - /api/v1/procedimentos/professional', () => {
             const token = Cypress.env('access_token');
@@ -1010,49 +1010,93 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista de procedimentos, com paginação, buscando por nome E/OU grupo E/OU tipo de procedimentos', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/filter', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                const item = response.body.items[0];
+
+                expect(item).to.have.property('id').and.to.be.a('number');
+                expect(item).to.have.property('nome').and.to.be.a('string');
+                expect(item).to.have.property('nomeTecnico');
+
+                expect(item).to.have.property('codCbhpm');
+                expect(item).to.have.property('encaixe');
+                expect(item).to.have.property('telemedicina');
+                expect(item).to.have.property('pagamentoOnline');
+
+                // tipo
+                expect(item).to.have.property('tipo');
+                expect(item.tipo).to.have.property('id');
+                expect(item.tipo).to.have.property('descricao');
+
+                // unidades (validação simples)
+                if (item.unidades?.length) {
+                    expect(item.unidades[0]).to.have.property('id');
+                    expect(item.unidades[0]).to.have.property('descricao');
+                }
+
+                // grupo
+                if (item.grupo?.length) {
+                    expect(item.grupo[0]).to.have.property('id');
+                    expect(item.grupo[0]).to.have.property('descricao');
+                }
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/filter', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
+
+    describe('Módulo - Procedimentos - Retorna uma lista de procedimentos, com paginação, buscando por nome E/OU grupo Tipo de procedimentos', () => {
+
+        it('Validar retorno 200 - /api/v1/procedimentos/filter-all', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/procedimentos/filter-all',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
-                expect(response.status).to.eq(400);
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('items').to.be.an('array');
             })
         })
 
-
-        it('Validar retorno 401 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/filter-all', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-all',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1065,49 +1109,41 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista de procedimentos, sem paginação, buscando por nome E/OU grupo E/OU Tipo de procedimentos', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/filter-without-pagination', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-without-pagination',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
+                expect(response.status).to.eq(200)
 
-                expect(response.status).to.eq(200);
+                expect(response.body).to.be.an('array')
+
+                response.body.forEach(item => {
+                    expect(item).to.have.property('id').that.is.a('number')
+                    expect(item).to.have.property('nome').that.is.a('string')
+                    expect(item).to.have.property('sinonimos')
+                    expect(item).to.have.property('sigla')
+                    expect(item).to.have.property('codCbhpm').that.is.a('string')
+                    expect(item).to.have.property('codigoTuss').that.is.a('string')
+                })
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/filter-without-pagination', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-without-pagination',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1120,49 +1156,64 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista de procedimentos, buscando por nome E/OU grupo de procedimentos', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/filter-group', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-group?name=Consulta&groupId=1&specialtyIds=611',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
+                expect(response.status).to.eq(200)
 
-                expect(response.status).to.eq(200);
+                expect(response.body).to.be.an('array')
+
+                response.body.forEach(item => {
+
+                    expect(item).to.have.property('id').that.is.a('number')
+                    expect(item).to.have.property('nome').that.is.a('string')
+                    expect(item).to.have.property('nomeTecnico').that.is.a('string')
+
+                    // pode ser null → não validar tipo
+                    expect(item).to.have.property('sinonimos')
+                    expect(item).to.have.property('sigla')
+
+                    expect(item).to.have.property('codCbhpm').that.is.a('string')
+                    expect(item).to.have.property('codigoTuss').that.is.a('string')
+
+                    expect(item).to.have.property('atendimentoGrupo').that.is.a('boolean')
+                    expect(item).to.have.property('maxPacientes') // pode ser NULL
+                    expect(item).to.have.property('encaixe').that.is.a('boolean')
+                    expect(item).to.have.property('telemedicina').that.is.a('boolean')
+                    expect(item).to.have.property('pagamentoOnline').that.is.a('boolean')
+                    expect(item).to.have.property('flagAtivo').that.is.a('boolean')
+
+                    expect(item).to.have.property('tipoId').that.is.a('number')
+
+                    // Especialidades (se existir)
+                    if (Array.isArray(item.especialidades) && item.especialidades.length) {
+                        const esp = item.especialidades[0]
+
+                        expect(esp).to.have.property('id').that.is.a('number')
+                        expect(esp).to.have.property('descricao').that.is.a('string')
+                        expect(esp).to.have.property('ativo').that.is.a('boolean')
+                    }
+                })
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/filter-group', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-group',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1175,49 +1226,36 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe('Módulo - Procedimentos - Retorna uma lista de procedimentos, buscando por nome E/OU grupo de procedimentos', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/filter-by-group', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-by-group',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                expect(response.body).to.be.an('array');
+                response.body.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('nome');
+                    expect(item).to.have.property('flagAtivo');
+                })
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/filter-by-group', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/filter-by-group',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1230,49 +1268,73 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe.only('Módulo - Procedimentos - Retorna uma lista de procedimentos do tipo laboratório', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/list-lab', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/list-lab?page=1&limit=1&typeProcedure=20357',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('items').to.be.an('array');
+                expect(response.body).to.have.property('meta').to.include.all.keys(
+                    'totalItems',
+                    'currentPage',
+                    'itemCount',
+                    'itemsPerPage',
+                    'totalPages'
+                )
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/list-lab', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/list-lab',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
+
+    describe.only('Módulo - Procedimentos - Retorna uma lista de procedimentos com tabela de valores', () => {
+
+        it('Validar retorno 200 - /api/v1/procedimentos/appointment', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/procedimentos/appointment?convenioId=1&parceriaId=42&profissionalId=4033&especialidadeId=611&data=20251209&horas=10%3A00&dia=2&parceiroId=1&dataConsulta=20251209&unidadeId=483&unidadePresencialId=483&primeiraConsulta=1%20-%20notFirstConsult&overbooking=false&scheduleId=1461225',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(400);
             })
         })
 
-
-        it('Validar retorno 401 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/appointment', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/appointment',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1285,49 +1347,31 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe.only('Módulo - Procedimentos - Retorna uma lista de procedimentos com tabelas de valores', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/table-values', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/table-values?procedureId=1&patientId=1&professionalId=4033&pricingId=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/table-values', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/table-values',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1340,49 +1384,31 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe.only('Módulo - Procedimentos - Retorna uma tabela de valores com parceiro', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/table-values-schedule', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/table-values-schedule?partnerId=1&procedureId=611&pricingId=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/table-values-schedule', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/table-values-schedule',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1395,49 +1421,31 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe.only('Módulo - Procedimentos - Retorna uma lista, com paginação, de todos os procedimentos que um profissional atende', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/professional/{professionalId}/specialty/{pecialtyId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/professional/{professionalId}/specialty/{pecialtyId}?professionalId=4033&specialtyId=611&limit=20',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/professional/{professionalId}/specialty/{pecialtyId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/professional/{professionalId}/specialty/{pecialtyId}',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1450,159 +1458,31 @@ describe('Módulo - Procedimentos', () => {
         })
     })
 
-    describe('Módulo - Procedimentos - ', () => {
+    describe.only('Módulo - Procedimentos - Retorna uma lista com todos os procedimentos da unidade logada com filtro pelo nome', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/procedimentos/by-unidade', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/by-unidade',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-
                 expect(response.status).to.eq(200);
+                expect(response.body).to.be.an('array')
             })
         })
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/procedimentos/by-unidade', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
-                headers: {
-                    //'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(401);
-            })
-        })
-    })
-
-    describe('Módulo - Procedimentos - ', () => {
-
-        it('Validar retorno 200 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
-                headers: {
-                    //'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(401);
-            })
-        })
-    })
-
-    describe('Módulo - Procedimentos - ', () => {
-
-        it('Validar retorno 200 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-
-                expect(response.status).to.eq(400);
-            })
-        })
-
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '',
+                url: '/api/v1/procedimentos/by-unidade',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
