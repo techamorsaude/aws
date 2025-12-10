@@ -2915,7 +2915,7 @@ describe('Módulo - Procedimentos', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/procedimentos/type/{id}',
+                url: '/api/v1/procedimentos/type/156',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -2923,6 +2923,24 @@ describe('Módulo - Procedimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('raw').to.be.an('array');
+                expect(response.body).to.have.property('affected');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/procedimentos/type/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/procedimentos/type/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
             })
         })
 
@@ -2950,7 +2968,7 @@ describe('Módulo - Procedimentos', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/procedimentos/type/{id}',
+                url: '/api/v1/procedimentos/type/156',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -2958,6 +2976,30 @@ describe('Módulo - Procedimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('id');
+                expect(response.body).to.have.property('descricao');
+                expect(response.body).to.have.property('status');
+                expect(response.body).to.have.property('flgLaboratorio');
+                expect(response.body).to.have.property('valorPrimeiroAtendimento');
+                expect(response.body).to.have.property('classificacaoFinanceiraId');
+                expect(response.body).to.have.property('planoDeContasId');
+                expect(response.body).to.have.property('flgEdit');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/procedimentos/type/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/procedimentos/type/156',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
             })
         })
 
