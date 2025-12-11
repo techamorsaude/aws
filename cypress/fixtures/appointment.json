@@ -27,6 +27,5 @@
   ],
   "primeiraConsulta": 1,
   "scheduleId": 1356092,
-  "listaEsperaId": 0,
-  "optin": { "healthData": true, "appointmentData": true }
+  "listaEsperaId": 0  
 }
