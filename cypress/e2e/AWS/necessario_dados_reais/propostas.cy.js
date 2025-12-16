@@ -1627,7 +1627,7 @@ describe('Módulo - Propostas', () => {
     })
 
     // Precisa de dados reais do Amei
-    describe.only('Módulo - Prospostas - Receber parcela de uma proposta faturada', () => {
+    describe('Módulo - Prospostas - Receber parcela de uma proposta faturada', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/parcela/recebimento/faturado', () => {
             const token = Cypress.env('access_token');
