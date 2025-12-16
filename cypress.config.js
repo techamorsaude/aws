@@ -3,12 +3,8 @@ const { defineConfig } = require('cypress');
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
 const baseUrls = {
-<<<<<<< HEAD
 //homolog: 'http://localhost:3011',
 homolog: 'https://dev-amei.amorsaude.tech'
-=======
-  homolog: 'https://dev-amei.amorsaude.tech'  // ambiente esta sendo apontando para AWS
->>>>>>> a05b8ea0fb452aad365e3cf7d4ed52131527e0dc
 };
 
 module.exports = defineConfig({
