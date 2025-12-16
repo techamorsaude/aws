@@ -2,6 +2,10 @@
 
 describe('Login', () => {
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a05b8ea0fb452aad365e3cf7d4ed52131527e0dc
   it.only('Validar retorno 200 - /api/v1/security/login', () => {
     cy.request({
       method: 'POST',
@@ -29,6 +33,7 @@ describe('Login', () => {
   })
 
   it('Validar retorno 400 - /api/v1/security/login', () => {
+
     cy.request({
       method: 'POST',
       url: '/api/v1/security/login',

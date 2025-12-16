@@ -375,11 +375,11 @@ describe('Módulo - Contas a Receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('idRecebimento') // Reutiliza o ID
+            const idRecebimento = Cypress.env('18170476') // Reutiliza o ID
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/contas-receber/${idRecebimento}`,
+                url: `/api/v1/contas-receber/${18170476}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
