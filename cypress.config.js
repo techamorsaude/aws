@@ -3,7 +3,8 @@ const { defineConfig } = require('cypress');
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
 const baseUrls = {
-  homolog: 'https://dev-amei.amorsaude.tech'  // ambiente esta sendo apontando para AWS
+//homolog: 'http://localhost:3011',
+homolog: 'https://dev-amei.amorsaude.tech'
 };
 
 module.exports = defineConfig({
@@ -19,7 +20,7 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
   },
   env: {
-    allure: true,
+    allure: false,
     allureResultsPath: 'allure-results',
     allureReportLanguage: 'pt-BR',
   },
