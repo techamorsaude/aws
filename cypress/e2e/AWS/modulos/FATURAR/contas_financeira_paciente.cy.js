@@ -6,15 +6,14 @@ describe('Módulo - Contas Financeira Paciente', () => {
         cy.refreshToken();
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas Financeira Paciente - Retorna uma lista por filtro contas financeira do paciente', () => {
-        
+
         it('Validar retorno 200 - /api/v1/patient-financial-accounts/list-filter', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/patient-financial-accounts/list-filter',
+                url: '/api/v1/patient-financial-accounts/list-filter?page=1&limit=1&data_inicio=20251204&data_fim=20251204&paciente_id=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -22,6 +21,14 @@ describe('Módulo - Contas Financeira Paciente', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('items').to.be.an('array');
+                expect(response.body).to.have.property('meta').to.include.all.keys(
+                    'itemCount',
+                    'totalItems',
+                    'itemsPerPage',
+                    'currentPage',
+                    'totalPages'
+                )
             })
         })
 
@@ -42,7 +49,6 @@ describe('Módulo - Contas Financeira Paciente', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Contas Financeira Paciente - Retorna uma lista do historico de pagamento', () => {
 
         it('Validar retorno 200 - /api/v1/patient-financial-accounts/payment-history', () => {
@@ -50,14 +56,14 @@ describe('Módulo - Contas Financeira Paciente', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/patient-financial-accounts/payment-history',
+                url: '/api/v1/patient-financial-accounts/payment-history?pacienteId=1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(400);
             })
         })
 

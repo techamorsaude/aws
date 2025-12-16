@@ -11,6 +11,7 @@ Cypress.Commands.add('login', () => {
     // load date/time schedule helpers and commands
     try {
       require('./dataEHora')
+      try { require('./agendamentos') } catch (e) {}
     } catch (e) {
       // ignore if file missing during partial edits
     }

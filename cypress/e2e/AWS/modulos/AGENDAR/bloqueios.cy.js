@@ -6,7 +6,6 @@ describe('Módulo - Bloqueios', () => {
         cy.refreshToken();
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Cria um bloqueio', () => {
 
         it('Validar retorno 201 - /api/v1/bloqueios', () => {
@@ -20,18 +19,18 @@ describe('Módulo - Bloqueios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": 20251119,
-                    "dataFim": 20251119,
-                    "horaInicio": "22:30",
-                    "horaFim": "23:00",
+                    "dataInicio": 20251210,
+                    "dataFim": 20251210,
+                    "horaInicio": "21:00",
+                    "horaFim": "22:00",
                     "diasSemana": [
-                        4
+                        3
                     ],
                     "especialidadeIds": [
                         611
                     ],
                     "descricao": "Teste",
-                    "profissionalId": "1475"
+                    "profissionalId": "4033"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -91,7 +90,6 @@ describe('Módulo - Bloqueios', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Retorna uma lista de bloqueios', () => {
 
         it('Validar retorno 200 - /api/v1/bloqueios', () => {
@@ -99,7 +97,7 @@ describe('Módulo - Bloqueios', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/bloqueios?profissionalId=8470',
+                url: '/api/v1/bloqueios?profissionalId=4033',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -178,7 +176,6 @@ describe('Módulo - Bloqueios', () => {
         })
         */
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Deletar bloqueio', () => {
 
         it('Validar retorno 200 - /api/v1/bloqueios/{id}', () => {
@@ -248,21 +245,18 @@ describe('Módulo - Bloqueios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    dataInicio: "20251009",
-                    dataFim: "20251009",
-                    horaInicio: "23:00",
-                    horaFim: "23:50",
-                    diasSemana: [
-                        1,
-                        2,
-                        3,
-                        4
+                    "dataInicio": 20251210,
+                    "dataFim": 20251210,
+                    "horaInicio": "21:00",
+                    "horaFim": "22:00",
+                    "diasSemana": [
+                        3
                     ],
-                    especialidadeIds: [
+                    "especialidadeIds": [
                         611
                     ],
-                    descricao: "Teste",
-                    profissionalId: 4121
+                    "descricao": "Teste",
+                    "profissionalId": "4033"
                 },
                 failOnStatusCode: false,
             }).then((response) => {

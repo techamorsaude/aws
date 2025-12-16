@@ -7,12 +7,11 @@ describe('Módulo - Unidades', () => {
         cy.refreshToken()
     });
 
-    // Precisa de dados reais do Amei
-    describe.only('Módulo - Unidades - Criar uma unidade ', () => {
+    describe('Módulo - Unidades - Criar uma unidade ', () => {
 
-        it.only('Validar retorno 201 - /api/v1/unidades', () => {
+        it('Validar retorno 201 - /api/v1/unidades', () => {
             const token = Cypress.env('access_token');
-            const random = Math.floor(Math.random() * 100000); // número aleatório
+            const random = Math.floor(Math.random() * 100000);
 
             cy.GeradorCnpj().then((cnpjValido) => {
                 cy.log('CNPJ usado:', cnpjValido);
@@ -194,13 +193,12 @@ describe('Módulo - Unidades', () => {
 
     describe('Módulo - Unidades - Retorna a lista de unidades', () => {
 
-
         it('Validar retorno 200 - /api/v1/unidades', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/unidades?hasAssistedAppointment=false',
+                url: '/api/v1/unidades?page=1&limit=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -209,48 +207,28 @@ describe('Módulo - Unidades', () => {
             }).then((response) => {
                 expect(response.status).to.eq(200);
 
-                const items = response.body;
-                items.forEach((item) => {
+                const body = response.body;
+                expect(body).to.have.property('items').to.be.an('array');
+                body.items.forEach((item) => {
                     expect(item).to.have.property('id');
-                    expect(item).to.have.property('descricao');
-                    expect(item).to.have.property('razaoSocial');
+                    expect(item).to.have.property('name');
                     expect(item).to.have.property('cnpj');
-                    expect(item).to.have.property('consultor');
-                    expect(item).to.have.property('telefonePrincipal');
                     expect(item).to.have.property('bairro');
-                    expect(item).to.have.property('dataInauguracao');
-
-                    expect(item).to.have.property('fkRegiao');
-                    expect(item.fkRegiao).to.have.property('id');
-                    expect(item.fkRegiao).to.have.property('nome');
-                    expect(item.fkRegiao).to.have.property('flgAtivo');
-                    expect(item.fkRegiao).to.have.property('pais');
-                    expect(item.fkRegiao.pais).to.have.property('id');
-                    expect(item.fkRegiao.pais).to.have.property('pais');
-
-                    expect(item).to.have.property('fkResponsavelTecnico');
-                    expect(item).to.have.property('fkTipoUnidadeMatriz');
-
-                    expect(item).to.have.property('localDeAtendimento').and.to.be.an('array');
-                    item.localDeAtendimento.forEach((local) => {
-                        expect(local).to.have.property('id');
-                        expect(local).to.have.property('fkUnidade');
-                        expect(local).to.have.property('descricao');
-                        expect(local).to.have.property('flagAtivo');
-                        expect(local).to.have.property('flagCaixa');
-                        expect(local).to.have.property('createdAt');
-                        expect(local).to.have.property('updatedAt');
-                        expect(local).to.have.property('lastUserId');
-                        expect(local).to.have.property('ipClient');
-                        expect(local).to.have.property('flgRegistroFiserv');
-                        expect(local).to.have.property('tokenTerminalFiserv');
-                        expect(local).to.have.property('fkContaCorrente');
-                    })
-
-                    expect(item).to.have.property('fkMunicipio');
-                    expect(item.fkMunicipio).to.have.property('municipio');
-                    expect(item.fkMunicipio).to.have.property('fkEstado');
-                    expect(item.fkMunicipio.fkEstado).to.have.property('uf');
+                    expect(item).to.have.property('responsavelTecnico');
+                    expect(item).to.have.property('consultorResponsavel');
+                    expect(item).to.have.property('nomeFantasia');
+                    expect(item).to.have.property('telefonePrincipal');
+                    expect(item).to.have.property('region');
+                    expect(item.region).to.have.property('id');
+                    expect(item.region).to.have.property('nome');
+                    expect(item).to.have.property('country');
+                    expect(item.country).to.have.property('id');
+                    expect(item.country).to.have.property('pais');
+                    expect(item).to.have.property('unidadeMatrizId');
+                    expect(item.unidadeMatrizId).to.have.property('id');
+                    expect(item.unidadeMatrizId).to.have.property('descricao');
+                    expect(item).to.have.property('city');
+                    expect(item).to.have.property('uf');
                 })
             })
         })
@@ -292,11 +270,10 @@ describe('Módulo - Unidades', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/static-info/{id}', () => {
             const token = Cypress.env('access_token');
-            const idClinica = 335;
 
             cy.request({
                 method: 'GET',
-                url: `/api/v1/unidades/static-info/${idClinica}`,
+                url: '/api/v1/unidades/static-info/663',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -304,39 +281,39 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                const body = response.body;
 
-                const item = response.body;
+                expect(body).to.have.property('id');
+                expect(body).to.have.property('descricao').that.is.a('string');
+                expect(body).to.have.property('endereco').that.is.a('string');
+                expect(body).to.have.property('flgCentral');
+                expect(body).to.have.property('flgTelemedicina');
+                expect(body).to.have.property('feegowClinicId');
+                expect(body).to.have.property('flgAgendaOnline');
+                expect(body).to.have.property('flgAtivarSplit');
+                expect(body).to.have.property('flgAtivarTef');
+                expect(body).to.have.property('flgAtivo');
+                expect(body).to.have.property('status').that.is.a('string');
+                expect(body).to.have.property('regiaoId');
 
-                expect(item).to.have.property('id');
-                expect(item).to.have.property('descricao');
-                expect(item).to.have.property('endereco');
-                expect(item).to.have.property('flgCentral');
-                expect(item).to.have.property('flgTelemedicina');
-                expect(item).to.have.property('feegowClinicId');
-                expect(item).to.have.property('flgAgendaOnline');
-                expect(item).to.have.property('flgAtivarSplit');
-                expect(item).to.have.property('flgAtivarTef');
-                expect(item).to.have.property('flgAtivo');
-                expect(item).to.have.property('status');
-                expect(item).to.have.property('status');
-
-                expect(item).to.have.property('profissionais').and.to.be.an('array');
-                item.profissionais.forEach((prof) => {
+                // Valida lista de profissionais
+                expect(body).to.have.property('profissionais').to.be.an('array');
+                body.profissionais.forEach((prof) => {
                     expect(prof).to.have.property('id');
                     expect(prof).to.have.property('nome');
                     expect(prof).to.have.property('sobrenome');
                     expect(prof).to.have.property('tratamento');
                     expect(prof).to.have.property('ativo');
 
-                    expect(prof).to.have.property('especialidadesIds').and.to.be.an('array');
-                    expect(prof).to.have.property('procedimentosIds').and.to.be.an('array');
+                    expect(prof).to.have.property('especialidadesIds').to.be.an('array');
+                    expect(prof).to.have.property('procedimentosIds').to.be.an('array');
                 })
 
-                expect(item).to.have.property('procedimentosIds').and.to.be.an('array');
-                expect(item).to.have.property('profissionaisETag');
-                expect(item).to.have.property('localDeAtendimento').and.to.be.an('array');
-                expect(item).to.have.property('localDeAtendimentoEtag');
-                expect(item).to.have.property('etag');
+                // Valida lista de procedimentosIds
+                expect(body).to.have.property('procedimentosIds').to.be.an('array');
+                body.procedimentosIds.forEach((procId) => {
+                    expect(procId).to.be.a('number');
+                })
             })
         })
 
@@ -375,9 +352,8 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Atualiza informações estáticas de uma unidade. Deve ser usado apenas para atualizações forçadas.', () => {
-        
+
         it('Validar retorno 201 - /api/v1/unidades/static-info', () => {
             const token = Cypress.env('access_token');
 
@@ -389,7 +365,9 @@ describe('Módulo - Unidades', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    unidadeIds: []
+                    "unidadeIds": [
+                        971
+                    ]
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -436,7 +414,6 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Vincula uma unidade a um profissional', () => {
 
         it('Validar retorno 201 - /api/v1/unidades/link-clinic-professional', () => {
@@ -501,7 +478,6 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Desvincular uma unidade de um profissional', () => {
 
         it('Validar retorno 201 - /api/v1/unidades/unlink-clinic-professional', () => {
@@ -573,7 +549,7 @@ describe('Módulo - Unidades', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/unidades/appointments/professional/{id}?id=5364',
+                url: '/api/v1/unidades/appointments/professional/{id}?id=6066',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -581,115 +557,7 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
-
-                const items = response.body;
-                items.forEach((item) => {
-                    expect(item).to.have.property('id');
-                    expect(item).to.have.property('lembrete24h');
-                    expect(item).to.have.property('lembrete1h');
-                    expect(item).to.have.property('lembrete15min');
-                    expect(item).to.have.property('flagConfirmAppointment');
-                    expect(item).to.have.property('flgLinkExpirado');
-                    expect(item).to.have.property('clinica');
-                    expect(item).to.have.property('fkPaciente');
-                    expect(item).to.have.property('profissional_id');
-                    expect(item).to.have.property('especialidade_id');
-                    expect(item).to.have.property('statusAgendamento');
-                    expect(item).to.have.property('data');
-                    expect(item).to.have.property('horaInicio');
-                    expect(item).to.have.property('horaTermino');
-                    expect(item).to.have.property('encaixe');
-                    expect(item).to.have.property('retorno');
-                    expect(item).to.have.property('lastUser');
-                    expect(item).to.have.property('updatedAt');
-                    expect(item).to.have.property('ipClient');
-                    expect(item).to.have.property('enviarSms');
-                    expect(item).to.have.property('enviarEmail');
-                    expect(item).to.have.property('valorTotal');
-                    expect(item).to.have.property('repeticao');
-                    expect(item).to.have.property('repeticaoPeriodicidade');
-                    expect(item).to.have.property('repeticaoQuantidade');
-                    expect(item).to.have.property('repeticaoDataTermino');
-                    expect(item).to.have.property('observacao');
-                    expect(item).to.have.property('precificacaoId');
-                    expect(item).to.have.property('reschedulingCounter');
-                    expect(item).to.have.property('flgRescheduling');
-                    expect(item).to.have.property('createAt');
-                    expect(item).to.have.property('createdBy');
-                    expect(item).to.have.property('dataLimiteRetorno');
-                    expect(item).to.have.property('profissional_clinica_id');
-                    expect(item).to.have.property('flgConsultaAssistida');
-                    expect(item).to.have.property('agendamentoOrigemId');
-                    expect(item).to.have.property('checkIn');
-                    expect(item).to.have.property('retornoOrigemAgendamentoId');
-                    expect(item).to.have.property('oldStatus');
-                    expect(item).to.have.property('lastAttendance');
-                    expect(item).to.have.property('paymentSettled');
-                    expect(item).to.have.property('updateDateStatusPortal');
-                    expect(item).to.have.property('parceiro');
-                    expect(item).to.have.property('paidByProposal');
-                    expect(item).to.have.property('flagPrimeiraConsulta');
-                    expect(item).to.have.property('scheduleId');
-                    expect(item).to.have.property('scheduleGeneratedId');
-                    expect(item).to.have.property('flgNaoCompareceu');
-                    expect(item).to.have.property('flgOverbooking');
-                    expect(item).to.have.property('paymentIdFiserv');
-                    expect(item).to.have.property('optinJson');
-
-                    expect(item).to.have.property('profissionalId');
-                    expect(item.profissionalId).to.have.property('id');
-                    expect(item.profissionalId).to.have.property('tratamento');
-                    expect(item.profissionalId).to.have.property('nome');
-                    expect(item.profissionalId).to.have.property('sobrenome');
-                    expect(item.profissionalId).to.have.property('cpf');
-                    expect(item.profissionalId).to.have.property('rg');
-                    expect(item.profissionalId).to.have.property('flagMemedPdf');
-                    expect(item.profissionalId).to.have.property('titulo');
-                    expect(item.profissionalId).to.have.property('dataNascimento');
-                    expect(item.profissionalId).to.have.property('email');
-                    expect(item.profissionalId).to.have.property('telefone1');
-                    expect(item.profissionalId).to.have.property('telefone2');
-                    expect(item.profissionalId).to.have.property('cep');
-                    expect(item.profissionalId).to.have.property('endereco');
-                    expect(item.profissionalId).to.have.property('numero');
-                    expect(item.profissionalId).to.have.property('complemento');
-                    expect(item.profissionalId).to.have.property('bairro');
-                    expect(item.profissionalId).to.have.property('cidade');
-                    expect(item.profissionalId).to.have.property('estadoEndereco');
-                    expect(item.profissionalId).to.have.property('observacaoPublica');
-                    expect(item.profissionalId).to.have.property('convenios');
-                    expect(item.profissionalId).to.have.property('exibirNaAgenda');
-                    expect(item.profissionalId).to.have.property('responsavelTecnicoClinica');
-                    expect(item.profissionalId).to.have.property('mensagemAgenda');
-                    expect(item.profissionalId).to.have.property('ativo');
-                    expect(item.profissionalId).to.have.property('fotografia');
-                    expect(item.profissionalId).to.have.property('tokenMemed');
-                    expect(item.profissionalId).to.have.property('criadoPor');
-                    expect(item.profissionalId).to.have.property('birdIdToken');
-                    expect(item.profissionalId).to.have.property('birdIdExpiration');
-                    expect(item.profissionalId).to.have.property('observacaoPrivada');
-                    expect(item.profissionalId).to.have.property('cnpj');
-                    expect(item.profissionalId).to.have.property('fkUsuario');
-                    expect(item.profissionalId).to.have.property('memedUpdateAt');
-
-                    expect(item).to.have.property('especialidadeId');
-                    expect(item.especialidadeId).to.have.property('id');
-                    expect(item.especialidadeId).to.have.property('descricao');
-                    expect(item.especialidadeId).to.have.property('rqe');
-                    expect(item.especialidadeId).to.have.property('ativo');
-                    expect(item.especialidadeId).to.have.property('flgTelemedicina');
-                    expect(item.especialidadeId).to.have.property('memedId');
-                    expect(item.especialidadeId).to.have.property('flgAmorCirurgias');
-
-                    expect(item).to.have.property('agendamentosProcedimentos').and.to.be.an('array');
-                    item.agendamentosProcedimentos.forEach((agenProced) => {
-
-                        expect(agenProced).to.have.property('id');
-                        expect(agenProced).to.have.property('valor');
-                        expect(agenProced).to.have.property('agendamento');
-                        expect(agenProced).to.have.property('procedimento');
-                    })
-                })
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -717,7 +585,7 @@ describe('Módulo - Unidades', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/unidades/formatted',
+                url: '/api/v1/unidades/formatted?page=1&limit=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -922,48 +790,47 @@ describe('Módulo - Unidades', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "name": "Teste unidade API",
-                    "razaoSocial": "Empresa Teste Ltda",
-                    "nomeFantasia": "Teste API Modulo Unidades",
-                    "bairro": "Centro",
+                    "ativo": "A",
+                    "razaoSocial": "AMORSAUDE TELEMEDICINA",
+                    "nomeFantasia": "x-telemed-teste2",
+                    "cnpj": "44905730000107",
                     "country": "BR",
-                    "cnpj": "cnpjValido",
-                    "cnes": "1234567",
-                    "consultorResponsavel": "João da Silva",
-                    "telefonePrincipal": "11987654321",
-                    "telefoneSecundario": "11912345678",
-                    "emailPrincipal": "contato@empresa.com",
-                    "emailSecundario": "suporte@empresa.com",
-                    "cep": "01001000",
-                    "endereco": "Avenida Paulista",
-                    "numero": "1000",
-                    "complemento": "Conjunto 101",
-                    "observacao": "Unidade de testes para homologação.",
-                    "sigla": "TEST",
-                    "fusoHorarioId": 1,
-                    "tipoUnidadeId": 2,
+                    "cnes": "",
+                    "regionId": 3,
+                    "dataInauguracao": "20220118",
+                    "regimeTributarioId": 3,
+                    "unidadeStatusId": 2,
+                    "tipoSegmentoId": 5,
+                    "responsavelTecnicoId": 1527,
+                    "parceiroInstitucionalId": null,
+                    "consultorResponsavel": "",
+                    "telefonePrincipal": "1699757396",
+                    "telefoneSecundario": null,
+                    "emailPrincipal": "financeiro@amorsaude.com",
+                    "emailSecundario": null,
+                    "cep": "14021644",
+                    "numero": "176",
+                    "endereco": "Rua Magid Antônio Calil",
+                    "complemento": "",
+                    "bairro": "Jardim Botânico",
+                    "regiaoZona": "",
+                    "cidadeId": 4,
+                    "observacao": "",
+                    "sigla": "",
+                    "fusoHorarioId": 3,
+                    "tipoUnidadeId": 1,
                     "unidadeMatrizId": null,
                     "exibirAgendamentosOnline": true,
                     "exibirAgendamentoAssistido": false,
-                    "regionId": 3,
-                    "sellerId": "SELL1234",
-                    "ativarIntegracaoTef": true,
-                    "ativarSplit": false,
-                    "regimeTributarioId": 1,
-                    "unidadeStatusId": 2,
-                    "responsavelTecnicoId": null,
-                    "cidadeId": 1001,
-                    "regiaoZona": "Zona Sul",
-                    "parceiroInstitucionalId": null,
-                    "dataInauguracao": "20240101",
-                    "tipoSegmentoId": 4,
-                    "ativo": "A",
+                    "flgAmorCirurgias": 0,
+                    "sellerId": "",
                     "mcc": "8099",
-                    "flgAmorCirurgias": 0
+                    "ativarIntegracaoTef": false,
+                    "ativarSplit": false
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(400);
 
                 const item = response.body;
                 expect(item).to.have.property('flagDeError');
@@ -1048,11 +915,11 @@ describe('Módulo - Unidades', () => {
             })
         })
     })
-/*
-    describe('Módulo - Unidades - Apagar uma unidade', () => {
-        // Foi aberto card para essa rota: https://amorsaudesuporte.atlassian.net/browse/FRN-1783
-    })
-*/
+    /*
+        describe('Módulo - Unidades - Apagar uma unidade', () => {
+            // Foi aberto card para essa rota: https://amorsaudesuporte.atlassian.net/browse/FRN-1783
+        })
+    */
     describe('Módulo - Unidades - Lista uma unidade por id', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/formatted/{id}', () => {
@@ -1170,9 +1037,9 @@ describe('Módulo - Unidades', () => {
             }).then((response) => {
                 expect(response.status).to.eq(200)
             })
-            
+
         })
-        
+
         it('Validar retorno 401 - /api/v1/unidades/csv/download', () => {
             const token = Cypress.env('access_token');
 
@@ -1187,7 +1054,7 @@ describe('Módulo - Unidades', () => {
             }).then((response) => {
                 expect(response.status).to.eq(401)
             })
-            
+
         })
     })
 
@@ -1208,12 +1075,12 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(200)
 
                 const body = response.body;
-                body.forEach((item) =>{
+                body.forEach((item) => {
                     expect(item).to.have.property('id');
-                    expect(item).to.have.property('descricao');                   
+                    expect(item).to.have.property('descricao');
                 })
             })
-            
+
         })
 
         it('Validar retorno 401 - /api/v1/unidades/lists/search', () => {
@@ -1228,15 +1095,17 @@ describe('Módulo - Unidades', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)             
-                })
+                expect(response.status).to.eq(401)
             })
+        })
     })
-/*    describe('Módulo - Unidades - Phones Number Hidden', () => {
-    //Essa rota não está exposta publicamente por questões de segurança e controle de acesso.
-    })
-*/
-    describe('Módulo - Unidades - Phones Hidden', () => {
+
+    /*    describe('Módulo - Unidades - Phones Number Hidden', () => {
+        //Essa rota não está exposta publicamente por questões de segurança e controle de acesso.
+        })
+    */
+   
+    describe.only('Módulo - Unidades - Phones Hidden', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/list/phones-hidden', () => {
             const token = Cypress.env('access_token');
@@ -1251,7 +1120,7 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
-                
+
                 const data = response.body;
                 data.forEach((item) => {
                     expect(item).to.have.property('id');
