@@ -5,7 +5,7 @@ describe('Módulo - Contas a Receber', () => {
         cy.login();
         cy.refreshToken();
     })
-
+//
     describe('Módulo - Contas a Receber - Retorna lista de recebimentos', () => {
 
         it('Validar retorno - 200 - /api/v1/contas-receber', () => {
