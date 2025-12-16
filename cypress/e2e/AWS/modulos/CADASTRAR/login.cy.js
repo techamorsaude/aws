@@ -3,7 +3,7 @@
 describe('Login', () => {
 
 
-  it.only('Validar retorno 200 - /api/v1/security/login', () => {
+  it('Validar retorno 200 - /api/v1/security/login', () => {
     cy.request({
       method: 'POST',
       url: '/api/v1/security/login',
