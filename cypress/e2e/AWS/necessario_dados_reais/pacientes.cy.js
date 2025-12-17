@@ -1210,7 +1210,7 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 401 - /api/v1/pacientes/{id}/prontuario/pdf', () => {
+        it.only('Validar retorno 401 - /api/v1/pacientes/{id}/prontuario/pdf', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -1227,14 +1227,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Retorna informações do resultado de exames', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/exam-result/list', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/exam-result/list',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/exam-result/list', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/exam-result/list',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1245,28 +1261,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/exam-result/list', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/exam-result/list',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1278,14 +1278,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Documento do paciente', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/documents/{documentId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/documents/{documentId}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/documents/{documentId}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/documents/{documentId}',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1296,28 +1312,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/documents/{documentId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/documents/{documentId}',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1329,14 +1329,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Baixar documento do paciente', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/documents/{documentId}/download', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/documents/{documentId}/download',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/documents/{documentId}/download', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/documents/{documentId}/download',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1347,28 +1363,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/documents/{documentId}/download', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/documents/{documentId}/download',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1380,14 +1380,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Retorna arquivo csv com pacientes(com filtro ou sem)', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/csv/download', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/csv/download',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/csv/download', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/csv/download',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1398,28 +1414,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/csv/download', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/csv/download',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1431,14 +1431,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Retorna uma lista de tipos de documentos', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/attendance/documents', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/attendance/documents',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/attendance/documents', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/attendance/documents',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1449,28 +1465,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/attendance/documents', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/attendance/documents',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1482,14 +1482,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Enviar documento', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 201 - /api/v1/pacientes/{id}/send-document', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'POST',
+                url: '/api/v1/pacientes/{id}/send-document',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/send-document', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/pacientes/{id}/send-document',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1500,28 +1516,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/send-document', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'POST',
+                url: '/api/v1/pacientes/{id}/send-document',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1533,14 +1533,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Verifica a necessidade de atualização cadastral do paciente', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/registration-status', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/registration-status',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/registration-status', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/registration-status',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1551,28 +1567,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/registration-status', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/registration-status',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1584,14 +1584,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Retorna uma lista de tipos de documentos', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{hash}/{file}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{hash}/{file}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{hash}/{file}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{hash}/{file}',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1602,28 +1618,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{hash}/{file}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{hash}/{file}',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1635,14 +1635,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - download do pdf', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/document/medical-prescription/pdf', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/document/medical-prescription/pdf',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/document/medical-prescription/pdf', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/document/medical-prescription/pdf',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1653,28 +1669,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/document/medical-prescription/pdf', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/document/medical-prescription/pdf',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1686,14 +1686,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - download do pdf', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{patientId}/document/feegow/pdf', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{patientId}/document/feegow/pdf',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{patientId}/document/feegow/pdf', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{patientId}/document/feegow/pdf',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1704,28 +1720,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{patientId}/document/feegow/pdf', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{patientId}/document/feegow/pdf',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1737,14 +1737,30 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - ', () => {
+    describe('Módulo - Pacientes - Retorna informações dos dados de anamnese do paciente', () => {
 
-        it('Validar retorno 200 - ', () => {
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/cover-sheet/anamnese', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/cover-sheet/anamnese',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        });
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/cover-sheet/anamnese', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/cover-sheet/anamnese',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1755,28 +1771,12 @@ describe('Módulo - Pacientes', () => {
             })
         });
 
-        it('Validar retorno 400 - ', () => {
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/cover-sheet/anamnese', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        });
-
-        it('Validar retorno 401 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/cover-sheet/anamnese',
                 headers: {
                     //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1785,6 +1785,108 @@ describe('Módulo - Pacientes', () => {
             }).then((response) => {
                 expect(response.status).to.eq(401);
             })
-        });
+        })
+    })
+
+    describe('Módulo - Pacientes - Retorna quantidades de faltas do paciente', () => {
+        
+        it('Validar retorno 200 - /api/v1/pacientes/{id}/appointments/number-of-absences', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/appointments/number-of-absences',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/pacientes/{id}/appointments/number-of-absences', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/appointments/number-of-absences',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/pacientes/{id}/appointments/number-of-absences', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/{id}/appointments/number-of-absences',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
+
+    describe('Módulo - Pacientes - Retorna nome e sobrenome por id', () => {
+        
+        it('Validar retorno 200 - /api/v1/pacientes/patient-info/name/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/patient-info/name/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/pacientes/patient-info/name/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/patient-info/name/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/pacientes/patient-info/name/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/pacientes/patient-info/name/{id}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
 })
