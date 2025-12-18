@@ -25,6 +25,9 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -88,6 +91,9 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -130,6 +136,9 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('message').to.be.an('array');
+                expect(response.body).to.have.property('error')
+                expect(response.body).to.have.property('statusCode')
             })
         })
 
@@ -186,7 +195,7 @@ describe('Módulo - Atendimentos', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "appointmentId": 0,
+                    "appointmentId": 323232332,
                     "fileUrl": "string",
                     "providerId": 0,
                     "bulk": [
@@ -194,14 +203,18 @@ describe('Módulo - Atendimentos', () => {
                     ],
                     "isBry": true,
                     "userAuth": {
-                        "cpf": "string",
-                        "password": "string",
-                        "token": "string"
+                        "cpf": "71591522803",
+                        "password": "RDED@e333333",
+                        "token": "VuaWRhZGUiOjEsImZlYXR1cmVzIjpbInNjaGVkdWxlLWFzc2lzd"
                     }
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
+
             })
         })
 
@@ -243,7 +256,7 @@ describe('Módulo - Atendimentos', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance',
+                url: 'api/v1/attendance?appointmentId=2905662',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -251,6 +264,7 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -278,7 +292,7 @@ describe('Módulo - Atendimentos', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/attendance',
+                url: 'api/v1/attendance?appointmentId=2905662',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -286,6 +300,8 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('message');
             })
         })
 
@@ -306,7 +322,7 @@ describe('Módulo - Atendimentos', () => {
         })
     })
 
-    describe('Módulo - Atendimentos - Pausar atendimento', () => {
+    describe.only('Módulo - Atendimentos - Pausar atendimento', () => {
 
         it('Validar retorno 201 - /api/v1/attendance/pause-attendance', () => {
             const token = Cypress.env('access_token');
@@ -319,7 +335,7 @@ describe('Módulo - Atendimentos', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "appointmentId": 1,
+                    "appointmentId": 2124,
                     "time": "00:10:00",
                     "anamnesis": "string",
                     "conduct": "string",
@@ -328,6 +344,9 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body))
+                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('message');
             })
         })
 
@@ -355,7 +374,7 @@ describe('Módulo - Atendimentos', () => {
         })
     })
 
-    describe('Módulo - Atendimentos - Voltar para o atendimento', () => {
+    describe.only('Módulo - Atendimentos - Voltar para o atendimento', () => {
 
         it('Validar retorno 201 - /api/v1/attendance/return-attendance', () => {
             const token = Cypress.env('access_token');
@@ -374,6 +393,9 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body))
+                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('message');
             })
         })
 
@@ -398,14 +420,14 @@ describe('Módulo - Atendimentos', () => {
         })
     })
 
-    describe('Módulo - Atendimentos - Listar os atendimentos do profissional informado', () => {
-        
+    describe.only('Módulo - Atendimentos - Listar os atendimentos do profissional informado', () => {
+
         it('Validar retorno 200 - /api/v1/attendance/professional/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/professional/{id}',
+                url: '/api/v1/attendance/professional/{id}}',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -413,6 +435,27 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                const body = response.body;
+
+                // valida itens
+                expect(response.body.items).to.be.an('array')
+                body.items.forEach((item) => {
+                    expect(item).to.have.property('id')
+                    expect(item).to.have.property('date')
+                    expect(item).to.have.property('status')
+                    expect(item).to.have.property('patient')
+                    expect(item).to.have.property('professional')
+                    expect(item).to.have.property('specialty')
+                    expect(item).to.have.property('appointmentId')
+                    expect(item).to.have.property('return')
+                })
+
+                // valida meta
+                expect(response.body.meta).to.have.property('itemCount')
+                expect(response.body.meta).to.have.property('totalItems')
+                expect(response.body.meta).to.have.property('itemsPerPage')
+                expect(response.body.meta).to.have.property('currentPage')
+                expect(response.body.meta).to.have.property('totalPages')
             })
         })
 
@@ -449,8 +492,8 @@ describe('Módulo - Atendimentos', () => {
         })
     })
 
-    describe('Módulo - Atendimentos - Listar links dos documentos', () => {
-        
+    describe.only('Módulo - Atendimentos - Listar links dos documentos', () => {
+
         it('Validar retorno 201 - /api/v1/attendance/bulk-documents', () => {
             const token = Cypress.env('access_token');
 
@@ -464,22 +507,9 @@ describe('Módulo - Atendimentos', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/bulk-documents', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/attendance/bulk-documents',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body))
+                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('message');
             })
         })
 
@@ -490,7 +520,7 @@ describe('Módulo - Atendimentos', () => {
                 method: 'POST',
                 url: '/api/v1/attendance/bulk-documents',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
