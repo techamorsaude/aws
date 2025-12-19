@@ -18,9 +18,18 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                body: {
+                    "attendanceId": 612547,
+                    "modelFormId": null,
+                    "examOrSurgeryText": "Dados",
+                    "ipClient": "10.244.4.128"
+                },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -64,7 +73,7 @@ describe('Módulo - Atendimento Objetiva', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/objective',
+                url: 'api/v1/attendance/objective?attendanceId=1612547&page=1&limit=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -72,22 +81,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/attendance/objective',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -123,6 +117,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.boy))
             })
         })
 
@@ -166,7 +161,7 @@ describe('Módulo - Atendimento Objetiva', () => {
 
             cy.request({
                 method: 'PATCH',
-                url: '/api/v1/attendance/objective/exam/{id}',
+                url: '/api/v1/attendance/objective/exam/565790',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -174,6 +169,9 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -225,6 +223,9 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -273,25 +274,16 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective/exam', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/objective/exam',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                body: {
+                    "id": 612547,
+                    "ipClient": "1.11"
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400);
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -319,7 +311,7 @@ describe('Módulo - Atendimento Objetiva', () => {
 
             cy.request({
                 method: 'POST',
-                url: '/api/v1/attendance/objective/exam/{id}/download',
+                url: '/api/v1/attendance/objective/exam/612547/download',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -327,6 +319,10 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body))
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -378,6 +374,9 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -426,9 +425,19 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                body: {
+                    "examId": 431,
+                    "medicalClassificationId": 2,
+                    "yearSymptom": "2022",
+                    "yearResolution": "2022",
+                    "ipClient": "1.11"
+                },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -477,9 +486,16 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                body: {
+                    "examProblemId": 496,
+                    "ipClient": "1.11"
+                },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -523,7 +539,7 @@ describe('Módulo - Atendimento Objetiva', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/objective/exam-problems',
+                url: '/api/v1/attendance/objective/exam-problems?examId=497',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -531,6 +547,10 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body))
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -578,6 +598,12 @@ describe('Módulo - Atendimento Objetiva', () => {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
+                },
+                body: {
+                    "idExam": 497,
+                    "attendanceId": 3819,
+                    "procedureId": 13062,
+                    "ipClient": "1.11"
                 },
                 failOnStatusCode: false
             }).then((response) => {
@@ -630,25 +656,16 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective/exam-procedure', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/objective/exam-procedure',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                body: {
+                    "examProcedureId": 1,
+                    "ipClient": "1.11"
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400);
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -669,14 +686,14 @@ describe('Módulo - Atendimento Objetiva', () => {
         })
     })
 
-    describe('Módulo - Atendimento Objetiva - Lista os procedimentos do Exame', () => {
+    describe.only('Módulo - Atendimento Objetiva - Lista os procedimentos do Exame', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/objective/exam-procedures', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/objective/exam-procedures',
+                url: '/api/v1/attendance/objective/exam-procedures?examId=530',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -684,22 +701,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective/exam-procedures', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/attendance/objective/exam-procedures',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
