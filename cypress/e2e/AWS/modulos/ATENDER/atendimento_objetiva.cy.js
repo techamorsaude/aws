@@ -27,6 +27,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -46,6 +47,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -62,6 +64,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -98,6 +101,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -134,6 +138,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -150,6 +155,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -169,6 +175,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -188,6 +195,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -204,6 +212,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -223,6 +232,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -242,6 +252,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -258,6 +269,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -281,6 +293,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -300,6 +313,8 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
+
             })
         })
     })
@@ -339,6 +354,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -355,6 +371,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -374,6 +391,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('message');
                 expect(response.body).to.have.property('error');
                 expect(response.body).to.have.property('statusCode');
@@ -393,6 +411,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -409,6 +428,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -435,6 +455,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -454,6 +475,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -470,6 +492,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -493,6 +516,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -512,6 +536,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -528,6 +553,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -567,6 +593,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -583,6 +610,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -600,14 +628,18 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "idExam": 497,
-                    "attendanceId": 3819,
+                    "idExam": 610,
+                    "attendanceId": 23084,
                     "procedureId": 13062,
                     "ipClient": "1.11"
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(201);
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -624,6 +656,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -640,6 +673,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -663,6 +697,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -682,6 +717,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -718,6 +754,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -743,6 +780,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -762,6 +800,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -778,6 +817,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -814,6 +854,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -839,6 +880,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -858,6 +900,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -881,6 +924,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -900,6 +944,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })

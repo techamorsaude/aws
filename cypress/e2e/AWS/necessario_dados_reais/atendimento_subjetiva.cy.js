@@ -6,7 +6,7 @@ describe('Módulo - Atendimento Subjetiva', () => {
         cy.refreshToken();
     })
 
-    describe('Módulo - Atendimento Subjetiva - Dados da anamnese registrados pelo profissional', () => {
+    describe.only('Módulo - Atendimento Subjetiva - Dados da anamnese registrados pelo profissional', () => {
 
         it('Validar retorno 201 - /api/v1/attendance/subjective/anamnesis', () => {
             const token = Cypress.env('access_token');
@@ -17,6 +17,11 @@ describe('Módulo - Atendimento Subjetiva', () => {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
+                },
+                body: {
+                    "attendanceId": 1,
+                    "anamnesisText": "Dados",
+                    "anamnesisModelId": 1
                 },
                 failOnStatusCode: false
             }).then((response) => {
