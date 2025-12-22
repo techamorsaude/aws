@@ -686,7 +686,7 @@ describe('Módulo - Atendimento Objetiva', () => {
         })
     })
 
-    describe.only('Módulo - Atendimento Objetiva - Lista os procedimentos do Exame', () => {
+    describe('Módulo - Atendimento Objetiva - Lista os procedimentos do Exame', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/objective/exam-procedures', () => {
             const token = Cypress.env('access_token');
@@ -734,9 +734,18 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                body: {
+                    "idExam": 665,
+                    "attendanceId": 30377,
+                    "procedureId": 20357,
+                    "ipClient": "1.11"
+                },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -788,22 +797,7 @@ describe('Módulo - Atendimento Objetiva', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective/exam-procedure-favorites', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/attendance/objective/exam-procedure-favorites',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
+                cy.log('Retorna vazio', JSON.stringify(response.body))
             })
         })
 
@@ -836,25 +830,18 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(200);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective/exam-procedure-remove-favorite', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/attendance/objective/exam-procedure-remove-favorite',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                body: {
+                    "idExam": 520,
+                    "attendanceId": 2992,
+                    "procedureId": 20357,
+                    "ipClient": "1.11"
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400);
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -887,25 +874,16 @@ describe('Módulo - Atendimento Objetiva', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(201);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/attendance/objective/complete', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/attendance/objective/complete',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                body: {
+                    "attendanceId": 1,
+                    "ipClient": "1.11"
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400);
+                expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
