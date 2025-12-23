@@ -7,7 +7,7 @@ describe('Módulo - Profissionais', () => {
         cy.refreshToken();
     })
 
-    describe('Módulo - Profissionais - Cadastrar profissional', () => {
+    describe.only('Módulo - Profissionais - Cadastrar profissional', () => {
 
         it('Validar retorno 201 - /api/v1/profissionais', () => {
             const token = Cypress.env('access_token');
@@ -24,7 +24,7 @@ describe('Módulo - Profissionais', () => {
                     body: {
                         "tratamento": "Dr.",
                         "nome": "Paulo",
-                        "sobrenome": "do Produto",
+                        "sobrenome": "do Produto2",
                         "rg": "18.872.351-9",
                         "dataNascimento": "19900125",
                         "telefone1": "16996233425",
@@ -94,6 +94,7 @@ describe('Módulo - Profissionais', () => {
                     failOnStatusCode: false
                 }).then((response) => {
                     expect(response.status).to.eq(201);
+                    cy.log(JSON.stringify(response.body))
                     expect(response.body).to.have.property('codigo');
                     expect(response.body).to.have.property('flagDeError');
                     expect(response.body).to.have.property('mensagem');
@@ -117,6 +118,25 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/profissionais', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/profissionais',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body))
             })
         })
     })
@@ -202,7 +222,7 @@ describe('Módulo - Profissionais', () => {
 
     describe('Módulo - Profissionais - Cadastrar fotografia do profissional', () => {
 
-        it.only('Validar retorno 201 - /api/v1/profissionais/avatar/{id}', () => {
+        it('Validar retorno 201 - /api/v1/profissionais/avatar/{id}', () => {
             const token = Cypress.env('access_token');
             const id = 4033;
 
