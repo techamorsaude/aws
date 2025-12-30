@@ -1,9 +1,5 @@
 /// <reference types="cypress"/>
 
-/** Para realização dos testes, será necessário pegar o ID atualizado de um repasse consolidado
- * e inserir na rota POST "Módulo - Repasses - Criar um contas a pagar pelo repasse"
- * Inserir somente no cenário 201
- */
 
 describe('Módulo - Repasses', () => {
     beforeEach(() => {
@@ -18,14 +14,15 @@ describe('Módulo - Repasses', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/repasses/novo-repasse?page=1&limit=10',
+                url: '/api/v1/repasses/novo-repasse?page=1&limit=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(body).to.have.property('items').to.be.an('array');
@@ -70,7 +67,8 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -89,7 +87,8 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(body).to.be.an('array');
@@ -118,12 +117,12 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Repasses - Consolidar', () => {
 
         it('Validar retorno 201 - /api/v1/repasses/novo-consolidar', () => {
@@ -137,18 +136,13 @@ describe('Módulo - Repasses', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    repasseIds: [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
+                    "repasseIds": [
+                        17828856
                     ]
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
                 cy.log('Response body retorna vazio', JSON.stringify(response.body))
             })
         })
@@ -167,7 +161,8 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -182,23 +177,18 @@ describe('Módulo - Repasses', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    repasseIds: [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
+                    "repasseIds": [
+                        17828856
                     ]
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Repasses - Desconsolidar', () => {
 
         it('Validar retorno 201 - /api/v1/repasses/novo-desconsolidar', () => {
@@ -212,18 +202,13 @@ describe('Módulo - Repasses', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    repasseIds: [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
+                    "repasseIds": [
+                        17828856
                     ]
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
                 cy.log('Response body retorna vazio', JSON.stringify(response.body))
             })
         })
@@ -242,7 +227,8 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -268,12 +254,18 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    // Precisa de dados reais do Amei
+    // Para a execução do teste abaixo, utilize o ID do repasse (coluna `id`).
+    //(A_PAGAR = 1, PAGO = 2, CONTA_GERADA = 3, CONSOLIDADO = 4, AGUARDANDO_SPLIT = 5, SPLITADO = 6)
+    // Consulta de apoio: 
+    // select * from repasse r
+    // where r.fk_status_pagamento = '4'
+    // order by r.id desc;
     describe('Módulo - Repasses - Criar um contas a pagar pelo repasse', () => {
 
         it('validar retorno 201 - /api/v1/repasses/novo-conta-pagar-repasse', () => {
@@ -287,12 +279,13 @@ describe('Módulo - Repasses', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    repassesIds: [146036],
+                    repassesIds: [12320005],
                     flgCaixa: 0,
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -314,7 +307,8 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -334,7 +328,8 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
