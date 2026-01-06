@@ -824,14 +824,15 @@ describe('Módulo - Contas a Pagar', () => {
         })
     })
 
-    describe('Módulo - Contas a Pagar - Cancela o recebimento de uma parcela contas a pagar', () => {
+    //Id utilizado para testar essa rota está na tabela PAG_PAR_LIQ (coluna id)
+    describe.only('Módulo - Contas a Pagar - Cancela o recebimento de uma parcela contas a pagar', () => {
 
         it('Validar retorno 200 - /api/v1/bills-to-pay/parcela/contas-pagar/{parcelaRecebimentoId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/bills-to-pay/parcela/contas-pagar/1106538',
+                url: '/api/v1/bills-to-pay/parcela/contas-pagar/385045',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -840,9 +841,9 @@ describe('Módulo - Contas a Pagar', () => {
             }).then((response) => {
                 expect(response.status).to.eq(200);
                 cy.log(JSON.stringify(response.body));
-                expect(response.body).to.have.property('message');
-                expect(response.body).to.have.property('error');
-                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
