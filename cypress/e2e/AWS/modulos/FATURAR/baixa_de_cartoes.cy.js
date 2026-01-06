@@ -20,7 +20,8 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(body).to.have.property('items').to.be.an('array')
@@ -72,7 +73,8 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -88,11 +90,13 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // Tabela lancamentos_financeiros_splits (coluna fk_lancamentos_financeiros)
     describe('Módulo - Baixa de Cartões - Retorna lista de splits de um lançamento financeiro', () => {
 
         it('Validar retorno 200 - /api/v1/baixa-cartao/{id}/splits', () => {
@@ -100,15 +104,26 @@ describe('Módulo - Baixa de Cartões', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/baixa-cartao/0/splits',
+                url: '/api/v1/baixa-cartao/66001/splits',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
-                expect(response.body).to.be.an('array')
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.be.an('array');
+                response.body.forEach((body) => {
+                    expect(body).to.have.property('id');
+                    expect(body).to.have.property('lancamentoFinanceiroId');
+                    expect(body).to.have.property('origem');
+                    expect(body).to.have.property('sellerId');
+                    expect(body).to.have.property('taxaCartao');
+                    expect(body).to.have.property('valorBruto');
+                    expect(body).to.have.property('valorLiquido');
+                })
             })
         })
 
@@ -124,7 +139,8 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -140,13 +156,15 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    // Precisa de dados reais do Amei
-    describe('Módulo - Baixa de Cartões - Concializa/faz a baixa dos pagamentos selecionados ou unico', () => {
+    // Tabela lancamentos_financeiros (coluna id)
+    //select * from lancamentos_financeiros lf where lf.id = '1454397'
+    describe.only('Módulo - Baixa de Cartões - Concializa/faz a baixa dos pagamentos selecionados ou unico', () => {
 
         it('Validar retorno 201 - /api/v1/baixa-cartao/conciliar', () => {
             const token = Cypress.env('access_token');
@@ -161,18 +179,22 @@ describe('Módulo - Baixa de Cartões', () => {
                 body: {
                     "pagamentos": [
                         {
-                            "id": 69960,
+                            "id": 1452454,
                             "valor": 5,
-                            "dataCredito": "2025-11-18",
-                            "dataVencimento": "2025-02-01",
+                            "dataCredito": "20260106",
+                            "dataVencimento": "20260205",
                             "conciliado": false
                         }
                     ]
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(201)
-                cy.log(JSON.stringify(response.body))
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -190,7 +212,8 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -217,7 +240,8 @@ describe('Módulo - Baixa de Cartões', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
