@@ -21,6 +21,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 expect(response.body).to.be.an('array');
                 // valida os campos de cada item do array
@@ -67,6 +68,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                 cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -86,6 +88,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 const body = response.body;
                 expect(body).to.have.property('data');
                 expect(body.data).to.have.property('lancamentos').to.be.an('array');
@@ -105,6 +108,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -121,6 +125,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -132,7 +137,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/saldo-resumo/extrato',
+                url: '/api/v1/saldo-resumo/extrato?data=20230223&dataFinal=20230223&tipoData=0',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application'
@@ -140,6 +145,44 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/saldo-resumo/extrato', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo/extrato',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/saldo-resumo/extrato', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo/extrato?data=20230223&dataFinal=20230223&tipoData=0',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -151,7 +194,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/saldo-resumo',
+                url: '/api/v1/saldo-resumo?data=20250101&dataFinal=20251223&tipoData=0',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application'
@@ -159,11 +202,46 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/saldo-resumo', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/saldo-resumo', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/saldo-resumo?data=20250101&dataFinal=20251223&tipoData=0',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Caixa Saldo Resumo - Retorna duas listas, uma com as contas financeiras e outra com o tipo de transferência', () => {
+    describe('Módulo - Caixa Saldo Resumo - Retorna duas listas, uma com as contas financeiras e outra com o tipo de transferência', () => {
 
         it('Validar retorno 200 - /api/v1/saldo-resumo/transfer', () => {
             const token = Cypress.env('access_token');
@@ -178,6 +256,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('accounts').to.be.an('array')
                 response.body.accounts.forEach((item) => {
                     expect(item).to.have.property('value');
@@ -199,11 +278,12 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe('Módulo - Caixa Saldo Resumo - Cria uma nova transferência financeira', () => {
+    describe.only('Módulo - Caixa Saldo Resumo - Cria uma nova transferência financeira', () => {
 
         it('Validar retorno 201 - /api/v1/saldo-resumo/transfer', () => {
             const token = Cypress.env('access_token');
