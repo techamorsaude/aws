@@ -18,8 +18,7 @@ describe('Login', () => {
       expect(response.body).to.have.property('id')
       expect(response.body).to.have.property('email')
       expect(response.body).to.have.property('name')
-      expect(response.body).to.have.property('access_token')
-      
+      expect(response.body).to.have.property('access_token')    
       
       
 
