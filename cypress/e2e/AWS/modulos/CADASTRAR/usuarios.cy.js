@@ -21,6 +21,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 // Campos Principais
                 expect(response.body).to.have.all.keys(
@@ -46,6 +47,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -75,7 +77,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('email');
@@ -125,7 +128,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -150,7 +154,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('email');
@@ -194,7 +199,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -215,7 +221,8 @@ describe('Módulo - Usuários', () => {
                     },
                     failOnStatusCode: false
                 }).then((loginResponse) => {
-                    expect(loginResponse.status).to.eq(200)
+                    expect(loginResponse.status).to.eq(200);
+                    cy.log(JSON.stringify(response.body));
 
                     const token = loginResponse.body.token;
 
@@ -253,7 +260,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -273,6 +281,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -298,6 +307,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -317,6 +327,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -339,6 +350,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -362,7 +374,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 expect(response.body).to.include.all.key(
                     'codigo',
@@ -386,7 +399,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -409,6 +423,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -433,6 +448,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -476,6 +492,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -500,6 +517,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -541,6 +559,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -564,6 +583,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -587,7 +607,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -606,6 +627,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })

@@ -491,7 +491,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
+    describe.only('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
@@ -510,7 +510,7 @@ describe('Módulo - Funcionários', () => {
                 },
                 body: {
                     employeeId: 1271,
-                    newEmail: email
+                    newEmail: 'bruna.rosario+RECPROD@amorsaude.com' //email
                 },
                 failOnStatusCode: false
             }).then((response) => {

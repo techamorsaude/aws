@@ -7,7 +7,7 @@ describe('Módulo - Tabela Padrão', () => {
         cy.refreshToken()
     })
 
-    // Rota descotinuada, no front dentro do Amei não existe o botão cadastrar
+    // Rota descontinuada, no front dentro do Amei não existe o botão cadastrar
     /*
     describe('Módulo - Tabela Padrão - Cria uma tabela padrão', () => {
 
@@ -151,7 +151,7 @@ describe('Módulo - Tabela Padrão', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "tablePriceId": 16,
+                    "tablePriceId": 45,
                     "clinicId": 483
                 },
                 failOnStatusCode: false

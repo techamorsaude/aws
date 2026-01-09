@@ -6,7 +6,6 @@ describe('Módulo - Acolhimentos', () => {
         cy.refreshToken();
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Acolhimentos - Cadastrar dados do acolhimento', () => {
 
         it('Validar retorno 201 - /api/v1/acolhimentos', () => {
@@ -256,7 +255,6 @@ describe('Módulo - Acolhimentos', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Acolhimentos - Muda status do agendamento', () => {
 
         it('Validar retorno 200 - /api/v1/acolhimentos/iniciar/{agendamentoId}', () => {
@@ -323,7 +321,7 @@ describe('Módulo - Acolhimentos', () => {
 
     describe('Módulo - Acolhimentos - Appointments by Status', () => {
 
-        it.only('Validar retorno 200 - /api/v1/acolhimentos/list-appointments-by-status', () => {
+        it('Validar retorno 200 - /api/v1/acolhimentos/list-appointments-by-status', () => {
             const token = Cypress.env('access_token');
 
             cy.request({

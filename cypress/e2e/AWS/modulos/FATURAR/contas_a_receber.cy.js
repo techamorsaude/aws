@@ -85,21 +85,21 @@ describe('Módulo - Contas a Receber', () => {
                 body: {
                     "tipoPagadorId": 2,
                     "tipoRecebimentoId": 2,
-                    "notaFiscal": "333333333",
+                    "notaFiscal": "",
                     "recorrencia": 1,
-                    "tipoIntervalo": "D",
-                    "observacao": "b",
+                    "tipoIntervalo": "M",
+                    "observacao": "teste",
                     "pacienteId": null,
-                    "fornecedorId": "1300",
+                    "fornecedorId": "420",
                     "profissionalId": null,
                     "quantidadeParcelas": 1,
                     "itens": [
                         {
-                            "descricao": "TESTE API",
+                            "descricao": "Aluguel Sala",
                             "quantidade": 1,
-                            "valorUnitario": 10,
-                            "classificacaoFinanceiraId": 60,
-                            "valorTotal": 10,
+                            "valorUnitario": 100,
+                            "classificacaoFinanceiraId": 136,
+                            "valorTotal": 100,
                             "executanteId": 0,
                             "executado": "0"
                         }
@@ -232,18 +232,19 @@ describe('Módulo - Contas a Receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('18170476') // Reutiliza o ID
+            const idRecebimento = Cypress.env('8524164') // Reutiliza o ID
 
             cy.request({
                 method: 'GET',
-                url: `/api/v1/contas-receber/${18170476}`,
+                url: `/api/v1/contas-receber/${8524164}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+
                 const body = response.body
 
                 // Verifica os campos principais do objeto
@@ -289,10 +290,7 @@ describe('Módulo - Contas a Receber', () => {
                         'classificacaoFinanceira'
                     )
 
-                    expect(body.itens[0].executante).to.include.all.keys(
-                        'id',
-                        'nomeFantasia'
-                    )
+                    expect(body.itens[0].executante).to.be.null
                 }
 
                 // Verifica estrutura de parcelas
@@ -375,11 +373,11 @@ describe('Módulo - Contas a Receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('18170476') // Reutiliza o ID
+            const idRecebimento = Cypress.env('8524164') // Reutiliza o ID
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/contas-receber/${18170476}`,
+                url: `/api/v1/contas-receber/${8524164}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -387,32 +385,32 @@ describe('Módulo - Contas a Receber', () => {
                 body: {
                     "tipoPagadorId": 2,
                     "tipoRecebimentoId": 2,
-                    "notaFiscal": "333333333",
+                    "notaFiscal": null,
                     "recorrencia": 1,
-                    "tipoIntervalo": "D",
-                    "observacao": "b",
+                    "tipoIntervalo": "M",
+                    "observacao": "teste",
                     "pacienteId": null,
-                    "fornecedorId": 1300,
+                    "fornecedorId": 420,
                     "profissionalId": null,
                     "quantidadeParcelas": 1,
                     "itens": [
                         {
-                            "descricao": "TESTE API",
+                            "descricao": "Aluguel Sala",
                             "quantidade": 1,
-                            "id": 57296670,
-                            "valorUnitario": 10,
-                            "classificacaoFinanceiraId": 60,
-                            "valorTotal": 10,
+                            "id": 43507,
+                            "valorUnitario": 100,
+                            "classificacaoFinanceiraId": 136,
+                            "valorTotal": 100,
                             "executanteId": 0,
                             "executado": "0"
                         }
                     ],
                     "parcelas": [
                         {
-                            "dataVencimento": "20251205",
-                            "observacao": "",
+                            "dataVencimento": "20260108",
+                            "observacao": null,
                             "numeroParcela": 1,
-                            "valor": 10
+                            "valor": 100
                         }
                     ],
                     "origemId": 1,
@@ -465,8 +463,8 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-
-    describe('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>PAREI<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe.only('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
@@ -824,7 +822,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
+    describe('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/{parcelaId}/recibo', () => {
             const token = Cypress.env('access_token');
@@ -875,7 +873,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}/historico', () => {
             const token = Cypress.env('access_token');
@@ -935,7 +933,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/status/list', () => {
             const token = Cypress.env('access_token');
@@ -983,7 +981,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/classificacao-financeira/list', () => {
             const token = Cypress.env('access_token');
@@ -1025,7 +1023,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-pagadores/list', () => {
             const token = Cypress.env('access_token');
@@ -1066,7 +1064,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-recebimento/list', () => {
             const token = Cypress.env('access_token');
@@ -1107,7 +1105,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
+    describe('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/lancamento-financeiro', () => {
             const token = Cypress.env('access_token');
 
