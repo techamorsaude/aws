@@ -31,7 +31,7 @@ describe('Módulo - Unidades', () => {
                         country: "BR",
                         cnpj: cnpjValido,
                         cnes: "1234567",
-                        consultorResponsavel: "João da Silva",
+                        consultorResponsavel: "João SEM BRAÇO",
                         telefonePrincipal: "11987654321",
                         telefoneSecundario: "11912345678",
                         emailPrincipal: "contato@empresa.com",
@@ -41,7 +41,7 @@ describe('Módulo - Unidades', () => {
                         numero: "1000",
                         complemento: "Conjunto 101",
                         observacao: "Unidade de testes para homologação.",
-                        sigla: "TEST",
+                        sigla: "GATAO",
                         fusoHorarioId: 1,
                         tipoUnidadeId: 2,
                         unidadeMatrizId: null,
@@ -413,77 +413,13 @@ describe('Módulo - Unidades', () => {
             })
         })
     })
-
-    describe('Módulo - Unidades - Vincula uma unidade a um profissional', () => {
-
-        it('Validar retorno 201 - /api/v1/unidades/link-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/unidades/link-clinic-professional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "idProfissional": 5364
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(201);
-
-                const item = response.body;
-                expect(item).to.have.property('codigo');
-                expect(item).to.have.property('flagDeError');
-                expect(item).to.have.property('mensagem');
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/unidades/link-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/unidades/link-clinic-professional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: { // Sem parâmetro no body
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        })
-
-        it('Validar retorno 401 - /api/v1/unidades/link-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/unidades/link-clinic-professional',
-                headers: {
-                    //'Authorization': `Bearer ${token}`, // Token inválido
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "idProfissional": 3901
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(401);
-            })
-        })
-    })
-
+    
     describe('Módulo - Unidades - Desvincular uma unidade de um profissional', () => {
 
         it('Validar retorno 201 - /api/v1/unidades/unlink-clinic-professional', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/unidades/unlink-clinic-professional',
                 headers: {
@@ -491,7 +427,7 @@ describe('Módulo - Unidades', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "idProfissional": 5364
+                    "idProfissional": 2155
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -542,6 +478,71 @@ describe('Módulo - Unidades', () => {
         })
     })
 
+    describe('Módulo - Unidades - Vincula uma unidade a um profissional', () => {
+
+        it('Validar retorno 201 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.api({
+                method: 'POST',
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 2155
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+
+                const item = response.body;
+                expect(item).to.have.property('codigo');
+                expect(item).to.have.property('flagDeError');
+                expect(item).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, // Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
+
+
     describe('Módulo - Unidades - Consultar agendamento do profissional por id', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/appointments/professional{id}', () => {
@@ -583,7 +584,7 @@ describe('Módulo - Unidades', () => {
         it('Validar retorno 200 - /api/v1/unidades/formatted', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/unidades/formatted?page=1&limit=1',
                 headers: {
@@ -1110,7 +1111,7 @@ describe('Módulo - Unidades', () => {
         it('Validar retorno 200 - /api/v1/unidades/list/phones-hidden', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/unidades/list/phones-hidden',
                 headers: {
@@ -1137,7 +1138,7 @@ describe('Módulo - Unidades', () => {
         it('Validar retorno 401 - /api/v1/unidades/list/phones-hidden', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/unidades/list/phones-hidden',
                 headers: {

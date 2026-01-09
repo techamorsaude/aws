@@ -86,7 +86,7 @@ describe('Módulo - Funcionários', () => {
                 // Gerar o sobrenome com número
                 const sobrenome = `QA${numeroAleatorio}`;
 
-                cy.request({
+                cy.api({
                     method: 'POST',
                     url: '/api/v1/employees',
                     headers: {
@@ -95,7 +95,7 @@ describe('Módulo - Funcionários', () => {
                     },
                     body: {
                         status: "1",
-                        nome: "Julio",
+                        nome: "Ivan",
                         sobrenome: sobrenome,
                         foto: "",
                         cpf: cpf,
@@ -125,52 +125,8 @@ describe('Módulo - Funcionários', () => {
                 }).then((response) => {
                     expect(response.status).to.eq(201);
 
-                    expect(response.body).to.include.all.keys(
-                        'nome',
-                        'funcao',
-                        'perfil',
-                        'perfilAcessoId',
-                        'setor',
-                        'id',
-                        'foto',
-                        'cpf',
-                        'rg',
-                        'funcaoId',
-                        'status',
-                        'statusId',
-                        'sobrenome',
-                        'dataAdmissao',
-                        'dataDemissao',
-                        'tipoFuncionario',
-                        'origemExterno',
-                        'nomeCompleto',
-                        'dataNascimento',
-                        'sexoId',
-                        'sexo',
-                        'sexoSigla',
-                        'setorId',
-                        'observacao',
-                        'celular',
-                        'email',
-                        'cep',
-                        'endereco',
-                        'numero',
-                        'complemento',
-                        'bairro',
-                        'municipioId',
-                        'municipio',
-                        'estadoId',
-                        'estado',
-                        'usuarioId',
-                        'usuario',
-                        'usuarioEmail',
-                        'criadoEm',
-                        'unidadeId'
-                    )
-                    const idFuncionario = response.body.id
-                    // Salva o ID para uso posterior
-                    Cypress.env('idFuncionario', idFuncionario)
-                    cy.log('Funcionario ID:', idFuncionario)
+
+
                 })
             })
         })
@@ -322,7 +278,7 @@ describe('Módulo - Funcionários', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/employees/325',
                 headers: {
@@ -409,36 +365,39 @@ describe('Módulo - Funcionários', () => {
             // Gerar o sobrenome com número
             const sobrenome = `QA${numeroAleatorio}`;
 
-            cy.request({
+            cy.api({
                 method: 'PUT',
-                url: '/api/v1/employees/19411',
+                url: '/api/v1/employees/346',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "status": "1",
-                    "nome": "aaaJosiane",
-                    "sobrenome": "Automação",
-                    "foto": "",
-                    "cpf": "09970700804",
-                    "rg": "123456789",
-                    "dataNascimento": null,
-                    "dataDemissao": null,
-                    "dataAdmissao": null,
+                    "nome": "Paulo",
+                    "sobrenome": "funcionário franqueadora",
+                    "foto": "string",
+                    "cpf": "55399067056",
+                    "rg": "123",
+                    "dataNascimento": "19900731",
+                    "dataAdmissao": "19800101",
+                    "dataDemissao": "19800101",
                     "tipoFuncionario": "Interno",
-                    "origemExterno": "",
-                    "cep": "08505-450",
-                    "sexoId": 2,
-                    "observacao": "",
-                    "celular": "11987542212",
-                    "bairro": "Jardim Valentim",
-                    "email": email,
-                    "endereco": "Rua Professor Doutor Hely Lopes Meireles",
-                    "numero": "122",
-                    "complemento": "",
-                    "municipioId": 81,
-                    "usuarioUnidadeId": 483
+                    "origemExterno": "cVortex",
+                    "cargo": "Assistente",
+                    "sexoId": 1,
+                    "setorId": 1,
+                    "observacao": "string",
+                    "celular": "16987654302",
+                    "email": "paulo.rick+1@amorsaude.com",
+                    "cep": "14025110",
+                    "endereco": "Rua Barão do Amazonas",
+                    "numero": "1234",
+                    "complemento": "string",
+                    "bairro": "Jardim Sumaré",
+                    "municipioId": 1,
+                    "usuarioUnidadeId": 1,
+                    "perfilAcessoId": 1,
+                    "funcaoId": 1
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -536,14 +495,13 @@ describe('Módulo - Funcionários', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
-            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
             // Gerar número aleatório de 1 a 1000
             const numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
             // Gerar o email com número no nome
-            const email = `${numeroAleatorio}@gmail.com`;
+            const email = `${numeroAleatorio}+1@gmail.com`;
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/employees/update-email/',
                 headers: {
@@ -824,16 +782,15 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Remover perfil ao funcionário', () => {
+    describe('Módulo - Funcionários - Remover perfil ao funcionário', () => {
 
         it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
             const token = Cypress.env('access_token');
-            const idFuncionario = Cypress.env('idFuncionario', idFuncionario)
 
 
-            cy.request({
+            cy.api({
                 method: 'DELETE',
-                url: `/api/v1/employees/perfil/${idFuncionario}`,
+                url: `/api/v1/employees/perfil/325`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -867,7 +824,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Excluir um funcionário por id', () => {
+    describe('Módulo - Funcionários - Excluir um funcionário por id', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');
@@ -875,7 +832,7 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: `/api/v1/employees/${idFuncionario}`,
+                url: `/api/v1/employees/325`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

@@ -7,7 +7,7 @@ describe('Módulo - Parcerias', () => {
     cy.refreshToken()
   });
 
-  describe('Módulo - Parcerias - All - Retorna uma lista de parceiros', () => {
+  describe.only('Módulo - Parcerias - All - Retorna uma lista de parceiros', () => {
 
     it('Validar retorno 200 - /api/v1/parcerias/all', () => {
 
@@ -47,7 +47,6 @@ describe('Módulo - Parcerias', () => {
       }).then((response) => {
         // Verificar se o status é 200
         expect(response.status).to.eq(401);
-        })
       })
     })
   })
@@ -57,7 +56,7 @@ describe('Módulo - Parcerias', () => {
     it('Validar retorno 200 - /api/v1/parcerias/parceiros', () => {
 
       const token = Cypress.env('access_token')
-      cy.request({
+      cy.api({
         method: 'GET',
         url: '/api/v1/parcerias/parceiros', // URL do seu endpoint
         headers: {
@@ -102,3 +101,5 @@ describe('Módulo - Parcerias', () => {
       })
     })
   })
+})
+

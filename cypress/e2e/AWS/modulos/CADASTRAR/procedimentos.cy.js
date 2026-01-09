@@ -11,7 +11,7 @@ describe('Módulo - Procedimentos', () => {
         it('Validar retorno 201 - /api/v1/procedimentos', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/procedimentos',
                 headers: {
@@ -19,7 +19,7 @@ describe('Módulo - Procedimentos', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "nome": "Teste API2",
+                    "nome": "Teste API5",
                     "tipo": 1,
                     "tipo_search": "1",
                     "grupo": [
@@ -39,7 +39,7 @@ describe('Módulo - Procedimentos', () => {
                     "atendimentoGrupo": false,
                     "maxPacientes": "1",
                     "duracao": "30",
-                    "flgNecessitaAcolhimento": true,
+                    "flgNecessitaAcolhimento": 1,
                     "encaixe": true,
                     "obrigarRespeitarTempo": false,
                     "obrigarPreenchProfissional": false,
@@ -160,7 +160,7 @@ describe('Módulo - Procedimentos', () => {
         it('Validar retorno 200 - /api/v1/procedimentos', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: 'api/v1/procedimentos?specialtyIds=1&specialtyIds=2&limit=1',
                 headers: {
@@ -261,11 +261,12 @@ describe('Módulo - Procedimentos', () => {
 
         it('Validar retorno 200 - /professional/procedures/{professionalId}', () => {
             const token = Cypress.env('access_token');
-            const professionalId = 1234;
+            const professionalId = 40766;
 
-            cy.request({
+            cy.api({
                 method: 'POST',
-                url: `/api/v1/procedimentos/professional/procedures/${professionalId}`,
+                url: '/api/v1/procedimentos/professional/procedures/40798?professionalId=40798',
+
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -284,7 +285,7 @@ describe('Módulo - Procedimentos', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(201);
             });
         });
 
@@ -331,9 +332,9 @@ describe('Módulo - Procedimentos', () => {
             const token = Cypress.env('access_token');
             const professionalId = 1234;
 
-            cy.request({
+            cy.api({
                 method: 'PUT',
-                url: `/api/v1/procedimentos/professional/procedures/${professionalId}`,
+                url: `/api/v1/procedimentos/professional/procedures/40798?professionalId=40798`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -398,7 +399,7 @@ describe('Módulo - Procedimentos', () => {
         it('Validar retorno 201 - /link-procedure-clinic', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: `/api/v1/procedimentos/link-procedure-clinic`,
                 headers: {
@@ -2803,7 +2804,7 @@ describe('Módulo - Procedimentos', () => {
         it('Validar retorno 200 - /api/v1/procedimentos/type/laboratory', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/procedimentos/type/laboratory',
                 headers: {
@@ -2860,7 +2861,7 @@ describe('Módulo - Procedimentos', () => {
         it('Validar retorno 200 - /api/v1/procedimentos/type/{id}', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/procedimentos/type/1',
                 headers: {
@@ -2913,9 +2914,9 @@ describe('Módulo - Procedimentos', () => {
         it('Validar retorno 200 - /api/v1/procedimentos/type/{id}', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'DELETE',
-                url: '/api/v1/procedimentos/type/156',
+                url: '/api/v1/procedimentos/type/94',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

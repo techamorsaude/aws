@@ -6,7 +6,7 @@ describe('Refresh Token', () => {
     cy.login()
   });
 
-  it('Validar retorno 201 - /api/v1/security/refresh-token', () => {
+  it.only('Validar retorno 201 - /api/v1/security/refresh-token', () => {
 
     const token = Cypress.env('access_token')
     

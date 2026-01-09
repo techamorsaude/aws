@@ -53,5 +53,8 @@
     "cross-env": "^10.0.0",
     "cypress": "^12.17.4",
     "rimraf": "^5.0.10"
+  },
+  "dependencies": {
+    "cypress-plugin-api": "^2.11.2"
   }
 }

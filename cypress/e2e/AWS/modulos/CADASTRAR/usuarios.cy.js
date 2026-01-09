@@ -11,7 +11,7 @@ describe('Módulo - Usuários', () => {
         it('Validar retorno 200 - /api/v1/user/current-user-info', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/user/current-user-info',
                 headers: {
@@ -456,7 +456,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe.only('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
+    describe('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
 
         it('Validar retorno 201 - /api/v1/user/recovery-password', () => {
             const token = Cypress.env('access_token');
@@ -523,7 +523,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe.only('Módulo - Usuários - Recuperar senha', () => {
+    describe('Módulo - Usuários - Recuperar senha', () => {
 
         it('Validar retorno 201 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');
@@ -568,7 +568,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe.only('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
+    describe('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');
