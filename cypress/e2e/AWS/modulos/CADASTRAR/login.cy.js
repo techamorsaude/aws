@@ -18,8 +18,7 @@ describe('Login', () => {
       expect(response.body).to.have.property('id')
       expect(response.body).to.have.property('email')
       expect(response.body).to.have.property('name')
-      expect(response.body).to.have.property('access_token')
-      
+      expect(response.body).to.have.property('access_token')    
       
       
 
@@ -32,7 +31,7 @@ describe('Login', () => {
 
   it('Validar retorno 400 - /api/v1/security/login', () => {
 
-    cy.request({
+    cy.api({
       method: 'POST',
       url: '/api/v1/security/login',
       body: {
@@ -46,7 +45,7 @@ describe('Login', () => {
   })
 
   it('Validar retorno 401 - /api/v1/security/login', () => {
-    cy.request({
+    cy.api({
       method: 'POST',
       url: '/api/v1/security/login',
       body: {

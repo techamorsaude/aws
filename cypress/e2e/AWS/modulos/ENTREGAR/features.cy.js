@@ -85,7 +85,7 @@ describe('Módulo - Features', () => {
     it('Validar retorno 200 - /api/v1/features', () => {
       const token = Cypress.env('access_token');
 
-      cy.request({
+      cy.api({
         method: 'GET',
         url: '/api/v1/features?idUnidade=483',
         headers: {
@@ -194,15 +194,15 @@ describe('Módulo - Features', () => {
       const token = Cypress.env('access_token')
       const idFeat = Cypress.env('idFeat')
 
-      cy.request({
+      cy.api({
         method: 'PATCH',
-        url: '/api/v1/features/206',
+        url: '/api/v1/features/144',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: {
-          "feature": "QA-1764168452029",
+          "feature": "QA-1764168452021",
           "isActive": 1,
           "defaultValueForNewUnits": 1
         },
@@ -271,7 +271,7 @@ describe('Módulo - Features', () => {
 
       cy.request({
         method: 'DELETE',
-        url: '/api/v1/features/206',
+        url: '/api/v1/features/144',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
