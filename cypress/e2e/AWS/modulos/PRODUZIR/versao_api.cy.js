@@ -275,7 +275,7 @@ describe('Módulo - Versão API', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(201);
+                expect(response.status).to.eq(401);
             })
         })
     })
