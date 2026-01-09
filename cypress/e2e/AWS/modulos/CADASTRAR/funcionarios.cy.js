@@ -411,34 +411,37 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/employees/19411',
+                url: '/api/v1/employees/346',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "status": "1",
-                    "nome": "aaaJosiane",
-                    "sobrenome": "Automação",
-                    "foto": "",
-                    "cpf": "09970700804",
-                    "rg": "123456789",
-                    "dataNascimento": null,
-                    "dataDemissao": null,
-                    "dataAdmissao": null,
+                    "nome": "Paulo",
+                    "sobrenome": "funcionário franqueadora",
+                    "foto": "string",
+                    "cpf": "55399067056",
+                    "rg": "123",
+                    "dataNascimento": "19900731",
+                    "dataAdmissao": "19800101",
+                    "dataDemissao": "19800101",
                     "tipoFuncionario": "Interno",
-                    "origemExterno": "",
-                    "cep": "08505-450",
-                    "sexoId": 2,
-                    "observacao": "",
-                    "celular": "11987542212",
-                    "bairro": "Jardim Valentim",
-                    "email": email,
-                    "endereco": "Rua Professor Doutor Hely Lopes Meireles",
-                    "numero": "122",
-                    "complemento": "",
-                    "municipioId": 81,
-                    "usuarioUnidadeId": 483
+                    "origemExterno": "cVortex",
+                    "cargo": "Assistente",
+                    "sexoId": 1,
+                    "setorId": 1,
+                    "observacao": "string",
+                    "celular": "16987654302",
+                    "email": "paulo.rick+1@amorsaude.com",
+                    "cep": "14025110",
+                    "endereco": "Rua Barão do Amazonas",
+                    "numero": "1234",
+                    "complemento": "string",
+                    "bairro": "Jardim Sumaré",
+                    "municipioId": 1,
+                    "usuarioUnidadeId": 1,
+                    "perfilAcessoId": 1,
+                    "funcaoId": 1
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -532,7 +535,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
+    describe.only('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
@@ -552,7 +555,7 @@ describe('Módulo - Funcionários', () => {
                 },
                 body: {
                     employeeId: 1271,
-                    newEmail: email
+                    newEmail: 'bruna.rosario+RECPROD@amorsaude.com' //email
                 },
                 failOnStatusCode: false
             }).then((response) => {
@@ -824,7 +827,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Remover perfil ao funcionário', () => {
+    describe('Módulo - Funcionários - Remover perfil ao funcionário', () => {
 
         it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
             const token = Cypress.env('access_token');
@@ -867,7 +870,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Excluir um funcionário por id', () => {
+    describe('Módulo - Funcionários - Excluir um funcionário por id', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');
