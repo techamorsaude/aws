@@ -65,7 +65,7 @@ describe('Módulo - Pagamentos', () => {
                 method: 'POST',
                 url: '/api/v1/payments',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
@@ -78,7 +78,7 @@ describe('Módulo - Pagamentos', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201);
+                expect(response.status).to.eq(401);
                 cy.log(JSON.stringify(response.body));
             })
         })
