@@ -1,8 +1,8 @@
-// Custom commands for appointment actions (agendamentos)
+// Comandos personalizados para ações de agendamento
 
 // Altera o status de um agendamento através da API /api/v1/change-appointment-status/{id}
 // Status disponíveis: 8 (Confirmado), 9 (Cancelado), 16 (Reagendado)
-// Usage: cy.changeAppointmentStatus(appointmentId, statusId, observacao, canalConfirmacaoId)
+// Uso: cy.changeAppointmentStatus(appointmentId, statusId, observacao, canalConfirmacaoId)
 Cypress.Commands.add('changeAppointmentStatus', (appointmentId = null, statusId = 9, observacao = '', canalConfirmacaoId = '') => {
   const token = Cypress.env('access_token')
 
@@ -72,13 +72,13 @@ Cypress.Commands.add('changeAppointmentStatus', (appointmentId = null, statusId 
 })
 
 // Cancela um agendamento (atalho para changeAppointmentStatus com statusId = 9)
-// Usage: cy.cancelAppointment(appointmentId, observacao, canalConfirmacaoId)
+// Uso: cy.cancelAppointment(appointmentId, observacao, canalConfirmacaoId)
 Cypress.Commands.add('cancelAppointment', (appointmentId = null, observacao = '', canalConfirmacaoId = '') => {
   return cy.changeAppointmentStatus(appointmentId, 9, observacao, canalConfirmacaoId)
 })
 
 // Consulta agendamentos por ID ou nome do paciente com paginação
-// Usage: cy.queryAppointments({ patientId, patientName, offSet = 1, limit = 10 })
+// Uso: cy.queryAppointments({ patientId, patientName, offSet = 1, limit = 10 })
 Cypress.Commands.add('queryAppointments', (params = {}) => {
   const token = Cypress.env('access_token')
   const patientId = params.patientId ?? ''
@@ -118,7 +118,7 @@ Cypress.Commands.add('queryAppointments', (params = {}) => {
 
 // Busca um slot disponível (status = "Livre") para uma grade de horários específica
 // Utiliza a API /api/v1/slots/list-slots-by-professional para localizar slots
-// Usage: cy.findFutureSlotForSchedule(payload)
+// Uso: cy.findFutureSlotForSchedule(payload)
 Cypress.Commands.add('findFutureSlotForSchedule', (payload) => {
   const clinic = payload.clinicaId ?? Cypress.env('defaultClinic') ?? 483
   const specialty = (payload.areasAtuacao && payload.areasAtuacao[0]) ?? Cypress.env('defaultSpecialty') ?? 616
@@ -263,7 +263,7 @@ Cypress.Commands.add('findFutureSlotForSchedule', (payload) => {
 })
 
 // Constrói payload de agendamento a partir de um slot encontrado + base do fixture
-// Usage: cy.buildAppointmentPayloadFromSlot(base, slot)
+// Uso: cy.buildAppointmentPayloadFromSlot(base, slot)
 Cypress.Commands.add('buildAppointmentPayloadFromSlot', (base = {}, slot = {}) => {
   // Helper para normalizar data para YYYYMMDD
   const normalizeDate = (d) => {
@@ -346,4 +346,324 @@ Cypress.Commands.add('buildAppointmentPayloadFromSlot', (base = {}, slot = {}) =
   return cy.wrap(appointment)
 })
 
+// Busca as informações de parcelas/pagamentos de um agendamento
+// Uso: cy.getAppointmentInfosParcelas(schedulingId)
+Cypress.Commands.add('getAppointmentInfosParcelas', (schedulingId, options = {}) => {
+  const token = Cypress.env('access_token')
+  const id = schedulingId ?? Cypress.env('lastCreatedAppointmentId')
+
+  if (!id) return cy.wrap({ status: 0, body: null, error: 'no-scheduling-id' })
+
+  return cy.request({
+    method: 'GET',
+    url: `/api/v1/appointments/infos-parcelas/${id}`,
+    headers: {
+      accept: '*/*',
+      Authorization: `Bearer ${token}`
+    },
+    failOnStatusCode: false,
+    timeout: options.timeout ?? 60000
+  })
+})
+
+// Asserções auxiliares para manter os specs mais limpos
+// Uso: cy.assertInfosParcelasBodyVazio(response.body)
+Cypress.Commands.add('assertInfosParcelasBodyVazio', (body) => {
+  if (body === null || body === undefined) return cy.wrap(body)
+
+  if (Array.isArray(body)) {
+    expect(body.length, 'Body deve ser um array vazio').to.eq(0)
+    return cy.wrap(body)
+  }
+
+  if (typeof body === 'string') {
+    expect(body.trim(), 'Body deve ser string vazia').to.eq('')
+    return cy.wrap(body)
+  }
+
+  if (typeof body === 'object') {
+    expect(Object.keys(body), 'Body deve ser objeto vazio').to.have.length(0)
+    return cy.wrap(body)
+  }
+
+  throw new Error('Formato de body inesperado para retorno vazio: ' + typeof body)
+})
+
+// Uso: cy.assertInfosParcelasBodyComPagamento(response.body)
+Cypress.Commands.add('assertInfosParcelasBodyComPagamento', (body) => {
+  expect(body, 'Body esperado como array de parcelas').to.be.an('array')
+  expect(body.length, 'Deve haver ao menos uma parcela').to.be.greaterThan(0)
+
+  body.forEach((item) => {
+    expect(item).to.have.property('parcelNumber')
+    expect(item).to.have.property('dueDate')
+    expect(item).to.have.property('totalValue')
+    expect(item).to.have.property('amountsPaid')
+    expect(item).to.have.property('parcels').to.be.an('array')
+
+    item.parcels.forEach((p) => {
+      expect(p).to.have.property('financialReleaseId')
+      expect(p).to.have.property('origemId')
+      expect(p).to.have.property('amountPaid')
+      expect(p).to.have.property('downloadedValue')
+      expect(p).to.have.property('paymentMethod')
+      expect(p).to.have.property('paymentDate')
+      expect(p).to.have.property('downloadedDate')
+    })
+  })
+
+  return cy.wrap(body)
+})
+
+// Realiza um pagamento para um agendamento
+// Endpoint: POST /api/v1/payments/
+// Uso: cy.createPaymentForAppointment(appointmentId, { valor, formaLiquidacaoId, unidadeId, dataPagamento })
+Cypress.Commands.add('createPaymentForAppointment', (appointmentId, options = {}) => {
+  const token = Cypress.env('access_token')
+  const unidadeId = options.unidadeId ?? Cypress.env('defaultClinic') ?? 483
+  const formaLiquidacaoId = options.formaLiquidacaoId ?? 1
+  const valor = options.valor ?? Cypress.env('valorPagamento') ?? 20
+  const hashPOS = options.hashPOS ?? 'XXXXXXXXXXX'
+  const quantidadeParcelas = options.quantidadeParcelas ?? 1
+  const ipClient = options.ipClient ?? ''
+
+  if (!appointmentId) {
+    throw new Error('createPaymentForAppointment: appointmentId é obrigatório')
+  }
+
+  const toYYYYMMDD = (d) => {
+    const yyyy = d.getFullYear()
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    return `${yyyy}${mm}${dd}`
+  }
+
+  const dataPagamento = options.dataPagamento ?? toYYYYMMDD(new Date())
+  const headersExtras = options.headersExtras ?? {}
+
+  return cy.request({
+    method: 'POST',
+    url: '/api/v1/payments',
+    headers: {
+      accept: '*/*',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      ...headersExtras,
+    },
+    body: {
+      unidadeId: Number(unidadeId),
+      agendamentoId: Number(appointmentId),
+      formaLiquidacaoId: Number(formaLiquidacaoId),      
+      valor: Number(valor),
+      dataPagamento,
+      hashPOS,
+      quantidadeParcelas: Number(quantidadeParcelas),
+    },
+    failOnStatusCode: false,
+    timeout: options.timeout ?? 90000,
+  }).then((resp) => {
+    if (resp.status >= 400) {
+      const msg = resp.body?.mensagem ?? resp.body?.message ?? resp.body?.error ?? ''
+      const details = resp.body ? ` Body: ${JSON.stringify(resp.body)}` : ''
+      throw new Error(`createPaymentForAppointment: falha HTTP ${resp.status}.${msg ? ` Mensagem: ${msg}.` : ''}${details}`)
+    }
+    return cy.wrap(resp)
+  })
+})
+
+// Aguarda o endpoint infos-parcelas retornar body não vazio (após pagamento)
+// Uso: cy.waitForInfosParcelasComPagamento(appointmentId)
+Cypress.Commands.add('waitForInfosParcelasComPagamento', (appointmentId, options = {}) => {
+  const retries = options.retries ?? 10
+  const delayMs = options.delayMs ?? 2000
+
+  const hasNonEmptyBody = (body) => {
+    if (body === null || body === undefined) return false
+    if (Array.isArray(body)) return body.length > 0
+    if (typeof body === 'string') return body.trim().length > 0
+    if (typeof body === 'object') return Object.keys(body).length > 0
+    return false
+  }
+
+  const attempt = (n) => {
+    return cy.getAppointmentInfosParcelas(appointmentId, { timeout: options.timeout ?? 60000 }).then((resp) => {
+      if (resp.status === 200 && hasNonEmptyBody(resp.body)) return cy.wrap(resp)
+      if (n >= retries) return cy.wrap(resp)
+      return cy.wait(delayMs).then(() => attempt(n + 1))
+    })
+  }
+
+  return attempt(0)
+})
+
+// Cria um agendamento usando os fixtures (schedule.json + appointment.json)
+// e retorna { appointmentId, scheduleId, slot }
+// Uso: cy.createAppointmentFromFixtures()
+Cypress.Commands.add('createAppointmentFromFixtures', (options = {}) => {
+  const headersExtras = options.headersExtras ?? {}
+  const valorTotalOverride = options.valorTotal
+
+  return cy.fixture('schedule.json').then((baseGrade) => {
+    return cy.formatSchedulePayload(baseGrade).then((payloadGrade) => {
+      return cy.attemptCreateSchedule(payloadGrade).then(() => {
+        return cy.findFutureSlotForSchedule(payloadGrade).then((slot) => {
+          expect(slot, 'Slot disponível encontrado').to.exist
+
+          return cy.findScheduleIdForProfessional(payloadGrade).then((gradeEncontrada) => {
+            const scheduleId = gradeEncontrada ? (gradeEncontrada.id ?? gradeEncontrada.scheduleId ?? gradeEncontrada.idSchedule) : null
+            expect(scheduleId, 'scheduleId encontrado').to.exist
+            Cypress.env('foundScheduleId', scheduleId)
+
+            return cy.fixture('appointment.json').then((templateAgendamento) => {
+              return cy.buildAppointmentPayloadFromSlot(baseGrade, slot).then((agendamentoDoSlot) => {
+                const agendamento = { ...templateAgendamento, ...agendamentoDoSlot }
+                if (slot.id) agendamento.slotId = slot.id
+                agendamento.scheduleId = scheduleId
+
+                if (valorTotalOverride !== undefined && valorTotalOverride !== null) {
+                  const v = Number(valorTotalOverride)
+                  agendamento.valorTotal = String(v)
+                  if (Array.isArray(agendamento.agendamentosProcedimentos) && agendamento.agendamentosProcedimentos[0]) {
+                    agendamento.agendamentosProcedimentos[0].valor = v
+                  }
+                }
+
+                const token = Cypress.env('access_token')
+
+                return cy.request({
+                  method: 'POST',
+                  url: '/api/v1/appointments',
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    origin: 'http://localhost:4200',
+                    referer: 'http://localhost:4200/',
+                    devicetype: 'desktop',
+                    ostype: 'windows',
+                    browser: 'chrome',
+                    unitidfromoperator: String(baseGrade.clinicaId ?? 483),
+                    unitnamefromoperator: 'Unidade Teste',
+                    useridfromoperator: String(Cypress.env('useridfromoperator') ?? 1988),
+                    ...headersExtras
+                  },
+                  body: agendamento,
+                  failOnStatusCode: false,
+                  timeout: options.timeout ?? 60000
+                }).then((respCreate) => {
+                  expect([200, 201], 'Status esperado ao criar agendamento').to.include(respCreate.status)
+
+                  const appointmentId = respCreate.body?.id ?? respCreate.body?.agendamentoId
+                  expect(appointmentId, 'appointmentId criado').to.exist
+                  Cypress.env('lastCreatedAppointmentId', appointmentId)
+
+                  return cy.wrap({ appointmentId, scheduleId, slot })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+  })
+})
+
+// Procura um agendamento que já possua pagamentos/parcelas registradas no endpoint infos-parcelas
+// Útil para ambientes com dados reais quando não há um endpoint de pagamento disponível para o teste
+// Uso: cy.findAppointmentIdComPagamento({ patientId, offSet, limit })
+Cypress.Commands.add('findAppointmentIdComPagamento', (options = {}) => {
+  const schedulingIdFromEnv = options.schedulingId ?? Cypress.env('schedulingIdComPagamento')
+  if (schedulingIdFromEnv) return cy.wrap(schedulingIdFromEnv)
+
+  const patientId = options.patientId ?? Cypress.env('pacienteId') ?? 73749
+  const offSet = options.offSet ?? 1
+  const limit = options.limit ?? 25
+  const allowNotFound = options.allowNotFound ?? false
+
+  const extractId = (item) => {
+    if (!item) return null
+    return item.id ?? item.appointmentId ?? item.agendamentoId ?? item.schedulingId ?? item.idAgendamento ?? null
+  }
+
+  const hasNonEmptyBody = (body) => {
+    if (body === null || body === undefined) return false
+    if (Array.isArray(body)) return body.length > 0
+    if (typeof body === 'string') return body.trim().length > 0
+    if (typeof body === 'object') return Object.keys(body).length > 0
+    return false
+  }
+
+  return cy.queryAppointments({ patientId, offSet, limit }).then((resp) => {
+    if (resp.status !== 200) {
+      throw new Error(`findAppointmentIdComPagamento: falha ao consultar agendamentos. status=${resp.status}`)
+    }
+
+    const items = resp.body?.items ?? []
+    if (!Array.isArray(items) || items.length === 0) {
+      if (allowNotFound) return cy.wrap(null)
+      throw new Error('findAppointmentIdComPagamento: nenhum agendamento encontrado para o paciente informado')
+    }
+
+    const ids = items.map(extractId).filter(Boolean)
+    if (ids.length === 0) {
+      if (allowNotFound) return cy.wrap(null)
+      throw new Error('findAppointmentIdComPagamento: não foi possível extrair IDs dos agendamentos retornados')
+    }
+
+    const tryAt = (idx) => {
+      if (idx >= ids.length) return cy.wrap(null)
+      const id = ids[idx]
+
+      return cy.getAppointmentInfosParcelas(id).then((r) => {
+        if (r.status === 200 && hasNonEmptyBody(r.body)) return cy.wrap(id)
+        return tryAt(idx + 1)
+      })
+    }
+
+    return tryAt(0).then((foundId) => {
+      if (!foundId) {
+        if (allowNotFound) return cy.wrap(null)
+        throw new Error('findAppointmentIdComPagamento: não encontrou nenhum agendamento com pagamento. Se preferir, defina Cypress.env("schedulingIdComPagamento") com um ID válido.')
+      }
+      return cy.wrap(foundId)
+    })
+  })
+})
+
 module.exports = {}
+// Consulta pacientes por profissional
+// Endpoint: GET /api/v1/appointments/patients/professional/{professionalId}
+// Uso: cy.getPatientsByProfessional({ professionalId, patient, limit })
+Cypress.Commands.add('getPatientsByProfessional', (params = {}) => {
+  const token = Cypress.env('access_token')
+  const professionalId = params.professionalId ?? Cypress.env('defaultProfessional') ?? 2155
+  const patient = params.patient ?? ''
+  const limit = params.limit ?? 10
+
+  // Monta path + query mantendo o professionalId nos dois, como no curl
+  const basePath = `/api/v1/appointments/patients/professional/${encodeURIComponent(professionalId)}`
+  const query = `professionalId=${encodeURIComponent(professionalId)}${patient ? `&patient=${encodeURIComponent(patient)}` : ''}&limit=${encodeURIComponent(limit)}`
+  const url = `${basePath}?${query}`
+
+  return cy.request({
+    method: 'GET',
+    url,
+    headers: {
+      accept: '*/*',
+      Authorization: `Bearer ${token}`,
+    },
+    failOnStatusCode: false,
+    timeout: params.timeout ?? 60000,
+  })
+})
+
+// Asserção flexível para resposta de pacientes por profissional
+// Aceita array direto ou objeto com items[]
+Cypress.Commands.add('assertPatientsByProfessionalBody', (body) => {
+  if (Array.isArray(body)) return cy.wrap(body)
+  if (body && typeof body === 'object') {
+    if (Array.isArray(body.items)) return cy.wrap(body.items)
+    // Permite objetos vazios
+    return cy.wrap(body)
+  }
+  throw new Error('Formato de body inesperado para pacientes por profissional')
+})

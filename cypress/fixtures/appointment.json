@@ -10,7 +10,7 @@
   "interval": 10,
   "encaixe": false,
   "retorno": false,
-  "parceiroId": { "id": 41 },
+  "parceiroId": { "id": 42 },
   "canalId": { "id": 3 },
   "observacao": "",
   "enviarSms": true,

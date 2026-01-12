@@ -22,6 +22,30 @@ Cypress.Commands.add('login', () => {
   })
 })
 
+// Comando de login - gera o token inicial
+Cypress.Commands.add('loginPedro', () => {
+  return cy.request({
+    method: 'POST',
+    url: '/api/v1/security/login',
+    body: {
+      email: 'pedro.castelani+8@amorsaude.com',
+      password: 'Amor@100'
+    }
+  }).then((response) => {
+    // load date/time schedule helpers and commands
+    try {
+      require('./dataEHora')
+      try { require('./agendamentos') } catch (e) {}
+    } catch (e) {
+      // ignore if file missing during partial edits
+    }
+
+    // Salva o token inicial globalmente
+    Cypress.env('access_token', response.body.access_token)
+    return response
+  })
+})
+
 // Comando de refresh token - atualiza o token
 Cypress.Commands.add('refreshToken', () => {
   const token = Cypress.env('access_token')

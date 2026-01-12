@@ -1,4 +1,4 @@
-// Custom commands and helpers for schedule/date-time management
+// Comandos personalizados e utilitários para gerenciamento de agenda/data-hora
 
 const hhmmToMinutes = (hhmm) => {
 	const [hh, mm] = String(hhmm).split(':').map(Number)
@@ -32,9 +32,9 @@ const parseYYYYMMDD = (s) => {
 const parseDateString = (s) => {
 	if (!s) return null
 	const str = String(s).trim()
-	// YYYYMMDD
+	// Formato YYYYMMDD
 	if (/^\d{8}$/.test(str)) return parseYYYYMMDD(str)
-	// DD/MM/YYYY or D/M/YYYY
+	// DD/MM/AAAA ou D/M/AAAA
 	if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(str)) {
 		const parts = str.split('/')
 		const d = Number(parts[0])
@@ -44,7 +44,7 @@ const parseDateString = (s) => {
 		dt.setHours(0, 0, 0, 0)
 		return dt
 	}
-	// try Date parse as fallback
+	// Tentar parse de Date como alternativa (fallback)
 	const dt = new Date(str)
 	if (isNaN(dt.getTime())) return null
 	dt.setHours(0, 0, 0, 0)
@@ -54,7 +54,7 @@ const parseDateString = (s) => {
 const getWeekRangeContaining = (date) => {
 	const d = new Date(date)
 	d.setHours(0, 0, 0, 0)
-	// get Sunday (0) as start
+	// Obter domingo (0) como início
 	const day = d.getDay()
 	const sunday = new Date(d)
 	sunday.setDate(d.getDate() - day)
@@ -101,7 +101,7 @@ const formatHHMM = (d) => {
 	return `${hh}:${mm}`
 }
 
-// Helper to compute horaTermino from horaInicio, tempo and slotsCount
+// Auxiliar para calcular horaTermino a partir de horaInicio, tempo e slotsCount
 const computeHoraTerminoFromSlots = (horaInicio, tempo, slotsCount) => {
 	const [hh, mm] = String(horaInicio).split(':').map(Number)
 	const d = new Date()
@@ -111,73 +111,73 @@ const computeHoraTerminoFromSlots = (horaInicio, tempo, slotsCount) => {
 	return `${pad(d.getHours())}:${pad(d.getMinutes())}`
 }
 
-// Expose a Cypress command for convenience in specs
+// Expõe um comando do Cypress para conveniência nos testes
 Cypress.Commands.add('computeHoraTerminoFromSlots', (horaInicio, tempo, slotsCount) => {
 	return cy.wrap(computeHoraTerminoFromSlots(horaInicio, tempo, slotsCount))
 })
 
-// Format and validate a schedule payload
+// Formatar e validar um payload de agenda
 Cypress.Commands.add('formatSchedulePayload', (base = {}, opts = {}) => {
 	const envStart = opts.start ?? Cypress.env('scheduleStart')
 	const envEnd = opts.end ?? Cypress.env('scheduleEnd')
 
-	// Default start: NOW + 30 minutes (not start of day), to ensure schedule is always in the future
+	// Início padrão: AGORA + 30 minutos (não início do dia), garantindo que a agenda esteja no futuro
 	const now = new Date()
 	const futureStart = addMinutesToDate(now, 30)
 	const defaultStart = roundToNextMultiple10(futureStart)
 
-	// If base.diaInicio is provided, use it; otherwise use defaultStart (now+30 rounded)
-	// If envStart is provided, use it as override
+	// Se base.diaInicio for fornecido, usar; caso contrário, usar defaultStart (agora+30 arredondado)
+	// Se envStart for fornecido, usá-lo como sobrescrita
 	const start = parseYYYYMMDD(base.diaInicio) ?? parseYYYYMMDD(envStart) ?? defaultStart
 	const end = parseYYYYMMDD(base.diaTermino) ?? parseYYYYMMDD(envEnd) ?? start
 
-	// If the test provided explicit diaInicio/diaTermino in the fixture/base, prefer those
+	// Se o teste fornecer diaInicio/diaTermino explícitos no fixture/base, priorizar esses valores
 	const startForDias = parseYYYYMMDD(base.diaInicio) ?? start
 	const endForDias = parseYYYYMMDD(base.diaTermino) ?? end
 
-	// allow tests to override diasSemana via base.diasSemana
-	// Default behaviour: use only the weekday of `diaInicio` (single-day schedule)
-	// If a caller explicitly wants the full range of weekdays covered by diaInicio..diaTermino,
-	// set `base.forceDiasSemanaRange = true` or pass `opts.useRange = true`.
+	// Permitir que os testes sobrescrevam diasSemana via base.diasSemana
+	// Comportamento padrão: usar apenas o dia da semana de diaInicio (agenda de um dia)
+	// Se o chamador quiser explicitamente todo o intervalo de dias coberto por diaInicio..diaTermino,
+	// defina base.forceDiasSemanaRange = true ou passe opts.useRange = true.
 	let diasSemana
-	// If the test explicitly provided diasSemana and marked it as intentional (diasSemanaExplicit=true), respect it.
-	// Otherwise, ignore any provided array in `base.diasSemana` and compute a coherent default based on the date range.
+	// Se o teste forneceu diasSemana intencionalmente (diasSemanaExplicit=true), respeitar.
+	// Caso contrário, ignorar qualquer array em base.diasSemana e calcular um padrão coerente com base no intervalo de datas.
 	if (Array.isArray(base.diasSemana) && (base.diasSemanaExplicit === true || base.forceDiasSemanaProvided === true || opts.useProvidedDiasSemana === true)) {
 		diasSemana = base.diasSemana
 	} else if (base.forceDiasSemanaRange === true || opts.useRange === true) {
-		// compute full weekday range from diaInicio..diaTermino (prefer base values if provided)
+		// Calcular todo o intervalo de dias úteis de diaInicio..diaTermino (preferir valores de base se fornecidos)
 		diasSemana = computeDaysOfWeek(startForDias, endForDias)
 	} else {
-		// default: single weekday corresponding to diaInicio (prefer base.diaInicio if provided)
-		// startForDias is already a Date object, no need to wrap in new Date()
+		// Padrão: único dia da semana correspondente a diaInicio (preferir base.diaInicio se fornecido)
+		// startForDias já é um objeto Date; não é necessário encapsular em new Date()
 		const wk = startForDias.getDay()
 		diasSemana = [wk]
 		if (Array.isArray(base.diasSemana) && base.diasSemana.length > 0) {
-			// inform that provided diasSemana was ignored in favor of coherent default
+			// Informar que o diasSemana fornecido foi ignorado em favor de um padrão coerente
 			cy.log('formatSchedulePayload: provided base.diasSemana ignored; using diaInicio weekday by default. To keep provided diasSemana set base.diasSemanaExplicit=true')
 		}
 	}
 
-	// horaInicio: respect base.horaInicio when provided, otherwise use NOW+30min rounded
+	// horaInicio: respeitar base.horaInicio quando fornecido; caso contrário, usar AGORA+30min arredondado
 	let horaInicioDate
 	if (base.horaInicio) {
-		// if base.horaInicio provided as string "HH:MM", parse into Date on 'start' day
+		// Se base.horaInicio for uma string "HH:MM", converter para Date no dia 'start'
 		const parts = String(base.horaInicio).split(':').map(Number)
 		const hiDate = new Date(start)
 		hiDate.setHours(parts[0] || 0, parts[1] || 0, 0, 0)
 		horaInicioDate = roundToNextMultiple10(hiDate)
 	} else {
-		// Always use defaultStart (now+30 rounded) when horaInicio not explicitly provided
+		// Sempre usar defaultStart (agora+30 arredondado) quando horaInicio não for explicitamente fornecido
 		horaInicioDate = new Date(defaultStart)
 	}
 
-	// tempo: allow override in test via base.tempo (minutes). default 10
+	// tempo: permitir sobrescrita no teste via base.tempo (minutos). padrão 10
 	const tempo = Number(base.tempo ?? opts.tempo ?? 10)
 
-	// slotsCount: allow override in test via base.slotsCount. default 1
+	// slotsCount: permitir sobrescrita no teste via base.slotsCount. padrão 1
 	const slotsCount = Number(base.slotsCount ?? opts.slotsCount ?? 1)
 
-	// horaTermino: respect base.horaTermino when provided (string "HH:MM" or Date), otherwise calculate from slotsCount
+	// horaTermino: respeitar base.horaTermino quando fornecido (string "HH:MM" ou Date); caso contrário, calcular a partir de slotsCount
 	let horaTerminoDate
 	if (base.horaTermino) {
 		if (typeof base.horaTermino === 'string') {
@@ -188,11 +188,11 @@ Cypress.Commands.add('formatSchedulePayload', (base = {}, opts = {}) => {
 		} else if (base.horaTermino instanceof Date) {
 			horaTerminoDate = roundToNextMultiple10(new Date(base.horaTermino))
 		} else {
-			// unknown format — fallback to horaInicio + (tempo * slotsCount)
+			// Formato desconhecido — usar horaInicio + (tempo * slotsCount) como fallback
 			horaTerminoDate = roundToNextMultiple10(addMinutesToDate(horaInicioDate, tempo * slotsCount))
 		}
 	} else {
-		// default: use slotsCount to calculate horaTermino (horaInicio + tempo * slotsCount)
+		// Padrão: usar slotsCount para calcular horaTermino (horaInicio + tempo * slotsCount)
 		horaTerminoDate = roundToNextMultiple10(addMinutesToDate(horaInicioDate, tempo * slotsCount))
 	}
 
@@ -202,14 +202,14 @@ Cypress.Commands.add('formatSchedulePayload', (base = {}, opts = {}) => {
 		diasSemana,
 		horaInicio: formatHHMM(horaInicioDate),
 		horaTermino: formatHHMM(horaTerminoDate),
-		tempo, // ensure tempo present
-		slotsCount // ensure slotsCount present
+		tempo, // garantir que tempo esteja presente
+		slotsCount // garantir que slotsCount esteja presente
 	})
 
 	return cy.wrap(payload)
 })
 
-// Attempt to create a schedule with retry logic on duplicate/conflict errors
+// Tentar criar uma agenda com lógica de repetição para erros de duplicidade/conflito
 Cypress.Commands.add('attemptCreateSchedule', (payload, options = {}) => {
 	const token = Cypress.env('access_token')
 	const url = '/api/v1/schedule'
@@ -220,39 +220,39 @@ Cypress.Commands.add('attemptCreateSchedule', (payload, options = {}) => {
 	const tryOnce = (p) => {
 		attempt++
 		return cy.request({ method: 'POST', url, headers: { Authorization: `Bearer ${token}` }, body: p, failOnStatusCode: false }).then((resp) => {
-			// log request attempt
+			// Registrar tentativa de requisição
 			cy.log(`attemptCreateSchedule: attempt=${attempt} status=${resp.status}`)
 			cy.log('request body: ' + JSON.stringify(p))
 			cy.log('response body: ' + JSON.stringify(resp.body))
 
-			// success with id
+			// Sucesso com id
 			if (resp.status === 201 || resp.status === 200) {
 						const id = resp.body?.id ?? resp.body?.data?.id ?? resp.body?.result?.id
 						if (id) {
-							// record created schedule id for cleanup later
+							// Registrar id de agenda criada para limpeza posterior
 							try {
 								const prev = Cypress.env('createdScheduleIds') || []
 								prev.push(id)
 								Cypress.env('createdScheduleIds', prev)
-								// set helpful env markers so deleteScheduleIfExists can find this id
+								// Definir marcadores de ambiente úteis para que deleteScheduleIfExists encontre este id
 								Cypress.env('foundScheduleId', id)
 								Cypress.env('lastScheduleCreate', resp.body ?? { id })
 							} catch (e) {}
 							return cy.wrap({ success: true, id, resp })
 						}
 
-				// API sometimes returns 201 without id (message only).
-				// Try to find the schedule by querying professional schedules.
+				// A API às vezes retorna 201 sem id (apenas mensagem).
+				// Tentar localizar a agenda consultando agendas do profissional.
 				return cy.findScheduleForProfessional(p).then((found) => {
 						if (found) {
 							const foundId = found.id ?? found.scheduleId ?? found.idSchedule
 							if (foundId) {
-								// record found id as created by this run (best-effort)
+								// Registrar id encontrado como criado nesta execução (best-effort)
 								try {
 									const prev = Cypress.env('createdScheduleIds') || []
 									prev.push(foundId)
 									Cypress.env('createdScheduleIds', prev)
-									// set env markers for convenience
+									// Definir marcadores de ambiente por conveniência
 									Cypress.env('foundScheduleId', foundId)
 									Cypress.env('lastScheduleCreate', found)
 								} catch (e) {}
@@ -267,46 +267,46 @@ Cypress.Commands.add('attemptCreateSchedule', (payload, options = {}) => {
 				})
 			}
 
-			// client errors often indicate conflicts/duplicates or validation issues (e.g., diasSemana mismatch)
+			// Erros de cliente geralmente indicam conflitos/duplicidades ou problemas de validação (ex.: diasSemana divergente)
 			if (resp.status >= 400 && resp.status < 500) {
 				if (attempt >= maxAttempts) {
 					cy.log('attemptCreateSchedule: client error and exhausted attempts; status=' + resp.status)
 					cy.log('response body: ' + JSON.stringify(resp.body))
-					// optional debug write when enabled via env
+					// Escrita de depuração opcional quando habilitada via env
 					try {
 						if (Cypress.env('enableScheduleDebug')) {
 							const fname = `cypress/results/schedule-debug-${Date.now()}.json`
 							cy.writeFile(fname, { attempt, request: p, response: resp.body })
 						}
 					} catch (e) {
-						// ignore write errors
+						// Ignorar erros de escrita
 					}
 					return cy.wrap({ success: false, resp })
 				}
 
-				// Strategy: try later times on the same day by advancing horaInicio by 10min steps.
-				// If we cross midnight, advance diaInicio/diaTermino by one day and recompute diasSemana to match.
+				// Estratégia: tentar horários posteriores no mesmo dia, avançando horaInicio em passos de 10min.
+				// Se cruzar a meia-noite, avançar diaInicio/diaTermino em um dia e recomputar diasSemana.
 				const p2 = JSON.parse(JSON.stringify(p))
 				const hi = p2.horaInicio ?? '00:00'
 				let minutes = hhmmToMinutes(hi)
 				const tempo = Number(p2.tempo ?? 10)
 
-				// advance by 10 minutes (configurable via options.stepMinutes)
+				// Avançar 10 minutos (configurável via options.stepMinutes)
 				const step = Number(options.stepMinutes ?? 10)
 				minutes += step
 
-				// if we crossed to next day, roll hour and increment diaInicio/diaTermino
+				// Se cruzar para o dia seguinte, ajustar hora e incrementar diaInicio/diaTermino
 				let incrementedDay = false
 				if (minutes >= 24 * 60) {
 					minutes = minutes % (24 * 60)
-					// bump diaInicio and diaTermino by 1 day (if they exist)
+					// Incrementar diaInicio e diaTermino em 1 dia (se existirem)
 					const curStart = parseYYYYMMDD(p2.diaInicio) ?? new Date()
 					const curEnd = parseYYYYMMDD(p2.diaTermino) ?? curStart
 					const newStart = addMinutesToDate(curStart, 24 * 60)
 					const newEnd = addMinutesToDate(curEnd, 24 * 60)
 					p2.diaInicio = toYYYYMMDD(newStart)
 					p2.diaTermino = toYYYYMMDD(newEnd)
-					// recompute diasSemana to keep coherence with the new date
+					// Recalcular diasSemana para manter coerência com a nova data
 					try {
 						p2.diasSemana = computeDaysOfWeek(newStart, newEnd)
 					} catch (e) {
@@ -316,18 +316,18 @@ Cypress.Commands.add('attemptCreateSchedule', (payload, options = {}) => {
 				}
 
 				p2.horaInicio = minutesToHHMM(minutes)
-				// compute horaTermino as horaInicio + tempo, but keep within day boundaries
+				// Calcular horaTermino como horaInicio + tempo, mantendo dentro dos limites do dia
 				let termMinutes = minutes + tempo
 				if (termMinutes >= 24 * 60) termMinutes = (termMinutes % (24 * 60))
 				p2.horaTermino = minutesToHHMM(termMinutes)
 
 				cy.log('attemptCreateSchedule: client error, retrying with adjusted payload', { attempt, horaInicio: p2.horaInicio, diaInicio: p2.diaInicio, diasSemana: p2.diasSemana })
-				// small backoff when we increment day to allow backend to process prior changes
+				// Pequeno atraso quando incrementamos o dia para permitir que o backend processe alterações anteriores
 				const waitMs = incrementedDay ? 1500 : 600
 				return cy.wait(waitMs).then(() => tryOnce(p2))
 			}
 
-			// server errors: retry a few times
+			// Erros de servidor: tentar novamente algumas vezes
 			if (resp.status >= 500) {
 				if (attempt < maxAttempts) {
 					cy.log('attemptCreateSchedule: server error, will retry, status=' + resp.status)
@@ -347,7 +347,7 @@ Cypress.Commands.add('attemptCreateSchedule', (payload, options = {}) => {
 	return tryOnce(payload)
 })
 
-// convenience: wrap formatting + create in one command
+// Conveniência: agrupar formatação + criação em um único comando
 Cypress.Commands.add('createScheduleWithFormatting', (base, options = {}) => {
 	return cy.formatSchedulePayload(base, options).then((payload) => cy.attemptCreateSchedule(payload, options))
 })
@@ -356,13 +356,13 @@ Cypress.Commands.add('createScheduleWithFormatting', (base, options = {}) => {
 // NOTA: Comando findFutureSlotForSchedule foi movido para cypress/support/agendamentos.js
 // pois está relacionado à lógica de agendamentos, não de manipulação de datas/horários
 
-// Find a schedule for a professional within the date range that matches horaInicio/horaTermino
+// Encontrar uma agenda de um profissional no intervalo que corresponda a horaInicio/horaTermino
 Cypress.Commands.add('findScheduleForProfessional', (payload) => {
 	const professional = payload.profissionalId ?? Cypress.env('defaultProfessional') ?? 2155
 	const token = Cypress.env('access_token')
 	const url = `/api/v1/schedule/professional/${professional}`
 
-	// Prefer query params: ?diaInicio=YYYYMMDD&diaTermino=YYYYMMDD
+	// Preferir parâmetros de consulta: ?diaInicio=YYYYMMDD&diaTermino=YYYYMMDD
 	const qp = `?diaInicio=${payload.diaInicio}&diaTermino=${payload.diaTermino}`
 	const urlWithQs = url + qp
 
@@ -371,7 +371,7 @@ Cypress.Commands.add('findScheduleForProfessional', (payload) => {
 		if (resp.status !== 200) return cy.wrap(null)
 		const list = resp.body?.data ?? resp.body ?? []
 
-		// try to find schedule matching horaInicio/horaTermino
+		// Tentar encontrar agenda que corresponda a horaInicio/horaTermino
 		for (const s of list) {
 			const hi = String(s.horaInicio ?? s.start ?? '')
 			const ht = String(s.horaTermino ?? s.end ?? '')
@@ -381,13 +381,13 @@ Cypress.Commands.add('findScheduleForProfessional', (payload) => {
 			}
 		}
 
-		// fallback: return first element if any
+		// Alternativa: retornar o primeiro elemento, se existir
 		if (Array.isArray(list) && list.length > 0) return cy.wrap(list[0])
 		return cy.wrap(null)
 	})
 })
 
-// New helper: find schedule id via professional schedules endpoint (returns schedule object or null)
+// Novo auxiliar: localizar id de agenda via endpoint de agendas do profissional (retorna objeto de agenda ou null)
 Cypress.Commands.add('findScheduleIdForProfessional', (payload) => {
 	const professional = payload.profissionalId ?? Cypress.env('defaultProfessional') ?? 2155
 	const token = Cypress.env('access_token')
@@ -398,7 +398,7 @@ Cypress.Commands.add('findScheduleIdForProfessional', (payload) => {
 		if (resp.status !== 200) return cy.wrap(null)
 		const list = resp.body?.data ?? resp.body ?? []
 		if (!Array.isArray(list) || list.length === 0) return cy.wrap(null)
-		// prefer first element that looks like a schedule
+		// Preferir o primeiro elemento que pareça uma agenda
 		const found = list.find(s => s && (s.id || s.scheduleId || s.idSchedule)) || list[0]
 		return cy.wrap(found)
 	})
@@ -407,7 +407,7 @@ Cypress.Commands.add('findScheduleIdForProfessional', (payload) => {
 // NOTA: Comando buildAppointmentPayloadFromSlot foi movido para cypress/support/agendamentos.js
 // pois está relacionado à construção de payload de agendamentos
 
-// export helpers for direct require usage if needed
+// Exportar auxiliares para uso direto via require, se necessário
 module.exports = {
 	toYYYYMMDD,
 	parseYYYYMMDD,
@@ -418,11 +418,11 @@ module.exports = {
 	computeHoraTerminoFromSlots
 }
 
-// Simple: delete a single schedule by id (idArg) or by env markers (foundScheduleId or lastScheduleCreate.id)
+// Simples: excluir uma única agenda por id (idArg) ou por marcadores de ambiente (foundScheduleId ou lastScheduleCreate.id)
 Cypress.Commands.add('deleteScheduleIfExists', (idArg = null) => {
 	const token = Cypress.env('access_token')
 	let envId = idArg ?? Cypress.env('foundScheduleId') ?? (Cypress.env('lastScheduleCreate') && Cypress.env('lastScheduleCreate').id) ?? null
-	// fallback: if no explicit env id, try the last recorded createdScheduleIds entry
+	// Alternativa: se não houver id explícito no ambiente, tentar o último registro em createdScheduleIds
 	if (!envId) {
 		try {
 			const arr = Cypress.env('createdScheduleIds') || []
@@ -430,16 +430,16 @@ Cypress.Commands.add('deleteScheduleIfExists', (idArg = null) => {
 				envId = arr[arr.length - 1]
 			}
 		} catch (e) {
-			// ignore
+			// Ignorar
 		}
 	}
 	if (!envId) return cy.wrap({ deleted: false, reason: 'no-id' })
 
 	return cy.request({ method: 'DELETE', url: `/api/v1/schedule/${envId}`, headers: { Authorization: `Bearer ${token}` }, failOnStatusCode: false }).then((resp) => {
-		// clear convenience markers
+		// Limpar marcadores de conveniência
 		try { Cypress.env('foundScheduleId', null) } catch (e) {}
 		try { Cypress.env('lastScheduleCreate', null) } catch (e) {}
-		// remove from createdScheduleIds if present
+		// Remover de createdScheduleIds se presente
 		try {
 			const arr = Cypress.env('createdScheduleIds') || []
 			const filtered = Array.isArray(arr) ? arr.filter(i => i !== envId) : []
@@ -449,7 +449,7 @@ Cypress.Commands.add('deleteScheduleIfExists', (idArg = null) => {
 	})
 })
 
-// Enhanced: delete all schedules that were created during the test run
+// Aprimorado: excluir todas as agendas criadas durante a execução do teste
 Cypress.Commands.add('deleteAllCreatedSchedules', (opts = {}) => {
 	const token = Cypress.env('access_token')
 	const ids = Cypress.env('createdScheduleIds') || []
@@ -468,7 +468,7 @@ Cypress.Commands.add('deleteAllCreatedSchedules', (opts = {}) => {
 			return deleteOne(idx + 1)
 		}
 		return cy.request({ method: 'DELETE', url: `/api/v1/schedule/${id}`, headers: { Authorization: `Bearer ${token}` }, failOnStatusCode: false }).then((dresp) => {
-			// if delete fails (e.g., schedule has appointments), record and continue
+			// Se a exclusão falhar (ex.: agenda possui atendimentos), registrar e continuar
 			results.push({ id, status: dresp.status, body: dresp.body })
 			return cy.wait(200).then(() => deleteOne(idx + 1))
 		}).catch((err) => {

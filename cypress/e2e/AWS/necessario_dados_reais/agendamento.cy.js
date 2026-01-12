@@ -3,7 +3,7 @@
 describe('Módulo - Agendamentos', () => {
     beforeEach(() => {
         // Autentica usuário antes de cada teste
-        cy.login()
+        cy.loginPedro()
         cy.refreshToken()
     })
 
@@ -28,7 +28,7 @@ describe('Módulo - Agendamentos', () => {
     describe('Módulo - Agendamentos - Cria um agendamento', () => {
         // Antes de todos os testes: cria uma grade de horários e busca slots disponíveis
         before(() => {
-            cy.login()
+            cy.loginPedro()
             cy.refreshToken()
             
             cy.fixture('schedule.json').then((base) => {
@@ -289,7 +289,7 @@ describe('Módulo - Agendamentos', () => {
 describe('Módulo - Agendamentos - Consulta por paciente', () => {
     beforeEach(() => {
         // Autentica usuário antes de cada teste de consulta
-        cy.login()
+        cy.loginPedro()
         cy.refreshToken()
     })
 
@@ -371,9 +371,82 @@ describe('Módulo - Agendamentos - Consulta por paciente', () => {
     })
 })
 
+describe('Módulo - Agendamentos - Infos de parcelas do agendamento', () => {
+    beforeEach(() => {
+        cy.loginPedro()
+        cy.refreshToken()
+    })
+
+    it('Validar retorno 200 - GET /api/v1/appointments/infos-parcelas/{schedulingId} (sem pagamentos)', () => {
+        return cy.createAppointmentFromFixtures().then(({ appointmentId, scheduleId }) => {
+            return cy.getAppointmentInfosParcelas(appointmentId).then((response) => {
+                expect(response.status).to.eq(200)
+                cy.assertInfosParcelasBodyVazio(response.body)
+            }).then(() => {
+                cy.cancelAppointment(appointmentId, 'Cleanup pós-teste infos-parcelas', '')
+                cy.deleteScheduleIfExists(scheduleId)
+            })
+        })
+    })
+
+    it('Validar retorno 401 - GET /api/v1/appointments/infos-parcelas/{schedulingId} (sem autorização)', () => {
+        const schedulingId = Cypress.env('lastCreatedAppointmentId') ?? 0
+
+        return cy.request({
+            method: 'GET',
+            url: `/api/v1/appointments/infos-parcelas/${schedulingId}`,
+            headers: {
+                'accept': '*/*'
+            },
+            failOnStatusCode: false
+        }).then((response) => {
+            expect(response.status).to.eq(401)
+        })
+    })
+
+    it('Validar retorno 400/404 - GET /api/v1/appointments/infos-parcelas/{schedulingId} (id inválido)', () => {
+        const token = Cypress.env('access_token')
+
+        return cy.request({
+            method: 'GET',
+            url: '/api/v1/appointments/infos-parcelas/abc',
+            headers: {
+                'accept': '*/*',
+                'Authorization': `Bearer ${token}`
+            },
+            failOnStatusCode: false
+        }).then((response) => {
+            expect([400, 404]).to.include(response.status)
+        })
+    })
+
+    it('Validar retorno 200 - GET /api/v1/appointments/infos-parcelas/{schedulingId} (com pagamento)', function () {
+        return cy.createAppointmentFromFixtures({ valorTotal: 20 }).then(({ appointmentId, scheduleId }) => {
+            return cy.createPaymentForAppointment(appointmentId, {
+                unidadeId: 483,
+                formaLiquidacaoId: 1,
+                valor: 20,
+                dataPagamento: '20260108',
+                hashPOS: 'XXXXXXXXXXX',
+                quantidadeParcelas: 1,
+                timeout: 200000,
+            }).then((payResp) => {
+                expect(payResp.status).to.eq(201)
+                expect(payResp.body).to.have.property('codigo')
+                expect(payResp.body).to.have.property('mensagem')
+
+                return cy.waitForInfosParcelasComPagamento(appointmentId, { retries: 10, delayMs: 2000 }).then((response) => {
+                    expect(response.status).to.eq(200)
+                    cy.assertInfosParcelasBodyComPagamento(response.body)
+                })
+            })
+        })
+    })
+})
+
 describe('Módulo - Agendamentos - Alterar status do agendamento', () => {    
     beforeEach(() => {
-        cy.login()
+        cy.loginPedro()
         cy.refreshToken()
     })
 
@@ -547,7 +620,7 @@ describe('Módulo - Agendamentos - Alterar status do agendamento', () => {
 
 describe('Módulo - Agendamentos - Desmarcar agendamento', () => {
     beforeEach(() => {
-        cy.login()
+        cy.loginPedro()
         cy.refreshToken()
     })
     
@@ -882,6 +955,49 @@ describe('Módulo - Agendamentos - Desmarcar agendamento', () => {
             }).then((response) => {
                 expect(response.status).to.eq(400)
             })
+        })
+    })
+})
+
+describe.only('Módulo - Agendamentos - Pacientes por profissional', () => {
+    beforeEach(() => {
+        cy.loginPedro()
+        cy.refreshToken()
+    })
+
+    it('Validar retorno 200 - GET /api/v1/appointments/patients/professional/{professionalId} (sem filtro de paciente)', function () {
+        const runNoFilter = Cypress.env('runPatientsNoFilter') === true || String(Cypress.env('runPatientsNoFilter')).toLowerCase() === 'true'
+        if (!runNoFilter) {
+            this.skip()
+            return
+        }
+        return cy.getPatientsByProfessional({ professionalId: 2155, limit: 10, timeout: 300000 }).then((resp) => {
+            expect(resp.status).to.eq(200)
+            cy.assertPatientsByProfessionalBody(resp.body)
+        })
+    })
+
+    it('Validar retorno 200 - GET /api/v1/appointments/patients/professional/{professionalId} (com filtro de paciente)', () => {
+        const nomePaciente = 'Pedro Henrique Castelani Dias Pires do Prado'
+        return cy.getPatientsByProfessional({ professionalId: 2155, patient: nomePaciente, limit: 10 }).then((resp) => {
+            expect(resp.status).to.eq(200)
+            cy.assertPatientsByProfessionalBody(resp.body)
+        })
+    })
+
+    it('Validar retorno 401 - GET /api/v1/appointments/patients/professional/{professionalId} (sem autorização)', () => {
+        const professionalId = 2155
+        const url = `/api/v1/appointments/patients/professional/${professionalId}?professionalId=${professionalId}&limit=10`
+        return cy.request({ method: 'GET', url, failOnStatusCode: false, headers: { accept: '*/*' } }).then((resp) => {
+            expect(resp.status).to.eq(401)
+        })
+    })
+
+    it('Validar retorno 400/404 - GET /api/v1/appointments/patients/professional/{professionalId} (id inválido)', () => {
+        const token = Cypress.env('access_token')
+        const url = '/api/v1/appointments/patients/professional/abc?professionalId=abc&limit=10'
+        return cy.request({ method: 'GET', url, failOnStatusCode: false, headers: { accept: '*/*', Authorization: `Bearer ${token}` } }).then((resp) => {
+            expect([400, 404]).to.include(resp.status)
         })
     })
 })
