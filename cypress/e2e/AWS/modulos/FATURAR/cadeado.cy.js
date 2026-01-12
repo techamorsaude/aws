@@ -160,7 +160,7 @@ describe('Módulo - Cadeado', () => {
         it('Validar retorno 201 - /api/v1/padlock/modules/reopen', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/padlock/modules/reopen',
                 headers: {
@@ -171,7 +171,7 @@ describe('Módulo - Cadeado', () => {
                     "padlocks": [
                         {
                             "id": 1,
-                            "date": "20250930",
+                            "date": "20260801",
                             "unitId": 483
                         }
                     ],
