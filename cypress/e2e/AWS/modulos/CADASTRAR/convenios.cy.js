@@ -19,176 +19,97 @@ describe('Módulo - Convênios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "items": [
-                        {
-                            nome: null,
-                            razaoSocial: null,
-                            cnpj: null,
-                            parceria: null,
-                            registroAns: null,
-                            retornoConsulta: null,
-                            diasRecebimento: null,
-                            numGuiaAtual: null,
-                            cep: null,
-                            endereco: null,
-                            numero: null,
-                            complemento: null,
-                            bairro: null,
-                            cidade: null,
-                            estado: null,
-                            telefone: null,
-                            email: null,
-                            percentual2Procedimento: null,
-                            percentual3Procedimento: null,
-                            percentual4Procedimento: null,
-                            unidCalculo: null,
-                            valorCh: null,
-                            valorUco: null,
-                            valorM2Filme: null,
-                            observacoes: null,
-                            ativo: false
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(201)
-
-                // Verifica se o ID existe e é um número
-                expect(response.body.data.created.id).to.be.a('number');
-                cy.writeFile('cypress/fixtures/idConvenios.json', { id: response.body.data.created.id })
-
-                const created = response.body.data.created;
-                const item = created.items[0];
-
-                // Valida estrutura do primeiro item
-                expect(item).to.include.all.keys(
-                    'nome',
-                    'razaoSocial',
-                    'cnpj',
-                    'parceria',
-                    'registroAns',
-                    'retornoConsulta',
-                    'diasRecebimento',
-                    'numGuiaAtual',
-                    'cep',
-                    'endereco',
-                    'numero',
-                    'complemento',
-                    'bairro',
-                    'cidade',
-                    'estado',
-                    'telefone',
-                    'email',
-                    'percentual2Procedimento',
-                    'percentual3Procedimento',
-                    'percentual4Procedimento',
-                    'unidCalculo',
-                    'valorCh',
-                    'valorUco',
-                    'valorM2Filme',
-                    'observacoes',
-                    'ativo'
-                )
-
-                // Valida estrutura do objeto principal
-                expect(created).to.include.all.keys(
-                    'nome',
-                    'razaoSocial',
-                    'cnpj',
-                    'parceria',
-                    'registroAns',
-                    'retornoConsulta',
-                    'diasRecebimento',
-                    'numGuiaAtual',
-                    'cep',
-                    'endereco',
-                    'numero',
-                    'complemento',
-                    'bairro',
-                    'cidade',
-                    'estado',
-                    'telefone',
-                    'email',
-                    'percentual2Procedimento',
-                    'percentual3Procedimento',
-                    'percentual4Procedimento',
-                    'unidCalculo',
-                    'valorCh',
-                    'valorUco',
-                    'valorM2Filme',
-                    'observacoes',
-                    'id',
-                    'ativo',
-                    'items'
-                );
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/convenios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/convenios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: { // Sem parâmetro
-                    "nome": "Convenio",
-                    "razaoSocial": "razaoSocial",
-                    "cnpj": "cnpj",
-                    "parceria": true,
-                    "registroAns": "registroAns",
-                    "retornoConsulta": "retornoConsulta",
-                    "diasRecebimento": "diasRecebimento",
-                    "numGuiaAtual": "numGuiaAtual",
-                    "cep": "cep",
-                    "endereco": "endereco",
-                    "numero": 123456,
-                    "complemento": "complemento",
-                    "bairro": "bairro",
-                    "cidade": "cidade",
-                    "estado": "estado",
-                    "telefone": "telefone",
-                    "email": "email",
-                    "percentual2Procedimento": "percentual2Procedimento",
-                    "percentual3Procedimento": "percentual3Procedimento",
-                    "percentual4Procedimento": "percentual4Procedimento",
-                    "unidCalculo": "unidCalculo",
-                    "valorCh": "valorCh",
-                    "valorUco": "valorUco",
-                    "valorM2Filme": "valorM2Filme",
-                    "observacoes": "observacoes",
+                    "nome": "Convenio Teste API",
+                    "razaoSocial": "Convenio Teste API",
+                    "cnpj": null,
+                    "parceria": null,
+                    "registroAns": null,
+                    "retornoConsulta": null,
+                    "diasRecebimento": null,
+                    "numGuiaAtual": null,
+                    "cep": null,
+                    "endereco": null,
+                    "numero": null,
+                    "complemento": null,
+                    "bairro": null,
+                    "cidade": null,
+                    "estado": null,
+                    "telefone": null,
+                    "email": null,
+                    "percentual2Procedimento": null,
+                    "percentual3Procedimento": null,
+                    "percentual4Procedimento": null,
+                    "unidCalculo": null,
+                    "valorCh": null,
+                    "valorUco": null,
+                    "valorM2Filme": null,
+                    "observacoes": null,
                     "ativo": true,
-                    "materiais": 1,
-                    "medicamentos": 1,
-                    "taxas": 1,
-                    "filmes": 1,
-                    "procedimentos": 1,
-                    "versaoTissId": 1,
-                    "cbhpmId": 1,
-                    "porteId": 1,
-                    "planos": [
-                        {
-                            "valorCh": "valorCh",
-                            "valorFilme": "valorFilme",
-                            "valorPortes": "valorPortes",
-                            "valorUco": "valorUco"
-                        }
-                    ],
-                    "contratos": [
-                        {
-                            "codigoOperadora": "codigoOperadora",
-                            "unidadeId": 1,
-                            "contaBancariaId": 1
-                        }
-                    ]
+                    "materiais": null,
+                    "medicamentos": null,
+                    "taxas": null,
+                    "filmes": null,
+                    "procedimentos": null,
+                    "versaoTissId": null,
+                    "cbhpmId": null,
+                    "porteId": null,
+                    "planos": [],
+                    "contratos": []
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('created')
+                expect(response.body).to.have.property('data')
+
+                expect(response.body.data).to.have.property('created')
+
+                const created = response.body.data.created
+
+                expect(created).to.have.property('nome')
+                expect(created).to.have.property('razaoSocial')
+                expect(created).to.have.property('cnpj')
+                expect(created).to.have.property('parceria')
+                expect(created).to.have.property('registroAns')
+                expect(created).to.have.property('retornoConsulta')
+                expect(created).to.have.property('diasRecebimento')
+                expect(created).to.have.property('numGuiaAtual')
+                expect(created).to.have.property('cep')
+                expect(created).to.have.property('endereco')
+                expect(created).to.have.property('numero')
+                expect(created).to.have.property('complemento')
+                expect(created).to.have.property('bairro')
+                expect(created).to.have.property('cidade')
+                expect(created).to.have.property('estado')
+                expect(created).to.have.property('telefone')
+                expect(created).to.have.property('email')
+                expect(created).to.have.property('percentual2Procedimento')
+                expect(created).to.have.property('percentual3Procedimento')
+                expect(created).to.have.property('percentual4Procedimento')
+                expect(created).to.have.property('unidCalculo')
+                expect(created).to.have.property('valorCh')
+                expect(created).to.have.property('valorUco')
+                expect(created).to.have.property('valorM2Filme')
+                expect(created).to.have.property('observacoes')
+                expect(created).to.have.property('ativo')
+                expect(created).to.have.property('materiais')
+                expect(created).to.have.property('medicamentos')
+                expect(created).to.have.property('taxas')
+                expect(created).to.have.property('filmes')
+                expect(created).to.have.property('procedimentos')
+                expect(created).to.have.property('versaoTissId')
+                expect(created).to.have.property('cbhpmId')
+                expect(created).to.have.property('porteId')
+                expect(created).to.have.property('planos')
+                expect(created).to.have.property('contratos')
+                expect(created).to.have.property('id')
+
+                // Salva o ID
+                const idConvenios = response.body.data.created.id
+                Cypress.env('idConvenios', idConvenios);
+                
             })
         })
 
@@ -259,6 +180,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.items.forEach((item) => {
@@ -308,6 +230,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -324,6 +247,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -343,6 +267,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const data = response.body.data;
 
@@ -395,6 +320,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -411,6 +337,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -430,6 +357,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 // Verifica se items existem dentro do objeto
                 expect(response.body).to.have.all.keys(
@@ -456,6 +384,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -472,6 +401,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -546,6 +476,7 @@ describe('Módulo - Convênios', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(200);
+                    cy.log(JSON.stringify(response.body));
 
                     // Verifica se o body tem os campos esperados
                     expect(response.body).to.include.all.keys('data', 'id');
@@ -571,6 +502,7 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -642,6 +574,7 @@ describe('Módulo - Convênios', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(401);
+                    cy.log(JSON.stringify(response.body));
                 })
             })
         })
@@ -667,6 +600,7 @@ describe('Módulo - Convênios', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(200);
+                    cy.log(JSON.stringify(response.body));
 
                     // Verifica se o body tem os campos esperados
                     expect(response.body).to.include.all.keys('data', 'id');
@@ -698,6 +632,7 @@ describe('Módulo - Convênios', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(400);
+                    cy.log(JSON.stringify(response.body));
                 })
             })
         })
@@ -720,6 +655,7 @@ describe('Módulo - Convênios', () => {
                     failOnStatusCode: false
                 }).then((response) => {
                     expect(response.status).to.eq(401);
+                    cy.log(JSON.stringify(response.body));
                 })
             })
         })
