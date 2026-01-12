@@ -463,8 +463,8 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>PAREI<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe.only('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
+    
+    describe('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
