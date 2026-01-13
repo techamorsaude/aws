@@ -266,7 +266,7 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    describe('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
+    describe.only('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/static-info/{id}', () => {
             const token = Cypress.env('access_token');
@@ -419,7 +419,7 @@ describe('Módulo - Unidades', () => {
         it('Validar retorno 201 - /api/v1/unidades/unlink-clinic-professional', () => {
             const token = Cypress.env('access_token');
 
-            cy.api({
+            cy.request({
                 method: 'POST',
                 url: '/api/v1/unidades/unlink-clinic-professional',
                 headers: {

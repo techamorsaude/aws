@@ -8,34 +8,39 @@ describe('Módulo - Contas a Receber', () => {
 
     describe('Módulo - Contas a Receber - Retorna lista de recebimentos', () => {
 
-        it('Validar retorno - 200 - /api/v1/contas-receber', () => {
-
+        it('Validar retorno 200 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
-
-            const params = {
-                page: 1,
-                limit: 10,
-                dataInicio: '20251125',
-                dataFinal: '20251125',
-                statusId: 1,
-                tipoPagadorId: 1
-            };
 
             cy.request({
                 method: 'GET',
-                url: 'http://localhost:3011/api/v1/contas-receber',
-                qs: params,
+                url: '/api/v1/contas-receber?page=1&limit=1',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'appliation/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                // 👇 VER A URL EXATA QUE FOI ENVIADA
-                cy.log('URL montada:', response.allRequestResponses[0]['Request URL']);
-                cy.log('Status:', response.status);
-                cy.log('Body:', JSON.stringify(response.body));
-            });
-        });
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
+                response.body.items.forEach(item => {
+                    expect(item).to.have.property('id')
+                    expect(item).to.have.property('notaFiscal')
+                    expect(item).to.have.property('createdAt')
+                    expect(item).to.have.property('valorTotal')
+                    expect(item).to.have.property('valorTotalClinica')
+                    expect(item).to.have.property('parcelas')
+                    expect(item).to.have.property('tipoPagador')
+                    expect(item).to.have.property('tipoReceita')
+                    expect(item).to.have.property('status')
+                    expect(item).to.have.property('itens')
+                    expect(item).to.have.property('fornecedor')
+                    expect(item).to.have.property('paciente')
+                    expect(item).to.have.property('profissional')
+                    expect(item).to.have.property('origemIdAgendamento')
+                })
+            })
+        })
 
         it('Validar retorno 400 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
@@ -49,7 +54,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -65,7 +71,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -110,7 +117,9 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+                
                 const idRecebimento = response.body.id
 
                 const body = response.body;
@@ -162,7 +171,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -223,7 +233,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -244,6 +255,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body
 
@@ -348,7 +360,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -364,7 +377,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -418,7 +432,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -440,7 +455,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -459,11 +475,12 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
-    
+
     describe('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
@@ -472,15 +489,16 @@ describe('Módulo - Contas a Receber', () => {
 
             cy.request({
                 method: 'DELETE',
-                //url: `/api/v1/contas-receber/${idRecebimento}`,
-                url: '/api/v1/contas-receber/23',
+                url: `/api/v1/contas-receber/${idRecebimento}`,
+                //url: '/api/v1/contas-receber/23',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -500,7 +518,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -517,7 +536,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -545,6 +565,7 @@ describe('Módulo - Contas a Receber', () => {
             }).then((response) => {
 
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 // Valida somente os campos do objeto principal
                 expect(response.body).to.have.all.keys(
@@ -597,7 +618,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -613,7 +635,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -837,6 +860,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -853,6 +877,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -869,6 +894,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -888,6 +914,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(response.body).to.be.an('array')
@@ -913,6 +940,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -929,6 +957,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -948,6 +977,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(response.body).to.be.an('array');
@@ -977,6 +1007,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -996,6 +1027,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.forEach((item) => {
@@ -1019,6 +1051,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -1038,6 +1071,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.forEach((item) => {
@@ -1060,6 +1094,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -1079,6 +1114,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.forEach((item) => {
@@ -1101,6 +1137,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -1119,6 +1156,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -1135,6 +1173,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -1151,6 +1190,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
