@@ -97,29 +97,49 @@ describe('Módulo - Contas a Receber', () => {
                     "tipoIntervalo": "M",
                     "observacao": "teste",
                     "pacienteId": null,
-                    "fornecedorId": "420",
+                    "fornecedorId": "1300",
                     "profissionalId": null,
-                    "quantidadeParcelas": 1,
+                    "quantidadeParcelas": 3,
                     "itens": [
                         {
-                            "descricao": "Aluguel Sala",
+                            "descricao": "teste",
                             "quantidade": 1,
-                            "valorUnitario": 100,
-                            "classificacaoFinanceiraId": 136,
-                            "valorTotal": 100,
+                            "valorUnitario": 300,
+                            "classificacaoFinanceiraId": 98,
+                            "valorTotal": 300,
                             "executanteId": 0,
                             "executado": "0"
                         }
                     ],
-                    "parcelas": [],
+                    "parcelas": [
+                        {
+                            "dataVencimento": "20260114",
+                            "observacao": "",
+                            "numeroParcela": 1,
+                            "valor": 100
+                        },
+                        {
+                            "dataVencimento": "20260214",
+                            "observacao": "",
+                            "numeroParcela": 2,
+                            "valor": 100
+                        },
+                        {
+                            "dataVencimento": "20260314",
+                            "observacao": "",
+                            "numeroParcela": 3,
+                            "valor": 100
+                        }
+                    ],
                     "origemId": 1,
-                    "origem": "Manual"
+                    "origem": "Manual",
+                    "typeAccountReceivableManual": null
                 },
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
                 cy.log(JSON.stringify(response.body));
-                
+
                 const idRecebimento = response.body.id
 
                 const body = response.body;
@@ -641,6 +661,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
+    // Não passível de teste.
     describe('Módulo - Contas a Receber - Pagamento de uma conta a receber por cartão', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/cartao', () => {
@@ -665,6 +686,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -683,6 +705,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -701,10 +724,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // Não passível de teste.
     describe('Módulo - Contas a Receber - Atualiza o evento do recebimento em cartão', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/resposta-cartao-fiserv', () => {
@@ -733,6 +758,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -751,6 +777,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -780,6 +807,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -803,6 +831,11 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -821,6 +854,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -841,10 +875,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // Não passível de teste.
     describe('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/{parcelaId}/recibo', () => {
@@ -1143,12 +1179,13 @@ describe('Módulo - Contas a Receber', () => {
     })
 
     describe('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
+
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/lancamento-financeiro', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/contas-receber/parcela/lancamento-financeiro',
+                url: '/api/v1/contas-receber/parcela/lancamento-financeiro?parcelaId=24&parcelaLiquidacaoId=24',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1157,6 +1194,25 @@ describe('Módulo - Contas a Receber', () => {
             }).then((response) => {
                 expect(response.status).to.eq(200);
                 cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('useFiservCancel');
+                expect(response.body).to.have.property('lancamentoFinanceiroId');
+                expect(response.body).to.have.property('valor');
+                expect(response.body).to.have.property('localAtendimentoId');
+                expect(response.body).to.have.property('flgRegistroFiserv');
+                expect(response.body).to.have.property('tokenTerminal');
+                expect(response.body).to.have.property('hashZoop');
+                expect(response.body).to.have.property('contaCorrentId');
+                expect(response.body).to.have.property('formaLiquidacao');
+                expect(response.body.formaLiquidacao).to.have.property('id');
+                expect(response.body.formaLiquidacao).to.have.property('formaLiquidacao');
+                expect(response.body.formaLiquidacao).to.have.property('tipoOperacao');
+                expect(response.body).to.have.property('cnpjMaisTodos');
+                expect(response.body).to.have.property('cnpjUnidade');
+                expect(response.body).to.have.property('dataTransacao');
+                expect(response.body).to.have.property('transacaoId');
+                expect(response.body).to.have.property('dadosSubadquirente');
+                expect(response.body).to.have.property('registerTokenFiserv');
             })
         })
 
