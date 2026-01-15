@@ -8,7 +8,7 @@ describe('Módulo - Contas Correntes', () => {
 
     describe('Módulo - Contas Correntes - Retorna uma lista de contas correntes', () => {
 
-        it('Validar retorno 200 e estrutura do response', () => {
+        it('Validar retorno 200 - /api/v1/current-accounts? ', () => {
 
             const token = Cypress.env('access_token');
 
@@ -81,7 +81,7 @@ describe('Módulo - Contas Correntes', () => {
             });
         });
 
-        it('Validar retorno 401 - sem token', () => {
+        it('Validar retorno 401 - /api/v1/current-accounts', () => {
             cy.request({
                 method: 'GET',
                 url: '/api/v1/current-accounts',
@@ -265,7 +265,7 @@ describe('Módulo - Contas Correntes | Taxas Exceções', () => {
 
     describe('GET- /api/v1/current-account-fees-exception', () => {
 
-        it('Validar retorno 200 - Retorna uma lista de taxas de exceções de contas correntes', () => {
+        it('Validar retorno 200 - /api/v1/current-account-fees-exception', () => {
             const token = Cypress.env('access_token');
 
             const payload = {
@@ -384,7 +384,7 @@ describe('Módulo - Contas Correntes | Taxas Administrativas', () => {
 
 describe('GET - /api/v1/current-account-fees-adm', () => {
 
-        it('Validar retorno 200 - Listar taxas administrativas', () => {
+        it('Validar retorno 200 - /api/v1/current-account-fees-adm', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -406,8 +406,8 @@ describe('GET - /api/v1/current-account-fees-adm', () => {
                 cy.log(JSON.stringify(response.body));
             });
         });
-
-        it('Validar retorno 400 - Listar taxas administrativas', () => {
+    }),
+        it('Validar retorno 400 - /api/v1/current-account-fees-adm', () => {
             const token = Cypress.env('access_token');
 
             // Parâmetros inválidos para forçar erro
@@ -432,7 +432,7 @@ describe('GET - /api/v1/current-account-fees-adm', () => {
             });
         });
 
-        it('Validar retorno 401 - Listar taxas administrativas', () => {
+        it('Validar retorno 401 - /api/v1/current-account-fees-adm', () => {
             cy.request({
                 method: 'GET',
                 url: '/api/v1/current-account-fees-adm',
@@ -481,7 +481,6 @@ describe('GET - /api/v1/current-account-fees-adm', () => {
         });
     });
     */
-}),
 
 describe('Módulo - Contas Correntes / Relacionados', () => {
 
@@ -1352,7 +1351,7 @@ describe('Módulo - Contas Correntes | Funcionários Confirmadores', () => {
 });
 describe('PUT - /api/v1/current-account-employees', () => {
 
-    it('Validar retorno 200 - Vincular funcionários à conta corrente', () => {
+    it('Validar retorno 200 - /api/v1/current-account-employees', () => {
         const token = Cypress.env('access_token');
 
         cy.request({
@@ -1375,7 +1374,7 @@ describe('PUT - /api/v1/current-account-employees', () => {
         });
     });
 
-    it('Validar retorno 400 - PUT com payload inválido', () => {
+    it('Validar retorno 400 - /api/v1/current-account-employees', () => {
         const token = Cypress.env('access_token');
 
         cy.request({
@@ -1395,7 +1394,7 @@ describe('PUT - /api/v1/current-account-employees', () => {
         });
     });
 
-    it('Validar retorno 401 - PUT sem token', () => {
+    it('Validar retorno 401 - /api/v1/current-account-employees', () => {
         cy.request({
             method: 'PUT',
             url: '/api/v1/current-account-employees',
