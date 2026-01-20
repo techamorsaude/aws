@@ -10,10 +10,10 @@ describe('Módulo - Soluti - Assinatura Digital', () => {
     // Precisa de dados reais do Amei
     describe('Módulo - Soluti - Assinar documento', () => {
 
-        it('Validar retorno 200 - /api/v1/soluti/sign-doc', () => {
+        it.only('Validar retorno 200 - /api/v1/soluti/sign-doc', () => {
             const token = Cypress.env('access_token')
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/soluti/sign-doc',
                 headers: {
@@ -41,7 +41,7 @@ describe('Módulo - Soluti - Assinatura Digital', () => {
         it('Validar retorno 400 - /api/v1/soluti/sign-doc', () => {
             const token = Cypress.env('access_token')
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/soluti/sign-doc',
                 headers: {
@@ -70,7 +70,7 @@ describe('Módulo - Soluti - Assinatura Digital', () => {
 
         it('Validar retorno 401 - /api/v1/soluti/sign-doc', () => {
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/soluti/sign-doc',
                 headers: {
@@ -105,7 +105,7 @@ describe('Módulo - Soluti - Assinatura Digital', () => {
         it('Validar retorno 200 - /api/v1/soluti/auth', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/soluti/auth',
                 headers: {
@@ -126,7 +126,7 @@ describe('Módulo - Soluti - Assinatura Digital', () => {
         it('Validar retorno 400 - /api/v1/soluti/auth', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/soluti/auth',
                 headers: {
@@ -144,7 +144,7 @@ describe('Módulo - Soluti - Assinatura Digital', () => {
         it('Validar retorno 401 - /api/v1/soluti/auth', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'POST',
                 url: '/api/v1/soluti/auth',
                 headers: {

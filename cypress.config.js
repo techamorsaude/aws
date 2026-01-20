@@ -2,14 +2,13 @@ const { defineConfig } = require('cypress');
 
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
-const baseUrls = {
-homolog: 'http://localhost:4200/',
-//homolog: 'https://dev-amei.amorsaude.tech'
+const apiUrls = {
+  homolog: 'https://amei.amorsaude.com.br'
 };
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: baseUrls[ENV],
+    baseUrl: apiUrls[ENV],  // aponta direto pra API
     failOnStatusCode: false,
     video: false,
     setupNodeEvents(on, config) {

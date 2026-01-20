@@ -28,7 +28,7 @@ Cypress.Commands.add('refreshToken', () => {
 
   return cy.request({
     method: 'POST',
-    url: '/api/v1/security/refresh-token?clinicId=483',
+    url: '/api/v1/security/refresh-token?clinicId=2572',
     headers: {
       'Authorization': `Bearer ${token}`
     },

@@ -52,6 +52,7 @@
     "allure-commandline": "^2.24.1",
     "cross-env": "^10.0.0",
     "cypress": "^12.17.4",
+    "cypress-plugin-api": "^2.11.2",
     "rimraf": "^5.0.10"
   }
 }
