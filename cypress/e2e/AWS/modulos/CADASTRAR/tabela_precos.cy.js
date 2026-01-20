@@ -884,7 +884,7 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    describe.only('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
+    describe('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');

@@ -13,6 +13,7 @@ describe('Módulo - Profissionais', () => {
             const token = Cypress.env('access_token');
 
             cy.gerarCpfValido().then((cpfGerado) => {
+                const emailGerado = `${cpfGerado}@gopicta.com`
 
                 cy.request({
                     method: 'POST',
@@ -23,19 +24,19 @@ describe('Módulo - Profissionais', () => {
                     },
                     body: {
                         "tratamento": "Dr.",
-                        "nome": "Paulo",
-                        "sobrenome": "do Produto2",
-                        "rg": "18.872.351-9",
-                        "dataNascimento": "19900125",
-                        "telefone1": "16996233425",
-                        "email": `joao_${cpfGerado}@email.com.br`, // evita duplicação de e-mail,
-                        "cep": "14021-676",
-                        "endereco": "Rua Cavalheiro Torquato Rizzi",
-                        "numero": "490",
-                        "bairro": "Bosque das Juritis",
-                        "cpf": cpfGerado,   // <<< CPF DINÂMICO
-                        "cidade": "Ribeirão Preto",
-                        "estadoEndereco": "SP",
+                        "nome": "Teste",
+                        "sobrenome": "API QA",
+                        "rg": "350177533",
+                        "dataNascimento": "19950114",
+                        "telefone1": "41987449934",
+                        "email": emailGerado,
+                        "cep": "85609-978",
+                        "endereco": "Rua Principal",
+                        "numero": "90",
+                        "bairro": "Jacaré",
+                        "cpf": cpfGerado,
+                        "cidade": "Francisco Beltrão",
+                        "estadoEndereco": "PR",
                         "especialidadesRqe": [
                             {
                                 "id": 611,
@@ -44,8 +45,8 @@ describe('Módulo - Profissionais', () => {
                                     "id": 6,
                                     "descricao": "CRM"
                                 },
-                                "registroProfissional": "11111111111",
-                                "state": "SP",
+                                "registroProfissional": cpfGerado,
+                                "state": "PR",
                                 "titulo": "Experiência na Área - Não Especialista",
                                 "tituloId": 2,
                                 "rqe": "",
@@ -70,11 +71,6 @@ describe('Módulo - Profissionais', () => {
                                 "id": 65
                             }
                         ],
-                        "unidades": [
-                            {
-                                "id": 483
-                            }
-                        ],
                         "sexoId": [
                             {
                                 "id": 1
@@ -89,16 +85,26 @@ describe('Módulo - Profissionais', () => {
                         ],
                         "convenios": true,
                         "usuarioUnidadeId": 483,
-                        "perfilAcessoId": 2
+                        "perfilAcessoId": 2,
+                        "unidades": []
                     },
                     failOnStatusCode: false
                 }).then((response) => {
                     expect(response.status).to.eq(201);
-                    cy.log(JSON.stringify(response.body))
+                    cy.log(JSON.stringify(response.body));
+
                     expect(response.body).to.have.property('codigo');
                     expect(response.body).to.have.property('flagDeError');
                     expect(response.body).to.have.property('mensagem');
                     expect(response.body).to.have.property('professionalId');
+
+                    // Salva o ID do profissional
+                    Cypress.env('profissional', {
+                        id: response.body.professionalId,
+                        cpf: cpfGerado,
+                        email: emailGerado
+                    });
+                    cy.log(`Id salvo: ${response.body.professionalId}`);
                 })
             })
         })
@@ -118,6 +124,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body))
             })
         })
 
@@ -156,6 +163,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(body).to.have.property('items').to.be.an('array')
@@ -199,6 +207,15 @@ describe('Módulo - Profissionais', () => {
                     expect(item).to.have.property('regionais').to.be.an('array')
                     expect(item).to.have.property('fornecedorId').to.be.an('array')
                     expect(item).to.have.property('especialidades').to.be.an('array')
+
+
+                    item.profissaoID.forEach((profissao) => {
+                        expect(profissao).to.have.property('id');
+                        expect(profissao).to.have.property('descricao');
+                        expect(profissao).to.have.property('profissao');
+                        expect(profissao).to.have.property('funcao');
+                        expect(profissao).to.have.property('conselho');
+                    })
                 })
             })
         })
@@ -216,10 +233,12 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // O teste desta rota foi realizado utilizando o Postman
     describe('Módulo - Profissionais - Cadastrar fotografia do profissional', () => {
 
         it('Validar retorno 201 - /api/v1/profissionais/avatar/{id}', () => {
@@ -232,7 +251,7 @@ describe('Módulo - Profissionais', () => {
 
                 cy.request({
                     method: 'POST',
-                    url: `/api/v1/profissionais/avatar/${id}`,
+                    url: '/api/v1/profissionais/avatar/5844',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'
@@ -243,10 +262,14 @@ describe('Módulo - Profissionais', () => {
                     failOnStatusCode: false
                 }).then(response => {
                     expect(response.status).to.eq(201);
-                });
-            });
-        });
+                    cy.log(JSON.stringify(response.body));
 
+                    expect(response.body).to.have.property('codigo');
+                    expect(response.body).to.have.property('flagDeError');
+                    expect(response.body).to.have.property('mensagem');
+                })
+            })
+        })
 
         it('Validar retorno 400 - /api/v1/profissionais/avatar/{id}', () => {
             const token = Cypress.env('access_token');
@@ -261,6 +284,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -277,10 +301,12 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // O teste desta rota foi realizado utilizando o Postman
     describe('Módulo - Profissionais - Baixar fotografia do profissional', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/avatar/{id}', () => {
@@ -296,6 +322,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -312,11 +339,13 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
     })
 
+    // O teste desta rota foi realizado utilizando o Postman
     describe('Módulo - Profissionais - Remove fotografia do profissional', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/avatar/{id}', () => {
@@ -332,6 +361,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -348,6 +378,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -364,54 +395,65 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe('Módulo - Profissionais - Atualizar profissional por id', () => {
+    describe.only('Módulo - Profissionais - Atualizar profissional por id', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/{id}', () => {
             const token = Cypress.env('access_token');
+            const profissional = Cypress.env('profissional')
+            const idProfissional = profissional.id;
+            const cpf = profissional.cpf;
+            const email = profissional.email;
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/profissionais/{id}',
+                url: `/api/v1/profissionais/${idProfissional}`,
+                //url: '/api/v1/profissionais/5844',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "tratamento": "Tratamento x",
-                    "nome": "João",
-                    "sobrenome": "da Silva",
-                    "cpf": "99999999999",
-                    "rg": "31.658.268-6",
-                    "registroProfissional": "90.264/SP",
-                    "titulo": "Dr.",
-                    "dataNascimento": "19801219",
-                    "telefone1": "+5511911112222",
-                    "telefone2": "+551141112222",
-                    "email": "joaodasilva@email.com.br",
-                    "cep": "08111-123",
-                    "endereco": "Rua arco verde",
-                    "numero": 123,
-                    "complemento": "Sala 2",
-                    "bairro": "Jardim arco verde",
-                    "cidade": "São Paulo",
-                    "estado": "São Paulo",
-                    "estadoEndereco": "São Paulo",
-                    "observacaoPublica": "Observacao para uso interno.",
-                    "observacaoPrivada": "Observacao para uso externo.",
-                    "convenios": true,
-                    "exibirNaAgenda": true,
-                    "responsavelTecnicoClinica": true,
-                    "mensagemAgenda": "Mensagem etc...",
-                    "ativo": true,
-                    "fotografia": "https://img.freepik.com/vetores-gratis/avatar-homem-barba_96853-399.jpg",
-                    "tokenMemed": "string",
-                    "fornecedorId": [
+                    "tratamento": "Dr.",
+                    "nome": "Teste",
+                    "sobrenome": "API QA",
+                    "rg": "350177533",
+                    "dataNascimento": "19950114",
+                    "telefone1": "41987449934",
+                    "email": email,
+                    "cep": "85609-978",
+                    "endereco": "Rua Principal",
+                    "numero": "90",
+                    "bairro": "Jacaré",
+                    "cpf": cpf,
+                    "cidade": "Francisco Beltrão",
+                    "estadoEndereco": "PR",
+                    "especialidadesRqe": [
                         {
-                            "id": 2
+                            "id": 611,
+                            "specialtyId": "Acupuntura",
+                            "conselhoProfissionalId": {
+                                "id": 6,
+                                "descricao": "CRM"
+                            },
+                            "registroProfissional": cpf,
+                            "state": "PR",
+                            "titulo": "Experiência na Área - Não Especialista",
+                            "tituloId": 2,
+                            "rqe": "",
+                            "memedId": 1,
+                            "profissaoId": 65
+                        }
+                    ],
+                    "titulo": "Dr.",
+                    "ativo": true,
+                    "conselhoProfissionalId": [
+                        {
+                            "id": 6
                         }
                     ],
                     "funcaoId": [
@@ -419,9 +461,9 @@ describe('Módulo - Profissionais', () => {
                             "id": 1
                         }
                     ],
-                    "restricoes": [
+                    "profissaoID": [
                         {
-                            "id": 1
+                            "id": 65
                         }
                     ],
                     "sexoId": [
@@ -429,47 +471,26 @@ describe('Módulo - Profissionais', () => {
                             "id": 1
                         }
                     ],
-                    "conselhoProfissionalId": [
-                        {
-                            "id": 6
-                        }
-                    ],
+                    "exibirNaAgenda": true,
+                    "responsavelTecnicoClinica": false,
                     "usuarioId": [
                         {
-                            "id": 1
+                            "id": 1427
                         }
                     ],
-                    "profissaoID": [
-                        {
-                            "id": 1
-                        }
-                    ],
-                    "unidades": [
-                        {
-                            "id": 1
-                        }
-                    ],
-                    "especialidades": [
-                        {
-                            "id": 1
-                        }
-                    ],
-                    "regionais": [
-                        {
-                            "id": 1
-                        }
-                    ],
-                    "especialidadesRqe": [
-                        "string"
-                    ],
-                    "idUsuario": 1,
-                    "usuarioUnidadeId": 1,
-                    "perfilAcessoId": 1,
-                    "cnpj": "123456780000123"
+                    "convenios": true,
+                    "usuarioUnidadeId": 483,
+                    "perfilAcessoId": 2,
+                    "unidades": []
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
 
@@ -488,6 +509,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -591,18 +613,21 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe('Módulo - Profissionais - Busca profissional por id', () => {
+    describe.only('Módulo - Profissionais - Busca profissional por id', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/{id}', () => {
             const token = Cypress.env('access_token');
+            const profissional = Cypress.env('profissional');
+            const idProfissional = profissional.id;
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/profissionais/{id}',
+                url: `/api/v1/profissionais/${idProfissional}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -610,6 +635,36 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
+                const body = response.body;
+
+                // Validando os principais campos 
+                expect(body).to.have.property('id').that.is.a('number');
+                expect(body).to.have.property('tratamento').that.is.a('string');
+                expect(body).to.have.property('nome').that.is.a('string');
+                expect(body).to.have.property('sobrenome').that.is.a('string');
+                expect(body).to.have.property('cpf').that.is.a('string');
+                expect(body).to.have.property('rg').that.is.a('string');
+                expect(body).to.have.property('email').that.is.a('string');
+                expect(body).to.have.property('telefone1').that.is.a('string');
+                expect(body).to.have.property('ativo').that.is.a('boolean');
+
+                // Arrays
+                expect(body).to.have.property('unidades').that.is.an('array');
+                expect(body).to.have.property('profissionaisUnidades').that.is.an('array');
+                expect(body).to.have.property('profissaoID').that.is.an('array');
+                expect(body).to.have.property('fornecedorId').that.is.an('array');
+                expect(body).to.have.property('regionais').that.is.an('array');
+                expect(body).to.have.property('sexoId').that.is.an('array');
+                expect(body).to.have.property('restricoes').that.is.an('array');
+                expect(body).to.have.property('conveniosId').that.is.an('array');
+                expect(body).to.have.property('bloqueioAgenda').that.is.an('array');
+                expect(body).to.have.property('conselhoProfissionalId').that.is.an('array');
+                expect(body).to.have.property('funcaoId').that.is.an('array');
+                expect(body).to.have.property('especialidadeRqe').that.is.an('array');
+                expect(body).to.have.property('especialidades').that.is.an('array');
+                expect(body).to.have.property('especialidadesRqe').that.is.an('array');
             })
         })
 
@@ -626,6 +681,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -642,6 +698,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -650,10 +707,12 @@ describe('Módulo - Profissionais', () => {
 
         it('Validar retorno 200 - /api/v1/profissionais/{id}', () => {
             const token = Cypress.env('access_token');
+            const profissional = Cypress.env('profissional');
+            const idProfissional = profissional.id;
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/profissionais/{id}',
+                url: `/api/v1/profissionais/${idProfissional}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -661,6 +720,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -677,6 +737,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -693,6 +754,7 @@ describe('Módulo - Profissionais', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })

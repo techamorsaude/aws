@@ -3,8 +3,10 @@ const { defineConfig } = require('cypress');
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
 const baseUrls = {
-homolog: 'http://localhost:3011',
-
+//homolog: 'http://localhost:3011',
+//homolog: 'https://dev-amei.amorsaude.tech/'
+//homolog: 'https://stg-amei.amorsaude.tech/',
+homolog: 'https://amei.amorsaude.com.br/'
 };
 
 module.exports = defineConfig({
