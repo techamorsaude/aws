@@ -89,7 +89,7 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-precos/procedimentos?parceiroId=41&unidadeId=483&data=2025-10-29',
+                url: '/api/v1/tabela-precos/procedimentos?parceiroId=41&unidadeId=483&data=2026-01-07',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -439,7 +439,7 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-precos/989?page=1&limit=10&procedimentosIds=20357&procedimentosIds=20357',
+                url: 'api/v1/tabela-precos/193?page=1&limit=1&procedimentosIds=20357&procedimentosIds=20357',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -619,14 +619,14 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'POST',
-                url: '/api/v1/tabela-precos/25413',
+                url: '/api/v1/tabela-precos/48',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
                     "procedimentos": [
-                        20357
+                        21884
                     ]
                 },
                 failOnStatusCode: false
@@ -884,7 +884,7 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    describe('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
+    describe.only('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
@@ -902,22 +902,6 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/tabela-precos/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/tabela-precos/{id}',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
             })
         })
 

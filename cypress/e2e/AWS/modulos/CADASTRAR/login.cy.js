@@ -31,7 +31,7 @@ describe('Login', () => {
 
   it('Validar retorno 400 - /api/v1/security/login', () => {
 
-    cy.request({
+    cy.api({
       method: 'POST',
       url: '/api/v1/security/login',
       body: {
@@ -45,7 +45,7 @@ describe('Login', () => {
   })
 
   it('Validar retorno 401 - /api/v1/security/login', () => {
-    cy.request({
+    cy.api({
       method: 'POST',
       url: '/api/v1/security/login',
       body: {

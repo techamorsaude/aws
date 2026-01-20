@@ -8,34 +8,39 @@ describe('Módulo - Contas a Receber', () => {
 
     describe('Módulo - Contas a Receber - Retorna lista de recebimentos', () => {
 
-        it('Validar retorno - 200 - /api/v1/contas-receber', () => {
-
+        it('Validar retorno 200 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
-
-            const params = {
-                page: 1,
-                limit: 10,
-                dataInicio: '20251125',
-                dataFinal: '20251125',
-                statusId: 1,
-                tipoPagadorId: 1
-            };
 
             cy.request({
                 method: 'GET',
-                url: 'http://localhost:3011/api/v1/contas-receber',
-                qs: params,
+                url: '/api/v1/contas-receber?page=1&limit=1',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'appliation/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                // 👇 VER A URL EXATA QUE FOI ENVIADA
-                cy.log('URL montada:', response.allRequestResponses[0]['Request URL']);
-                cy.log('Status:', response.status);
-                cy.log('Body:', JSON.stringify(response.body));
-            });
-        });
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
+                response.body.items.forEach(item => {
+                    expect(item).to.have.property('id')
+                    expect(item).to.have.property('notaFiscal')
+                    expect(item).to.have.property('createdAt')
+                    expect(item).to.have.property('valorTotal')
+                    expect(item).to.have.property('valorTotalClinica')
+                    expect(item).to.have.property('parcelas')
+                    expect(item).to.have.property('tipoPagador')
+                    expect(item).to.have.property('tipoReceita')
+                    expect(item).to.have.property('status')
+                    expect(item).to.have.property('itens')
+                    expect(item).to.have.property('fornecedor')
+                    expect(item).to.have.property('paciente')
+                    expect(item).to.have.property('profissional')
+                    expect(item).to.have.property('origemIdAgendamento')
+                })
+            })
+        })
 
         it('Validar retorno 400 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
@@ -49,7 +54,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -65,7 +71,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -85,32 +92,54 @@ describe('Módulo - Contas a Receber', () => {
                 body: {
                     "tipoPagadorId": 2,
                     "tipoRecebimentoId": 2,
-                    "notaFiscal": "333333333",
+                    "notaFiscal": "",
                     "recorrencia": 1,
-                    "tipoIntervalo": "D",
-                    "observacao": "b",
+                    "tipoIntervalo": "M",
+                    "observacao": "teste",
                     "pacienteId": null,
                     "fornecedorId": "1300",
                     "profissionalId": null,
-                    "quantidadeParcelas": 1,
+                    "quantidadeParcelas": 3,
                     "itens": [
                         {
-                            "descricao": "TESTE API",
+                            "descricao": "teste",
                             "quantidade": 1,
-                            "valorUnitario": 10,
-                            "classificacaoFinanceiraId": 60,
-                            "valorTotal": 10,
+                            "valorUnitario": 300,
+                            "classificacaoFinanceiraId": 98,
+                            "valorTotal": 300,
                             "executanteId": 0,
                             "executado": "0"
                         }
                     ],
-                    "parcelas": [],
+                    "parcelas": [
+                        {
+                            "dataVencimento": "20260114",
+                            "observacao": "",
+                            "numeroParcela": 1,
+                            "valor": 100
+                        },
+                        {
+                            "dataVencimento": "20260214",
+                            "observacao": "",
+                            "numeroParcela": 2,
+                            "valor": 100
+                        },
+                        {
+                            "dataVencimento": "20260314",
+                            "observacao": "",
+                            "numeroParcela": 3,
+                            "valor": 100
+                        }
+                    ],
                     "origemId": 1,
-                    "origem": "Manual"
+                    "origem": "Manual",
+                    "typeAccountReceivableManual": null
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
                 const idRecebimento = response.body.id
 
                 const body = response.body;
@@ -162,7 +191,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -223,7 +253,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -232,18 +263,20 @@ describe('Módulo - Contas a Receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('18170476') // Reutiliza o ID
+            const idRecebimento = Cypress.env('8524164') // Reutiliza o ID
 
             cy.request({
                 method: 'GET',
-                url: `/api/v1/contas-receber/${18170476}`,
+                url: `/api/v1/contas-receber/${8524164}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 const body = response.body
 
                 // Verifica os campos principais do objeto
@@ -289,10 +322,7 @@ describe('Módulo - Contas a Receber', () => {
                         'classificacaoFinanceira'
                     )
 
-                    expect(body.itens[0].executante).to.include.all.keys(
-                        'id',
-                        'nomeFantasia'
-                    )
+                    expect(body.itens[0].executante).to.be.null
                 }
 
                 // Verifica estrutura de parcelas
@@ -350,7 +380,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -366,7 +397,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -375,11 +407,11 @@ describe('Módulo - Contas a Receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('18170476') // Reutiliza o ID
+            const idRecebimento = Cypress.env('8524164') // Reutiliza o ID
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/contas-receber/${18170476}`,
+                url: `/api/v1/contas-receber/${8524164}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -387,32 +419,32 @@ describe('Módulo - Contas a Receber', () => {
                 body: {
                     "tipoPagadorId": 2,
                     "tipoRecebimentoId": 2,
-                    "notaFiscal": "333333333",
+                    "notaFiscal": null,
                     "recorrencia": 1,
-                    "tipoIntervalo": "D",
-                    "observacao": "b",
+                    "tipoIntervalo": "M",
+                    "observacao": "teste",
                     "pacienteId": null,
-                    "fornecedorId": 1300,
+                    "fornecedorId": 420,
                     "profissionalId": null,
                     "quantidadeParcelas": 1,
                     "itens": [
                         {
-                            "descricao": "TESTE API",
+                            "descricao": "Aluguel Sala",
                             "quantidade": 1,
-                            "id": 57296670,
-                            "valorUnitario": 10,
-                            "classificacaoFinanceiraId": 60,
-                            "valorTotal": 10,
+                            "id": 43507,
+                            "valorUnitario": 100,
+                            "classificacaoFinanceiraId": 136,
+                            "valorTotal": 100,
                             "executanteId": 0,
                             "executado": "0"
                         }
                     ],
                     "parcelas": [
                         {
-                            "dataVencimento": "20251205",
-                            "observacao": "",
+                            "dataVencimento": "20260108",
+                            "observacao": null,
                             "numeroParcela": 1,
-                            "valor": 10
+                            "valor": 100
                         }
                     ],
                     "origemId": 1,
@@ -420,7 +452,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
@@ -442,7 +475,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -461,7 +495,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -474,15 +509,16 @@ describe('Módulo - Contas a Receber', () => {
 
             cy.request({
                 method: 'DELETE',
-                //url: `/api/v1/contas-receber/${idRecebimento}`,
-                url: '/api/v1/contas-receber/23',
+                url: `/api/v1/contas-receber/${idRecebimento}`,
+                //url: '/api/v1/contas-receber/23',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -502,7 +538,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -519,7 +556,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -547,6 +585,7 @@ describe('Módulo - Contas a Receber', () => {
             }).then((response) => {
 
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 // Valida somente os campos do objeto principal
                 expect(response.body).to.have.all.keys(
@@ -599,7 +638,8 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -615,11 +655,13 @@ describe('Módulo - Contas a Receber', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // Não passível de teste.
     describe('Módulo - Contas a Receber - Pagamento de uma conta a receber por cartão', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/cartao', () => {
@@ -644,6 +686,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -662,6 +705,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -680,10 +724,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
+    // Não passível de teste.
     describe('Módulo - Contas a Receber - Atualiza o evento do recebimento em cartão', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/resposta-cartao-fiserv', () => {
@@ -712,6 +758,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -730,6 +777,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -759,6 +807,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -782,6 +831,11 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error');
+                expect(response.body).to.have.property('statusCode');
             })
         })
 
@@ -800,6 +854,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -820,11 +875,13 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
+    // Não passível de teste.
+    describe('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/{parcelaId}/recibo', () => {
             const token = Cypress.env('access_token');
@@ -839,6 +896,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -855,6 +913,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -871,11 +930,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}/historico', () => {
             const token = Cypress.env('access_token');
@@ -890,6 +950,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(response.body).to.be.an('array')
@@ -915,6 +976,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -931,11 +993,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de status de contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/status/list', () => {
             const token = Cypress.env('access_token');
@@ -950,6 +1013,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 expect(response.body).to.be.an('array');
@@ -979,11 +1043,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de classificacao financeira do tipo Receita', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/classificacao-financeira/list', () => {
             const token = Cypress.env('access_token');
@@ -998,6 +1063,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.forEach((item) => {
@@ -1021,11 +1087,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de tipos de pagadores de conta a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-pagadores/list', () => {
             const token = Cypress.env('access_token');
@@ -1040,6 +1107,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.forEach((item) => {
@@ -1062,11 +1130,12 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
+    describe('Módulo - Contas a Receber - Retorna lista de tipos de recebimento de conta a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/tipos-recebimento/list', () => {
             const token = Cypress.env('access_token');
@@ -1081,6 +1150,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
                 body.forEach((item) => {
@@ -1103,17 +1173,19 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
+    describe('Módulo - Contas a Receber - Retorna dados de um lançamento financeiro', () => {
+
         it('Validar retorno 200 - /api/v1/contas-receber/parcela/lancamento-financeiro', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/contas-receber/parcela/lancamento-financeiro',
+                url: '/api/v1/contas-receber/parcela/lancamento-financeiro?parcelaId=24&parcelaLiquidacaoId=24',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1121,6 +1193,26 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('useFiservCancel');
+                expect(response.body).to.have.property('lancamentoFinanceiroId');
+                expect(response.body).to.have.property('valor');
+                expect(response.body).to.have.property('localAtendimentoId');
+                expect(response.body).to.have.property('flgRegistroFiserv');
+                expect(response.body).to.have.property('tokenTerminal');
+                expect(response.body).to.have.property('hashZoop');
+                expect(response.body).to.have.property('contaCorrentId');
+                expect(response.body).to.have.property('formaLiquidacao');
+                expect(response.body.formaLiquidacao).to.have.property('id');
+                expect(response.body.formaLiquidacao).to.have.property('formaLiquidacao');
+                expect(response.body.formaLiquidacao).to.have.property('tipoOperacao');
+                expect(response.body).to.have.property('cnpjMaisTodos');
+                expect(response.body).to.have.property('cnpjUnidade');
+                expect(response.body).to.have.property('dataTransacao');
+                expect(response.body).to.have.property('transacaoId');
+                expect(response.body).to.have.property('dadosSubadquirente');
+                expect(response.body).to.have.property('registerTokenFiserv');
             })
         })
 
@@ -1137,6 +1229,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -1153,6 +1246,7 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })

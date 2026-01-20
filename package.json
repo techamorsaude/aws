@@ -54,5 +54,8 @@
     "cypress": "^12.17.4",
     "cypress-plugin-api": "^2.11.2",
     "rimraf": "^5.0.10"
+  },
+  "dependencies": {
+    "cypress-plugin-api": "^2.11.2"
   }
 }

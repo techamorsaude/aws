@@ -21,11 +21,44 @@ describe('Módulo - Recursos - Retorna uma lista de todos os recursos de um perf
       }).then((response) => {
         // Verificar se o status é 200
         expect(response.status).to.eq(200);
+        cy.log(JSON.stringify(response.body));
 
-        // Verificar se o corpo da resposta é do tipo JSON
-        expect(response.headers['content-type']).to.include('application/json');
-      });
-    });
+        expect(response.body).to.be.an('array')
+
+        response.body.forEach(modulo => {
+          expect(modulo).to.have.all.keys(
+            'id',
+            'descricaoLogico',
+            'descricaoFisico',
+            'grrPermiteRestringe',
+            'subModulos'
+          )
+
+          expect(modulo.subModulos).to.be.an('array')
+
+          modulo.subModulos.forEach(subModulo => {
+            expect(subModulo).to.have.all.keys(
+              'id',
+              'descricaoLogico',
+              'descricaoFisico',
+              'grrPermiteRestringe',
+              'acoes'
+            )
+
+            expect(subModulo.acoes).to.be.an('array')
+
+            subModulo.acoes.forEach(acao => {
+              expect(acao).to.have.all.keys(
+                'id',
+                'descricaoLogico',
+                'descricaoFisico',
+                'grrPermiteRestringe'
+              )
+            })
+          })
+        })
+      })
+    })
 
     it('Validar retorno 401 - /api/v1/recursos', () => {
       cy.request({
@@ -39,10 +72,10 @@ describe('Módulo - Recursos - Retorna uma lista de todos os recursos de um perf
       }).then((response) => {
         // Verificar se o status é 401
         expect(response.status).to.eq(401);
-      });
-    });
-
-  });
-});
+        cy.log(JSON.stringify(response.body));
+      })
+    })
+  })
+})
 
 

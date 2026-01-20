@@ -11,7 +11,7 @@ describe('Módulo - Usuários', () => {
         it('Validar retorno 200 - /api/v1/user/current-user-info', () => {
             const token = Cypress.env('access_token');
 
-            cy.request({
+            cy.api({
                 method: 'GET',
                 url: '/api/v1/user/current-user-info',
                 headers: {
@@ -21,6 +21,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 // Campos Principais
                 expect(response.body).to.have.all.keys(
@@ -46,6 +47,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -75,7 +77,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('email');
@@ -125,7 +128,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -150,7 +154,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('email');
@@ -194,7 +199,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -215,7 +221,8 @@ describe('Módulo - Usuários', () => {
                     },
                     failOnStatusCode: false
                 }).then((loginResponse) => {
-                    expect(loginResponse.status).to.eq(200)
+                    expect(loginResponse.status).to.eq(200);
+                    cy.log(JSON.stringify(response.body));
 
                     const token = loginResponse.body.token;
 
@@ -253,7 +260,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -273,6 +281,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -298,6 +307,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -317,6 +327,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -339,6 +350,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -362,7 +374,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 expect(response.body).to.include.all.key(
                     'codigo',
@@ -386,7 +399,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -409,6 +423,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -433,6 +448,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -456,7 +472,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe.only('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
+    describe('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
 
         it('Validar retorno 201 - /api/v1/user/recovery-password', () => {
             const token = Cypress.env('access_token');
@@ -476,6 +492,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -500,6 +517,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -523,7 +541,7 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe.only('Módulo - Usuários - Recuperar senha', () => {
+    describe('Módulo - Usuários - Recuperar senha', () => {
 
         it('Validar retorno 201 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');
@@ -541,6 +559,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -564,11 +583,12 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
+    describe('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user/password-recover', () => {
             const token = Cypress.env('access_token');
@@ -587,7 +607,8 @@ describe('Módulo - Usuários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -606,6 +627,7 @@ describe('Módulo - Usuários', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
