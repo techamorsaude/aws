@@ -3,7 +3,7 @@ const { defineConfig } = require('cypress');
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
 const baseUrls = {
-homolog: 'https://amei.amorsaude.com.br/auth/login',
+homolog: 'https://amei.amorsaude.com.br/',
 
 };
 
@@ -25,4 +25,3 @@ module.exports = defineConfig({
     allureReportLanguage: 'pt-BR',
   },
 });
-// teste

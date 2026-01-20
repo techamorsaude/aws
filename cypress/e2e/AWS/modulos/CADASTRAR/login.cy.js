@@ -3,16 +3,15 @@
 describe('Login', () => {
 
 
-
   it('Validar retorno 200 - /api/v1/security/login', () => {
-    cy.request({
+    cy.api({
       method: 'POST',
       url: '/api/v1/security/login',
       body: {
         email: 'ivan.santos+1@amorsaude.com',
         password: 'Iv@n198529'
       },
-      failOnStatusCode: false // normalmente esse cod refere-se a uma api pra nao dar erro de false
+      failOnStatusCode: false 
     }).then((response) => {
       expect(response.status).to.eq(200)
       expect(response.body).to.have.property('id')
@@ -49,7 +48,7 @@ describe('Login', () => {
       method: 'POST',
       url: '/api/v1/security/login',
       body: {
-        email: 'ivan.santos+5454541@amorsaude.com',
+        email: 'ivan.santos+1@amorsaude.com4',
         password: 'Iv@n198529'
       },
       failOnStatusCode: false // normalmente esse cod refere-se a uma api pra nao dar erro de false
