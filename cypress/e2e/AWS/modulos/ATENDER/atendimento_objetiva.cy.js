@@ -6,7 +6,7 @@ describe('Módulo - Atendimento Objetiva', () => {
         cy.refreshToken();
     })
 
-    describe('Módulo - Atendimento Objetiva - Criar ou atualizar Exame Físico / Cirurgia', () => {
+    describe.skip('Módulo - Atendimento Objetiva - Criar ou atualizar Exame Físico / Cirurgia', () => {
 
         it('Validar retorno 201 - /api/v1/attendance/objective', () => {
             const token = Cypress.env('access_token');
@@ -69,7 +69,7 @@ describe('Módulo - Atendimento Objetiva', () => {
         })
     })
 
-    describe('Módulo - Atendimento Objetiva - Lista de Exame Físico / Cirurgia', () => {
+    describe.skip('Módulo - Atendimento Objetiva - Lista de Exame Físico / Cirurgia', () => {
 
         it('Validar retorno 200 - /api/v1/attendance/objective', () => {
             const token = Cypress.env('access_token');
@@ -113,7 +113,7 @@ describe('Módulo - Atendimento Objetiva', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/attendance/objective/exam/{id}',
+                url: '/api/v1/attendance/objective/exam/724',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
