@@ -20,7 +20,8 @@ describe('Módulo - Propostas', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const data = response.body.items[0];
 
@@ -65,7 +66,8 @@ describe('Módulo - Propostas', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
 
             })
         })
@@ -82,14 +84,15 @@ describe('Módulo - Propostas', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
 
             })
         })
     })
 
     // Precisa de dados reais do Amei
-    describe('Módulo - Propostas - Cadastrar uma proposta', () => {
+    describe.only('Módulo - Propostas - Cadastrar uma proposta', () => {
 
         it('Validar retorno 201 - /api/v1/propostas', () => {
             const token = Cypress.env('access_token');
@@ -145,6 +148,7 @@ describe('Módulo - Propostas', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 const objeto = response.body;
                 expect(objeto).to.have.property('proposal').to.include.all.keys(
@@ -264,6 +268,7 @@ describe('Módulo - Propostas', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -321,6 +326,7 @@ describe('Módulo - Propostas', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })

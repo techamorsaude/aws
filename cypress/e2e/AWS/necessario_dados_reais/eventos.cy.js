@@ -7,7 +7,7 @@ describe('Módulo - Eventos', () => {
         cy.refreshToken()
     });
 
-    describe('Modulo - Eventos /api/v1/eventos/agendamento', () => {
+    describe.only('Modulo - Eventos - Retorna uma lista de eventos de agendamentos', () => {
 
         it('Validar retorno 200 - /api/v1/eventos/agendamento ', () => {
 
@@ -67,7 +67,7 @@ describe('Módulo - Eventos', () => {
         
     });
 
-    describe('Modulo - Eventos /api/v1/eventos/proposta', () => {
+    describe('Modulo - Eventos - Retorna lista de eventos de propostas', () => {
 
         it('Validar retorno 200 - /api/v1/eventos/proposta', () => {
 

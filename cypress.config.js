@@ -3,7 +3,9 @@ const { defineConfig } = require('cypress');
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
 const baseUrls = {
-homolog: 'https://amei.amorsaude.com.br/',
+  //homolog: 'https://dev-amei.amorsaude.tech/',
+  //homolog: 'https://amei.amorsaude.com.br/',,
+  homolog: 'https://stg-amei.amorsaude.tech/'
 
 };
 
@@ -13,7 +15,16 @@ module.exports = defineConfig({
     failOnStatusCode: false,
     video: false,
     setupNodeEvents(on, config) {
-      require('@mmisty/cypress-allure-adapter/plugins').configureAllureAdapterPlugins(on, config);
+      //Allure
+      require('@mmisty/cypress-allure-adapter/plugins')
+        .configureAllureAdapterPlugins(on, config);
+
+      //User-Agent para não bloquear no WAF
+      config.userAgent =
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+        'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+        'Chrome/144.0.0.0 Safari/537.36';
+
       return config;
     },
     supportFile: 'cypress/support/e2e.js',
