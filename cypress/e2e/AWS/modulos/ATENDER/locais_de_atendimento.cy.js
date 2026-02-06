@@ -7,7 +7,7 @@ describe('Módulo - Locais de Atendimento', () => {
         cy.refreshToken();
     })
 
-    describe.only('Módulo - Locais de Atendimento - Cria um local de atendimento', () => {
+    describe('Módulo - Locais de Atendimento - Cria um local de atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento', () => {
             const token = Cypress.env('access_token');
@@ -94,7 +94,7 @@ describe('Módulo - Locais de Atendimento', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/locais-de-atendimento',
+                url: 'api/v1/locais-de-atendimento?id=62',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    describe.only('Módulo - Locais de Atendimento - Retorna uma lista de locais de atendimento paginados', () => {
+    describe('Módulo - Locais de Atendimento - Retorna uma lista de locais de atendimento paginados', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/filter', () => {
             const token = Cypress.env('access_token');
@@ -190,7 +190,7 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    describe.only('Módulo - Locais de Atendimento - Retorna uma lista de locais de atendimento com caixa aberto', () => {
+    describe('Módulo - Locais de Atendimento - Retorna uma lista de locais de atendimento com caixa aberto', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/caixa_aberto', () => {
             const token = Cypress.env('access_token');
@@ -242,7 +242,7 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    describe.only('Módulo - Locais de Atendimento - Retorna locais de atendimento de acordo com ids enviados como parâmetro', () => {
+    describe('Módulo - Locais de Atendimento - Retorna locais de atendimento de acordo com ids enviados como parâmetro', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/by-id', () => {
             const token = Cypress.env('access_token');
@@ -279,7 +279,7 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    describe.only('Módulo - Locais de Atendimento - Retorna um local de atendimento', () => {
+    describe('Módulo - Locais de Atendimento - Retorna um local de atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/{id}', () => {
             const token = Cypress.env('access_token');
@@ -326,22 +326,23 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    describe.only('Módulo - Locais de Atendimento - Atualiza um local de atendimento', () => {
+    describe('Módulo - Locais de Atendimento - Atualiza um local de atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/{id}', () => {
             const token = Cypress.env('access_token')
+            const idLocal = Cypress.env('idLocal');
 
             const geraDescricao = `descricao${Math.floor(Math.random() * 1000) + 1}`;
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/locais-de-atendimento/15458',
+                url: `/api/v1/locais-de-atendimento/${idLocal}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "descricao": "TESTEQA",
+                    "descricao": "Teste de local paulo 24081",
                     "clinicaId": {
                         "id": 483
                     }
@@ -402,14 +403,15 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    describe.only('Módulo - Locais de Atendimento - Exclui um local de atendimento', () => {
+    describe('Módulo - Locais de Atendimento - Exclui um local de atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/{id}', () => {
             const token = Cypress.env('access_token');
+            const idLocal = Cypress.env('idLocal');
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/locais-de-atendimento/15458',
+                url: `/api/v1/locais-de-atendimento/${idLocal}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
