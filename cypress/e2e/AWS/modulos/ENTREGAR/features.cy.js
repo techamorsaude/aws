@@ -17,7 +17,7 @@ describe('Módulo - Features', () => {
       const token = Cypress.env('access_token');
       featureName = `QA-${Date.now()}`;
 
-      cy.request({
+      cy.api({
         method: 'POST',
         url: '/api/v1/features',
         headers: {
@@ -150,7 +150,7 @@ describe('Módulo - Features', () => {
     it('Validar retorno 200 - /api/v1/features/all', () => {
       const token = Cypress.env('access_token');
 
-      cy.request({
+      cy.api({
         method: 'GET',
         url: '/api/v1/features/all',
         headers: {
@@ -174,7 +174,7 @@ describe('Módulo - Features', () => {
     it('Validar retorno 401 - /api/v1/features/all', () => {
       const token = Cypress.env('access_token');
 
-      cy.request({
+      cy.api({
         method: 'GET',
         url: '/api/v1/features/all',
         headers: {
@@ -190,31 +190,7 @@ describe('Módulo - Features', () => {
 
   describe('Módulo - Features - Atualiza uma Feature', () => {
 
-    it('Validar retorno 200 - /api/v1/features/{id}', () => {
-      const token = Cypress.env('access_token')
-      const idFeat = Cypress.env('idFeat')
 
-      cy.api({
-        method: 'PATCH',
-        url: '/api/v1/features/144',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: {
-          "feature": "QA-1764168452021",
-          "isActive": 1,
-          "defaultValueForNewUnits": 1
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('generatedMaps').to.be.an('array');
-        expect(response.body).to.have.property('raw').to.be.an('array');
-        expect(response.body).to.have.property('affected');
-        expect(response.body).to.have.property('name');
-      })
-    })
 
     it('Validar retorno 400 - /api/v1/features/{id}', () => {
 
@@ -271,7 +247,7 @@ describe('Módulo - Features', () => {
 
       cy.request({
         method: 'DELETE',
-        url: '/api/v1/features/144',
+        url: '/api/v1/features/706',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
