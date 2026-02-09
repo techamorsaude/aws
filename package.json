@@ -8,7 +8,7 @@
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:open:staging": "cross-env CYPRESS_BASE_URL=https://amei-staging.amorsaude.com.br cypress open",
+    "cypress:open:staging": "cross-env CYPRESS_BASE_URL=https://stg-amei.amorsaude.tech cypress open",
     "cypress:open:homologacao": "cross-env CYPRESS_BASE_URL=https://amei-homolog.amorsaude.com.br cypress open",
     "cypress:run:homologacao": "cross-env CYPRESS_BASE_URL=https://amei-homolog.amorsaude.com.br cypress run",
     "cypress:open:producao": "cross-env CYPRESS_BASE_URL=https://amei.amorsaude.com.br cypress open",
