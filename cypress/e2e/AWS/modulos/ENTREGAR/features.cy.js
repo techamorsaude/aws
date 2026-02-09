@@ -8,7 +8,6 @@ describe('Módulo - Features', () => {
     cy.login()
     cy.refreshToken()
 
-
   });
 
   describe('Módulo - Features - Criar uma nova Feature', () => {

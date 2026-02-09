@@ -21,7 +21,7 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
   },
   env: {
-    allure: false,
+    allure: true,  // ← MUDAR PARA TRUE
     allureResultsPath: 'allure-results',
     allureReportLanguage: 'pt-BR',
   },
