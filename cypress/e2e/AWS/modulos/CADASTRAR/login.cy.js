@@ -3,30 +3,32 @@
 describe('Login', () => {
 
 
-  it('Validar retorno 200 - /api/v1/security/login', () => {
-    cy.api({
-      method: 'POST',
-      url: '/api/v1/security/login',
-      body: {
-        email: 'ivan.santos+1@amorsaude.com',
-        password: 'Iv@n198529'
-      },
-      failOnStatusCode: false 
-    }).then((response) => {
-      expect(response.status).to.eq(200)
-      expect(response.body).to.have.property('id')
-      expect(response.body).to.have.property('email')
-      expect(response.body).to.have.property('name')
-      expect(response.body).to.have.property('access_token')    
-      
-      
+it('Validar retorno 200 - /api/v1/security/login', () => {
+  cy.api({
+    method: 'POST',
+    url: '/api/v1/security/login',
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+      'Content-Type': 'application/json'
+    },
+    body: {
+      email: 'ivan.santos+1@amorsaude.com',
+      password: 'Iv@n198529'
+    },
+    failOnStatusCode: false 
+  }).then((response) => {
+    expect(response.status).to.eq(200)
+    expect(response.body).to.have.property('id')
+    expect(response.body).to.have.property('email')
+    expect(response.body).to.have.property('name')
+    expect(response.body).to.have.property('access_token')    
 
-      cy.log('ID:', response.body.id)
-      cy.log('Email:', response.body.email)
-      cy.log('Name:', response.body.name)
-      cy.log('access_token:', response.body.access_token)
-    })
+    cy.log('ID:', response.body.id)
+    cy.log('Email:', response.body.email)
+    cy.log('Name:', response.body.name)
+    cy.log('access_token:', response.body.access_token)
   })
+})
 
   it('Validar retorno 400 - /api/v1/security/login', () => {
 
