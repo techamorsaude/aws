@@ -31,10 +31,12 @@ describe('Módulo - Municípios/Estados', () => {
                     const municipio = response.body[0]
 
                     // Verifica se tem os 4 campos obrigatórios
-                    expect(municipio).to.have.property('id')
-                    expect(municipio).to.have.property('municipio')
-                    expect(municipio).to.have.property('estadoId')
-                    expect(municipio).to.have.property('estado')
+                    expect(municipio).to.have.property('id');
+                    expect(municipio).to.have.property('municipio');
+                    expect(municipio).to.have.property('flagAtivo');
+                    expect(municipio).to.have.property('ipClient');
+                    expect(municipio).to.have.property('createdAt');
+                    expect(municipio).to.have.property('updatedAt');
                 }
             })
         })
