@@ -287,7 +287,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
         })
     })
 
-    describe.only('Módulo - Caixa Saldo Resumo - Cria uma nova transferência financeira', () => {
+    describe('Módulo - Caixa Saldo Resumo - Cria uma nova transferência financeira', () => {
 
         it('Validar retorno 201 - /api/v1/saldo-resumo/transfer', () => {
             const token = Cypress.env('access_token');
