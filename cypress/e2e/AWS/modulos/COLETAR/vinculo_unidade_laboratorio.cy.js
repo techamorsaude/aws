@@ -125,7 +125,7 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
 
       cy.request({
         method: 'GET',
-        url: '/api/v1/vinculo-laboratorio/create-vinculo/check-propostas/828',
+        url: 'api/v1/vinculo-laboratorio/create-vinculo/unidades-vinculadas/483',
         headers: {
           'Authorization': `Bearer ${token}`
         }
