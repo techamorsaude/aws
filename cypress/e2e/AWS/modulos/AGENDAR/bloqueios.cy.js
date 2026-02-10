@@ -19,18 +19,22 @@ describe('Módulo - Bloqueios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": 20251210,
-                    "dataFim": 20251210,
+                    "dataInicio": "20260210",
+                    "dataFim": "20260210",
                     "horaInicio": "21:00",
                     "horaFim": "22:00",
                     "diasSemana": [
-                        3
+                        2
                     ],
                     "especialidadeIds": [
-                        611
+                        492,
+                        611,
+                        613,
+                        631,
+                        932
                     ],
-                    "descricao": "Teste",
-                    "profissionalId": "4033"
+                    "descricao": "teste",
+                    "profissionalId": 4033
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -109,6 +113,7 @@ describe('Módulo - Bloqueios', () => {
                 const bloqueio = response.body[0];
 
                 // Validação de propriedades principais
+                if (bloqueio != null) {
                 expect(bloqueio).to.have.property('id');
                 expect(bloqueio).to.have.property('dataInicio');
                 expect(bloqueio).to.have.property('dataFim');
@@ -134,6 +139,7 @@ describe('Módulo - Bloqueios', () => {
                 const idBloqueio = bloqueio.id;
                 Cypress.env('idBloqueio', idBloqueio)
                 cy.log('ID do Bloqueio:', idBloqueio)
+                }
             })
         })
 

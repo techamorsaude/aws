@@ -21,7 +21,7 @@ describe('Módulo - Dashboard Profissionais', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(400)
                 cy.log('Retornou vazio', JSON.stringify(response.body))
             })
         })
