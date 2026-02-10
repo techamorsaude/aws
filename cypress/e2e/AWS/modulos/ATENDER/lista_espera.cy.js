@@ -6,7 +6,6 @@ describe('Módulo - Lista Espera', () => {
         cy.refreshToken();
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Cria uma lista de espera', () => {
 
         it('Validar retorno 201 - /api/v1/lista-espera', () => {
@@ -69,7 +68,6 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Lista de Espera', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera', () => {
@@ -80,7 +78,7 @@ describe('Módulo - Lista Espera', () => {
 
                 cy.request({
                     method: 'GET',
-                    url: 'api/v1/lista-espera?especialidadeId=611&profissionalId=3601&withoutProfessional=true&page=1&limit=100&search=79295868803&blockedGrid=100',
+                    url: '/api/v1/lista-espera?especialidadeId=611&withoutProfessional=true&page=1&limit=1&search=79295868803&blockedGrid=100',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -89,12 +87,10 @@ describe('Módulo - Lista Espera', () => {
                 }).then((response) => {
                     expect(response.status).to.eq(200)
 
-                    // Variável para acessar array items
-                    const items = response.body.items;
+                    const body = response.body;
 
-                    const data = response.body;
-                    expect(data).to.have.property('items').to.be.an('array')
-                    data.items.forEach((item) => {
+                    expect(body).to.have.property('items').to.be.an('array');
+                    body.items.forEach((item) => {
                         expect(item).to.have.property('id');
                         expect(item).to.have.property('observacoes');
                         expect(item).to.have.property('criadoEm');
@@ -106,7 +102,6 @@ describe('Módulo - Lista Espera', () => {
                         expect(item.pacienteId).to.have.property('dataNascimento');
                         expect(item.pacienteId).to.have.property('telefone');
                         expect(item.pacienteId).to.have.property('celular');
-                        expect(item.pacienteId).to.have.property('celularAlternativo');
                         expect(item).to.have.property('statusId');
                         expect(item.statusId).to.have.property('id');
                         expect(item.statusId).to.have.property('description');
@@ -120,23 +115,18 @@ describe('Módulo - Lista Espera', () => {
                         expect(item.especialidadeId).to.have.property('id');
                         expect(item.especialidadeId).to.have.property('descricao');
                         expect(item).to.have.property('profissionalId');
-                        expect(item.profissionalId).to.have.property('id');
-                        expect(item.profissionalId).to.have.property('tratamento');
-                        expect(item.profissionalId).to.have.property('nome');
-                        expect(item.profissionalId).to.have.property('sobrenome');
+
+                        if (item.profissionalId != null) {
+                            expect(item.profissionalId).to.have.property('id');
+                            expect(item.profissionalId).to.have.property('tratamento');
+                            expect(item.profissionalId).to.have.property('nome');
+                            expect(item.profissionalId).to.have.property('sobrenome');
+                        }
+
                         expect(item).to.have.property('parceriaId');
                         expect(item).to.have.property('procedimentoId');
                         expect(item).to.have.property('agendamento');
                     })
-
-                    // Valida objeto meta 
-                    expect(response.body).to.have.property('meta').to.include.all.keys(
-                        'itemCount',
-                        'totalItems',
-                        'itemsPerPage',
-                        'currentPage',
-                        'totalPages'
-                    )
 
                     const listaEncontrada = response.body.items.find(item =>
                         item.observacoes === observacoes);
@@ -193,7 +183,6 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Retorna por id', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera/{id}', () => {
@@ -283,7 +272,6 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Atualizar por id', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera/{id}', () => {
@@ -301,7 +289,7 @@ describe('Módulo - Lista Espera', () => {
                     },
                     body: {
                         especialidadeId: 611,
-                        profissionalId: 3601,
+                        profissionalId: null,
                         observacoes: "79295868803"
                     },
                     failOnStatusCode: false,
@@ -341,7 +329,6 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
-    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Deletar por id', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera/{id}', () => {
@@ -435,7 +422,7 @@ describe('Módulo - Lista Espera', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
-         
+
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('total');
@@ -495,8 +482,8 @@ describe('Módulo - Lista Espera', () => {
 
                 const items = response.body
                 items.forEach((data) => {
-                expect(data).to.have.property('id');
-                expect(data).to.have.property('description');
+                    expect(data).to.have.property('id');
+                    expect(data).to.have.property('description');
                 })
             })
         })

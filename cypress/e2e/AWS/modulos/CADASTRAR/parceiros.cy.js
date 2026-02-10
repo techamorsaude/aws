@@ -199,7 +199,7 @@ describe('Módulo - Parceiros', () => {
         })
     })
 
-    describe.only('Módulo - Parceiros - Lista os tipos de cobrança cadastrados', () => {
+    describe('Módulo - Parceiros - Lista os tipos de cobrança cadastrados', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/tipo-cobrancas', () => {
             const token = Cypress.env('access_token');
@@ -305,7 +305,7 @@ describe('Módulo - Parceiros', () => {
         })
     })
 
-    describe.only('Módulo - Parceiros - Lista os parceiros cadastrados', () => {
+    describe('Módulo - Parceiros - Lista os parceiros cadastrados', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros', () => {
             const token = Cypress.env('access_token');
