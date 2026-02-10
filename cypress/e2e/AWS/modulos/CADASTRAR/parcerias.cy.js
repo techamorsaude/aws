@@ -1,28 +1,26 @@
 /// <reference types= "cypress" /> 
 
 describe('Módulo - Parcerias', () => {
-
   beforeEach(() => {
     cy.login()
     cy.refreshToken()
   });
 
-  describe.only('Módulo - Parcerias - All - Retorna uma lista de parceiros', () => {
+  describe('Módulo - Parcerias - All - Retorna uma lista de parceiros', () => {
 
     it('Validar retorno 200 - /api/v1/parcerias/all', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
         method: 'GET',
-        url: '/api/v1/parcerias/all', // URL do seu endpoint
+        url: '/api/v1/parcerias/all',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
       }).then((response) => {
-        // Verificar se o status é 200
         expect(response.status).to.eq(200);
 
-        //Valida a estrutura dos dados
         const data = response.body.data;
 
         data.forEach((item, index) => {
@@ -39,13 +37,12 @@ describe('Módulo - Parcerias', () => {
       const token = Cypress.env('access_token')
       cy.request({
         method: 'GET',
-        url: '/api/v1/parcerias/all', // URL do seu endpoint
+        url: '/api/v1/parcerias/all',
         headers: {
-          //'Authorization': `Bearer ${token}` Token inválido
+          //'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        failOnStatusCode: false,
       }).then((response) => {
-        // Verificar se o status é 200
         expect(response.status).to.eq(401);
       })
     })
@@ -58,12 +55,13 @@ describe('Módulo - Parcerias', () => {
       const token = Cypress.env('access_token')
       cy.api({
         method: 'GET',
-        url: '/api/v1/parcerias/parceiros', // URL do seu endpoint
+        url: '/api/v1/parcerias/parceiros',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
+        failOnStatusCode: false,
       }).then((response) => {
-        // Verificar se o status é 200
         expect(response.status).to.eq(200);
 
         //Valida a estrutura dos dados
@@ -98,6 +96,21 @@ describe('Módulo - Parcerias', () => {
           expect(item).to.have.property('complemento');
           expect(item).to.have.property('urlParceiro');
         })
+      })
+    })
+
+    it('Validar retorno 401 - /api/v1/parcerias/parceiros', () => {
+
+      const token = Cypress.env('access_token')
+      cy.api({
+        method: 'GET',
+        url: '/api/v1/parcerias/parceiros',
+        headers: {
+          //'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+      }).then((response) => {
+        expect(response.status).to.eq(401);
       })
     })
   })
