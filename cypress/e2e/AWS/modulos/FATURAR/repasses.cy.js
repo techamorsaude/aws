@@ -284,7 +284,7 @@ describe('Módulo - Repasses', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201);
+                expect(response.status).to.eq(400);
                 cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');

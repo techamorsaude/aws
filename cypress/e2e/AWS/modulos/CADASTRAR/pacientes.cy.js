@@ -1735,7 +1735,7 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe.only('Módulo - Pacientes - Retorna informações dos dados de anamnese do paciente', () => {
+    describe('Módulo - Pacientes - Retorna informações dos dados de anamnese do paciente', () => {
 
         it('Validar retorno 200 - /api/v1/pacientes/{id}/cover-sheet/anamnese', () => {
             const token = Cypress.env('access_token');
@@ -1790,7 +1790,7 @@ describe('Módulo - Pacientes', () => {
         })
     })
 
-    describe.only('Módulo - Pacientes - Retorna quantidades de faltas do paciente', () => {
+    describe('Módulo - Pacientes - Retorna quantidades de faltas do paciente', () => {
 
         it('Validar retorno 200 - /api/v1/pacientes/{id}/appointments/number-of-absences', () => {
             const token = Cypress.env('access_token');
@@ -1845,7 +1845,7 @@ describe('Módulo - Pacientes', () => {
         })
     })
 
-    describe.only('Módulo - Pacientes - Retorna nome e sobrenome por id', () => {
+    describe('Módulo - Pacientes - Retorna nome e sobrenome por id', () => {
 
         it('Validar retorno 200 - /api/v1/pacientes/patient-info/name/{id}', () => {
             const token = Cypress.env('access_token');

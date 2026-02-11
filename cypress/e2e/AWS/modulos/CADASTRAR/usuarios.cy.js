@@ -587,7 +587,7 @@ describe('Módulo - Usuários', () => {
             })
         })
     })
-
+    
     describe('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
 
         it('Validar retorno 200 - /api/v1/user/password-recover', () => {

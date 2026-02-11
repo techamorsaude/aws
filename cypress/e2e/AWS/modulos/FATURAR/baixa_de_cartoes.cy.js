@@ -13,7 +13,7 @@ describe('Módulo - Baixa de Cartões', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/baixa-cartao?page=1&limit=1&dataInicial=20250102&dataFinal=20251230',
+                url: '/api/v1/baixa-cartao?page=1&limit=10&baixadas=1&pendentes=1&cancelados=1&dataInicial=20260201&dataFinal=20260211&tipoData=1&bandeirasIds=0&contaCorrenteIds=0',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
