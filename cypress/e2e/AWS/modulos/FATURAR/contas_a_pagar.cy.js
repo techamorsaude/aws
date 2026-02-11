@@ -825,7 +825,7 @@ describe('Módulo - Contas a Pagar', () => {
     })
 
     //Id utilizado para testar essa rota está na tabela PAG_PAR_LIQ (coluna id)
-    describe.only('Módulo - Contas a Pagar - Cancela o recebimento de uma parcela contas a pagar', () => {
+    describe('Módulo - Contas a Pagar - Cancela o recebimento de uma parcela contas a pagar', () => {
 
         it('Validar retorno 200 - /api/v1/bills-to-pay/parcela/contas-pagar/{parcelaRecebimentoId}', () => {
             const token = Cypress.env('access_token');

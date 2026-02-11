@@ -77,7 +77,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe('Módulo - Contas a Receber - Cadastro de uma conta a receber', () => {
+    describe.only('Módulo - Contas a Receber - Cadastro de uma conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
@@ -97,43 +97,32 @@ describe('Módulo - Contas a Receber', () => {
                     "tipoIntervalo": "M",
                     "observacao": "teste",
                     "pacienteId": null,
-                    "fornecedorId": "1300",
+                    "fornecedorId": "296",
                     "profissionalId": null,
-                    "quantidadeParcelas": 3,
+                    "quantidadeParcelas": 4,
                     "itens": [
                         {
-                            "descricao": "teste",
+                            "descricao": "a",
                             "quantidade": 1,
-                            "valorUnitario": 300,
+                            "valorUnitario": 100,
                             "classificacaoFinanceiraId": 98,
-                            "valorTotal": 300,
+                            "valorTotal": 100,
+                            "executanteId": 0,
+                            "executado": "0"
+                        },
+                        {
+                            "descricao": "b",
+                            "quantidade": 1,
+                            "valorUnitario": 200,
+                            "classificacaoFinanceiraId": 98,
+                            "valorTotal": 200,
                             "executanteId": 0,
                             "executado": "0"
                         }
                     ],
-                    "parcelas": [
-                        {
-                            "dataVencimento": "20260114",
-                            "observacao": "",
-                            "numeroParcela": 1,
-                            "valor": 100
-                        },
-                        {
-                            "dataVencimento": "20260214",
-                            "observacao": "",
-                            "numeroParcela": 2,
-                            "valor": 100
-                        },
-                        {
-                            "dataVencimento": "20260314",
-                            "observacao": "",
-                            "numeroParcela": 3,
-                            "valor": 100
-                        }
-                    ],
+                    "parcelas": [],
                     "origemId": 1,
-                    "origem": "Manual",
-                    "typeAccountReceivableManual": null
+                    "origem": "Manual"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
