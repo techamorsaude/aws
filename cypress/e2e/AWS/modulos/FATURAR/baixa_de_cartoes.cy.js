@@ -13,7 +13,7 @@ describe('Módulo - Baixa de Cartões', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/baixa-cartao?page=1&limit=10&baixadas=1&pendentes=1&cancelados=1&dataInicial=20260201&dataFinal=20260211&tipoData=1&bandeirasIds=0&contaCorrenteIds=0',
+                url: '/api/v1/baixa-cartao?page=1&limit=1&contaCorrenteIds=16&contaCorrenteIds=2&dataInicial=20260201&dataFinal=20260212&bandeirasIds=0&bandeirasIds=0',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -164,7 +164,7 @@ describe('Módulo - Baixa de Cartões', () => {
 
     // Tabela lancamentos_financeiros (coluna id)
     //select * from lancamentos_financeiros lf where lf.id = '1454397'
-    describe.only('Módulo - Baixa de Cartões - Concializa/faz a baixa dos pagamentos selecionados ou unico', () => {
+    describe('Módulo - Baixa de Cartões - Concializa/faz a baixa dos pagamentos selecionados ou unico', () => {
 
         it('Validar retorno 201 - /api/v1/baixa-cartao/conciliar', () => {
             const token = Cypress.env('access_token');
