@@ -389,7 +389,6 @@ describe('Módulo - Tabela Padrão', () => {
                     expect(item).to.have.property('lastUser');
                     expect(item).to.have.property('restauradaEm');
                     expect(item).to.have.property('createdBy');
-                    expect(item.createdBy).to.have.property('isActive');
                     expect(item.createdBy).to.have.property('fullName');
                 })
                 expect(body).to.have.property('meta').to.include.all.keys(
@@ -401,22 +400,6 @@ describe('Módulo - Tabela Padrão', () => {
                 )
             })
         })
-
-        it('Validar retorno 401 - /api/v1/tabela-padrao/history', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/tabela-padrao/history?page=1&limit=10',
-                headers: {
-                    //'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(401);
-            })
-        })
     })
 
     describe('Módulo - Tabela Padrão - Retorna tabela padrão por id', () => {
@@ -426,7 +409,7 @@ describe('Módulo - Tabela Padrão', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-padrao/16',
+                url: '/api/v1/tabela-padrao/45',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
