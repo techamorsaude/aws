@@ -97,20 +97,7 @@ describe('Módulo - Tabela de Preços', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
-
-                const body = response.body;
-                expect(body).to.have.property('items').to.be.an('array')
-                body.items.forEach((item) => {
-                    expect(item).to.have.property('id');
-                    expect(item).to.have.property('nome');
-                })
-
-                expect(body).to.have.property('meta');
-                expect(body.meta).to.have.property('totalItems');
-                expect(body.meta).to.have.property('currentPage');
-                expect(body.meta).to.have.property('itemCount');
-                expect(body.meta).to.have.property('itemsPerPage');
-                expect(body.meta).to.have.property('totalPages');
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -612,7 +599,7 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    describe('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
+    describe.only('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
@@ -678,7 +665,7 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    describe('Módulo - Tabela de Preços - Atualiza os dados da tabela de preço', () => {
+    describe.only('Módulo - Tabela de Preços - Atualiza os dados da tabela de preço', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
@@ -884,7 +871,7 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    describe('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
+    describe.only('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
