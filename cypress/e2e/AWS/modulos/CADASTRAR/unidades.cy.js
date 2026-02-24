@@ -266,7 +266,7 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    describe.only('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
+    describe('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/static-info/{id}', () => {
             const token = Cypress.env('access_token');
@@ -1106,7 +1106,7 @@ describe('Módulo - Unidades', () => {
         })
     */
    
-    describe.only('Módulo - Unidades - Phones Hidden', () => {
+    describe('Módulo - Unidades - Phones Hidden', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/list/phones-hidden', () => {
             const token = Cypress.env('access_token');

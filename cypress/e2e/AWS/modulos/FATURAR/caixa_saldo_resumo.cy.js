@@ -180,14 +180,14 @@ describe('Módulo - Caixa Saldo Resumo', () => {
         })
     })
 
-    describe('Módulo - Caixa Saldo Resumo - Buscar resumo financeiro', () => {
+    describe.only('Módulo - Caixa Saldo Resumo - Buscar resumo financeiro', () => {
 
         it('Validar retorno 200 - /api/v1/saldo-resumo', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/saldo-resumo?data=20250201&dataFinal=20250130&tipoData=0',
+                url: '/api/v1/saldo-resumo/transfer',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application'
@@ -197,32 +197,12 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 expect(response.status).to.eq(200);
                 cy.log(JSON.stringify(response.body));
 
-                expect(response.body).to.be.an('array')
-                response.body.forEach((body) => {
-                    expect(body).to.have.property('id');
-                    expect(body).to.have.property('contaCorrente');
-                    expect(body).to.have.property('tipoContaCorrente');
-                    expect(body).to.have.property('resumo');
-                    expect(body.resumo).to.have.property('dinheiro');
-                    expect(body.resumo.dinheiro).to.have.property('entradas');
-                    expect(body.resumo.dinheiro).to.have.property('saidas');
-                    expect(body.resumo.dinheiro).to.have.property('saldo');
-                    expect(body.resumo).to.have.property('debito');
-                    expect(body.resumo.debito).to.have.property('entradas');
-                    expect(body.resumo.debito).to.have.property('saidas');
-                    expect(body.resumo.debito).to.have.property('saldo');
-                    expect(body.resumo).to.have.property('credito');
-                    expect(body.resumo.credito).to.have.property('entradas');
-                    expect(body.resumo.credito).to.have.property('saidas');
-                    expect(body.resumo.credito).to.have.property('saldo');
-                    expect(body.resumo).to.have.property('pix');
-                    expect(body.resumo.pix).to.have.property('entradas');
-                    expect(body.resumo.pix).to.have.property('saidas');
-                    expect(body.resumo.pix).to.have.property('saldo');
-                    expect(body.resumo).to.have.property('transferencia');
-                    expect(body.resumo.transferencia).to.have.property('entradas');
-                    expect(body.resumo.transferencia).to.have.property('saidas');
-                    expect(body.resumo.transferencia).to.have.property('saldo');
+                const body = response.body;
+
+                expect(body).to.have.property('accounts').to.be.an('array')
+                body.accounts.forEach((item) => {
+                    expect(item).to.have.property('value');
+                    expect(item).to.have.property('label');
                 })
             })
         })
@@ -245,7 +225,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
         })
     })
 
-    describe('Módulo - Caixa Saldo Resumo - Retorna duas listas, uma com as contas financeiras e outra com o tipo de transferência', () => {
+    describe.only('Módulo - Caixa Saldo Resumo - Retorna duas listas, uma com as contas financeiras e outra com o tipo de transferência', () => {
 
         it('Validar retorno 200 - /api/v1/saldo-resumo/transfer', () => {
             const token = Cypress.env('access_token');

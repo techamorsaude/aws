@@ -77,7 +77,7 @@ describe('Módulo - Contas a Receber', () => {
         })
     })
 
-    describe.only('Módulo - Contas a Receber - Cadastro de uma conta a receber', () => {
+    describe('Módulo - Contas a Receber - Cadastro de uma conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber', () => {
             const token = Cypress.env('access_token');
@@ -649,7 +649,7 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-
+/*
     // Não passível de teste.
     describe('Módulo - Contas a Receber - Pagamento de uma conta a receber por cartão', () => {
 
@@ -800,7 +800,7 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-
+*/
     describe('Módulo - Contas a Receber - Cancela uma liquidacao de uma parcela da conta a receber', () => {
 
         it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento/cancelar', () => {
@@ -868,7 +868,7 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-
+/*
     // Não passível de teste.
     describe('Módulo - Contas a Receber - Gerar recibo pelo Id da parcela', () => {
 
@@ -923,7 +923,7 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-
+*/
     describe('Módulo - Contas a Receber - Retorna lista de historico da contas a receber', () => {
 
         it('Validar retorno 200 - /api/v1/contas-receber/{id}/historico', () => {

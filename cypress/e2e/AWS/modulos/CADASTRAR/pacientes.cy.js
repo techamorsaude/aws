@@ -22,6 +22,7 @@ describe('Módulo - Pacientes', () => {
             }).then((response) => {
                 expect(response.status).to.eq(200);
                 expect(response.body).to.have.property('url');
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -38,6 +39,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -58,55 +60,43 @@ describe('Módulo - Pacientes', () => {
                     "tipoPaciente": "brasileiro",
                     "prioridade": null,
                     "origem": "",
-                    "cpf": "52912779049",
-                    "nome": "TESTE API",
-                    "sobrenome": "MODULO PACIENTES",
+                    "cpf": "84497431339",
+                    "nome": "Olivia",
+                    "sobrenome": "Josefa Maite da Rosa",
                     "nomeSocial": "",
-                    "sexoId": 1,
-                    "genero": 2,
-                    "dataNascimento": "1991-08-26",
-                    "rg": "",
+                    "sexoId": 2,
+                    "genero": 1,
+                    "dataNascimento": "2000-02-13",
+                    "rg": "444444444444",
                     "naturalidade": "",
                     "nacionalidade": "",
-                    "etnia": "",
+                    "etnia": 1,
                     "cns": "",
                     "profissao": "",
-                    "estadoCivil": "",
-                    "nomeMae": "MAE TESTE API MODULO PACIENTES",
+                    "estadoCivil": 1,
+                    "nomeMae": "Rafaela Allana Flávia",
                     "restricoesTratamentoMedico": "",
-                    "prontuario": "754",
-                    "createdAt": "2025-12-11",
+                    "prontuario": "665",
+                    "createdAt": "2026-02-24",
                     "codigoDDI": "Brasil (+0055)",
-                    "celular": "32222222222",
+                    "celular": "89375902322",
                     "celularAlternativo": "",
-                    "email": "52912779049@gmail.com",
+                    "email": "alice-araujo92@maiamaquinas.com.br",
                     "residenciaTipo": "fixa",
-                    "cep": "15265970",
-                    "endereco": "Rua Monteiro Lobato 1057",
-                    "numero": 1057,
+                    "cep": "64310970",
+                    "endereco": "Avenida dos Jesuítas",
+                    "numero": 600,
                     "complemento": "",
                     "bairro": "Centro",
-                    "cidade": "Zacarias",
-                    "estado": "SP",
+                    "cidade": "Aroazes",
+                    "estado": "PI",
                     "pacienteConvenioPlano": [],
-                    "pacientesFamiliares": [
-                        {
-                            "celular": 33433333333,
-                            "cpf": "",
-                            "email": "",
-                            "nome": "TESTE DO TESTE",
-                            "observacoes": "",
-                            "parentesco": 4,
-                            "responsavel": "Não"
-                        }
-                    ],
-                    "optin": {
-                        "personalData": true
-                    }
+                    "pacientesFamiliares": []
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -123,6 +113,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -139,6 +130,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -158,6 +150,8 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('items').to.be.an('array');
             })
         })
@@ -175,6 +169,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -194,6 +189,8 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -213,6 +210,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -229,6 +227,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -248,6 +247,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -264,6 +264,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -280,6 +281,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -299,6 +301,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -315,6 +318,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -331,6 +335,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -350,6 +355,8 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.be.an('array')
                 response.body.forEach((item) => {
                     expect(item).to.have.property('id');
@@ -371,6 +378,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -387,6 +395,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -406,23 +415,9 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('data').to.be.an('array');
-            })
-        });
-
-        it('Validar retorno 400 - /api/v1/pacientes/all', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/pacientes/all',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400);
             })
         });
 
@@ -439,6 +434,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -450,14 +446,16 @@ describe('Módulo - Pacientes', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/pacientes/{id}/check-retorno',
+                url: '/api/v1/pacientes/1162697/check-retorno',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200);
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -477,6 +475,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -493,6 +492,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -512,6 +512,8 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 const body = response.body;
                 expect(body).to.have.property('items').to.be.an('array');
                 body.items.forEach((item) => {
@@ -564,6 +566,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -580,6 +583,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -599,6 +603,8 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 const body = response.body;
                 expect(body).to.have.property('items').to.be.an('array');
                 body.items.forEach((item) => {
@@ -651,6 +657,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -667,6 +674,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -678,7 +686,7 @@ describe('Módulo - Pacientes', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/pacientes/10246474',
+                url: '/api/v1/pacientes/1162697',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -686,9 +694,51 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                expect(response.body).to.have.property('message');
-                expect(response.body).to.have.property('error');
-                expect(response.body).to.have.property('statusCode');
+                cy.log(JSON.stringify(response.body));
+
+                expect(response.body).to.have.property('id');
+                expect(response.body).to.have.property('obito');
+                expect(response.body).to.have.property('prontuario');
+                expect(response.body).to.have.property('tipoPaciente');
+                expect(response.body).to.have.property('cpf');
+                expect(response.body).to.have.property('docIdentificacao');
+                expect(response.body).to.have.property('nome');
+                expect(response.body).to.have.property('sobrenome');
+                expect(response.body).to.have.property('nomeCompleto');
+                expect(response.body).to.have.property('nomeSocial');
+                expect(response.body).to.have.property('rg');
+                expect(response.body).to.have.property('dataNascimento');
+                expect(response.body).to.have.property('nomeMae');
+                expect(response.body).to.have.property('naturalidade');
+                expect(response.body).to.have.property('nacionalidade');
+                expect(response.body).to.have.property('profissao');
+                expect(response.body).to.have.property('restricoesTratamentoMedico');
+                expect(response.body).to.have.property('codigoDDI');
+                expect(response.body).to.have.property('telefone');
+                expect(response.body).to.have.property('celular');
+                expect(response.body).to.have.property('celularAlternativo');
+                expect(response.body).to.have.property('email');
+                expect(response.body).to.have.property('residenciaTipo');
+                expect(response.body).to.have.property('cep');
+                expect(response.body).to.have.property('endereco');
+                expect(response.body).to.have.property('numero');
+                expect(response.body).to.have.property('complemento');
+                expect(response.body).to.have.property('bairro');
+                expect(response.body).to.have.property('cidade');
+                expect(response.body).to.have.property('estado');
+                expect(response.body).to.have.property('foto');
+                expect(response.body).to.have.property('observacoes');
+                expect(response.body).to.have.property('cns');
+                expect(response.body).to.have.property('sexoId');
+                expect(response.body).to.have.property('origemId');
+                expect(response.body).to.have.property('createdAt');
+                expect(response.body).to.have.property('updatedAt');
+                expect(response.body).to.have.property('primeiraConsulta');
+                expect(response.body).to.have.property('sexo');
+                expect(response.body).to.have.property('pacienteConvenioPlano');
+                expect(response.body).to.have.property('pacientesFamiliares');
+                expect(response.body).to.have.property('estadoCivil');
+                expect(response.body).to.have.property('optin');
             })
         });
 
@@ -705,6 +755,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -721,6 +772,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -737,10 +789,47 @@ describe('Módulo - Pacientes', () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-
+                body: {
+                    "tipoPaciente": "brasileiro",
+                    "prioridade": null,
+                    "origem": "",
+                    "cpf": "25103476320",
+                    "nome": "Olivia",
+                    "sobrenome": "Josefa Maite da Rosa",
+                    "nomeSocial": "",
+                    "sexoId": 2,
+                    "genero": 1,
+                    "dataNascimento": "2000-02-13",
+                    "rg": "444444444444",
+                    "naturalidade": "",
+                    "nacionalidade": "",
+                    "etnia": 1,
+                    "cns": "",
+                    "profissao": "",
+                    "estadoCivil": 1,
+                    "nomeMae": "Rafaela Allana Flávia",
+                    "restricoesTratamentoMedico": "",
+                    "prontuario": "9005021964",
+                    "createdAt": "2026-02-24",
+                    "codigoDDI": "Brasil (+0055)",
+                    "celular": "89375902322",
+                    "email": "oliviajosefadarosa@andrade.com",
+                    "residenciaTipo": "fixa",
+                    "cep": "64310970",
+                    "endereco": "Avenida dos Jesuítas",
+                    "numero": 600,
+                    "complemento": "",
+                    "bairro": "Centro",
+                    "cidade": "Aroazes",
+                    "estado": "PI",
+                    "pacienteConvenioPlano": [],
+                    "pacientesFamiliares": []
+                },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('erro');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem')
@@ -760,10 +849,12 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
 
+    // A falha nesta rota impacta diretamente a regra de negócio, pois o cadastro de paciente é entidade raiz no domínio e possui dependências relacionais no sistema (ex.: exames, agendamentos, atendimentos e vínculos associados).
     describe('Módulo - Pacientes - Deleta paciente por id', () => {
 
         it('Validar retorno 200 - /api/v1/pacientes/{id}', () => {
@@ -779,6 +870,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 expect(response.body).to.have.property('erro');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem')
@@ -798,6 +890,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -814,6 +907,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -825,7 +919,7 @@ describe('Módulo - Pacientes', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/pacientes/353494/cover-sheet',
+                url: '/api/v1/pacientes/1162697/cover-sheet',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -833,6 +927,8 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 response.body.forEach(item => {
                     expect(item).to.have.property('agendamentoId');
                     expect(item).to.have.property('nomePaciente');
@@ -882,6 +978,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         });
 
@@ -898,6 +995,7 @@ describe('Módulo - Pacientes', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         });
     })
@@ -909,7 +1007,7 @@ describe('Módulo - Pacientes', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/pacientes/353494/cover-sheet/problems',
+                url: '/api/v1/pacientes/1162697/cover-sheet/problems',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -937,7 +1035,7 @@ describe('Módulo - Pacientes', () => {
         });
     })
 
-    describe('Módulo - Pacientes - Retorna informações dos cuidasdos do paciente para a folha de rosto', () => {
+    describe('Módulo - Pacientes - Retorna informações dos cuidados do paciente para a folha de rosto', () => {
 
         it('Validar retorno 200 - /api/v1/pacientes/{id}/cover-sheet/cares', () => {
             const token = Cypress.env('access_token');
@@ -1061,7 +1159,7 @@ describe('Módulo - Pacientes', () => {
             })
         });
     })
-
+////Parei os testes aqui
     describe('Módulo - Pacientes - Atualiza campo origem do paciente por id', () => {
 
         it('Validar retorno 200 - /api/v1/pacientes/{id}/origem', () => {

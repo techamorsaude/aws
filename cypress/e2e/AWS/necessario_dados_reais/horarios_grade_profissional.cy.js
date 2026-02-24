@@ -6,6 +6,7 @@ describe('Módulo - Horários/Grade Profissional', () => {
         cy.refreshToken()
     }) 
 
+    // Card do Pedro Castelani
     describe('Módulo - Horários/Grade Profissional - Cria um horário disponível para o profissional', () => {
         after(() => {
             // attempt to cleanup any schedules created by tests in this module
