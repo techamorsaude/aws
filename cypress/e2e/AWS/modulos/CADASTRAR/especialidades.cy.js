@@ -34,6 +34,8 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
                 const item = response.body;
                 const idEspecialidade = item.id
                 const descricao = item.descricao
@@ -70,6 +72,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -89,6 +92,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -107,7 +111,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -134,7 +139,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -154,6 +160,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('items').to.be.an('array')
@@ -187,6 +194,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -205,7 +213,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -232,7 +241,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -252,6 +262,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('items').to.be.an('array')
@@ -277,6 +288,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -293,6 +305,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -312,7 +325,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 expect(items).to.have.property('id');
@@ -373,7 +387,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -390,7 +405,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -415,7 +431,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
@@ -439,7 +456,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -461,7 +479,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -481,7 +500,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
                 expect(item).to.have.property('codigo');
@@ -545,7 +565,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -561,7 +582,8 @@ describe('Módulo - Especialidades', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -582,6 +604,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -613,6 +636,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -629,6 +653,7 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
