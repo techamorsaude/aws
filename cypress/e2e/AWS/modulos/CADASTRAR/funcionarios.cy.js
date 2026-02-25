@@ -21,7 +21,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -51,7 +52,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -67,7 +69,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -124,9 +127,7 @@ describe('Módulo - Funcionários', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(201);
-
-
-
+                    cy.log(JSON.stringify(response.body));
                 })
             })
         })
@@ -156,6 +157,7 @@ describe('Módulo - Funcionários', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(400);
+                    cy.log(JSON.stringify(response.body));
                 })
             })
         })
@@ -209,6 +211,7 @@ describe('Módulo - Funcionários', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(401);
+                    cy.log(JSON.stringify(response.body));
                 })
             })
         })
@@ -228,7 +231,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const data = response.body;
                 expect(data).to.have.property('items').to.be.an('array')
@@ -267,7 +271,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -287,7 +292,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 expect(response.body).to.include.all.keys(
                     'id',
@@ -346,7 +352,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -401,7 +408,9 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.include.all.keys(
                     'nome',
                     'funcao',
@@ -486,12 +495,13 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
 
-    describe.only('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
+    describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
@@ -514,7 +524,9 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -545,7 +557,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -574,7 +587,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -597,7 +611,9 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -620,7 +636,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -640,7 +657,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -666,7 +684,9 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -689,7 +709,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -712,7 +733,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -731,7 +753,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 expect(items).to.have.property('id');
@@ -761,7 +784,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -777,7 +801,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -797,7 +822,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 expect(items).to.have.property('codigo');
@@ -820,6 +846,7 @@ describe('Módulo - Funcionários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(404);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -839,7 +866,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -856,7 +884,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -873,7 +902,8 @@ describe('Módulo - Funcionários', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
