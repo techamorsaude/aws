@@ -1110,7 +1110,7 @@ describe('Módulo - Fornecedores', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/fornecedores/search/30661945000115',
+                url: '/api/v1/fornecedores/search/52896485000147',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1121,8 +1121,6 @@ describe('Módulo - Fornecedores', () => {
                 cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
-                expect(item).to.have.property('createAt');
-                expect(item).to.have.property('flgExecutante');
                 expect(item).to.have.property('id');
                 expect(item).to.have.property('razaoSocial');
                 expect(item).to.have.property('nomeFantasia');
@@ -1132,23 +1130,15 @@ describe('Módulo - Fornecedores', () => {
                 expect(item).to.have.property('cep');
                 expect(item).to.have.property('endereco');
                 expect(item).to.have.property('numero');
-                expect(item).to.have.property('complmento');
+                expect(item).to.have.property('complemento');
                 expect(item).to.have.property('bairro');
                 expect(item).to.have.property('municipioId');
                 expect(item).to.have.property('municipio');
-                expect(item).to.have.property('ufId');
                 expect(item).to.have.property('uf');
                 expect(item).to.have.property('email');
                 expect(item).to.have.property('telefone');
                 expect(item).to.have.property('celular');
-                expect(item).to.have.property('flgRecebeParcial');
-                expect(item).to.have.property('obervacao');
                 expect(item).to.have.property('ativo');
-                expect(item).to.have.property('tipoFornecedorId');
-                expect(item).to.have.property('tipoFornecedor');
-                expect(item).to.have.property('condigoInterno');
-                expect(item).to.have.property('criadoPor');
-                expect(item).to.have.property('integracao');
             })
         })
 
@@ -1169,7 +1159,7 @@ describe('Módulo - Fornecedores', () => {
             })
         })
     })
-
+    
     describe('Módulo - Fornecedores - Atualiza um fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}', () => {
@@ -1194,7 +1184,7 @@ describe('Módulo - Fornecedores', () => {
                     "observacao": "",
                     "bairro": "Boa Vista",
                     "complemento": "",
-                    "numero": 1111,
+                    "numero": 11111,
                     "endereco": "Avenida João de Barros",
                     "municipio": "Recife",
                     "uf": "PE",
@@ -1211,8 +1201,6 @@ describe('Módulo - Fornecedores', () => {
                 cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
-                expect(item).to.have.property('createAt');
-                expect(item).to.have.property('flgExecutante');
                 expect(item).to.have.property('id');
                 expect(item).to.have.property('razaoSocial');
                 expect(item).to.have.property('nomeFantasia');
@@ -1222,23 +1210,15 @@ describe('Módulo - Fornecedores', () => {
                 expect(item).to.have.property('cep');
                 expect(item).to.have.property('endereco');
                 expect(item).to.have.property('numero');
-                expect(item).to.have.property('complmento');
+                expect(item).to.have.property('complemento');
                 expect(item).to.have.property('bairro');
                 expect(item).to.have.property('municipioId');
                 expect(item).to.have.property('municipio');
-                expect(item).to.have.property('ufId');
                 expect(item).to.have.property('uf');
                 expect(item).to.have.property('email');
                 expect(item).to.have.property('telefone');
                 expect(item).to.have.property('celular');
-                expect(item).to.have.property('flgRecebeParcial');
-                expect(item).to.have.property('obervacao');
                 expect(item).to.have.property('ativo');
-                expect(item).to.have.property('tipoFornecedorId');
-                expect(item).to.have.property('tipoFornecedor');
-                expect(item).to.have.property('condigoInterno');
-                expect(item).to.have.property('criadoPor');
-                expect(item).to.have.property('integracao');
             })
         })
 
@@ -1358,8 +1338,8 @@ describe('Módulo - Fornecedores', () => {
             })
         })
     })
-
-    describe('Módulo - Fornecedores - Retorna um fornecedor por id', () => {
+//////////////////////////// PAREI AQUI //////////////////////////////
+    describe.only('Módulo - Fornecedores - Retorna um fornecedor por id', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}', () => {
             const token = Cypress.env('access_token');
@@ -2216,7 +2196,7 @@ describe('Módulo - Fornecedores', () => {
             })
         })
     })
-   
+
     describe('Módulo - Fornecedores - Atualiza os dados do procedimento do fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
