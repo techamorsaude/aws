@@ -31,7 +31,8 @@ describe('Módulo - Eventos', () => {
                     canal: 'site'
                 }, failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
                 // adiciona mais validações conforme o retorno esperado
             })
 
@@ -59,7 +60,8 @@ describe('Módulo - Eventos', () => {
                     canal: 'site'
                 }, failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
                 // adiciona mais validações conforme o retorno esperado
             })
 
@@ -116,7 +118,8 @@ describe('Módulo - Eventos', () => {
                     origem: 'origem'
                 }
             }).then((response) => {
-                expect(response.status).to.eq(400)
+                expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
 
         });
