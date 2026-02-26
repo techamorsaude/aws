@@ -29,6 +29,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
@@ -58,6 +59,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -83,6 +85,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -101,7 +104,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -128,7 +132,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -148,6 +153,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const data = response.body;
                 expect(data).to.have.property('items').to.be.an('array');
@@ -186,6 +192,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -205,6 +212,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 items.forEach((item) => {
@@ -238,6 +246,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -257,6 +266,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.be.an('object').that.is.empty;
 
             })
@@ -275,6 +286,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -296,7 +308,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const items = response.body;
                 expect(items).to.have.property('id');
@@ -321,7 +334,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(401)
+                expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -350,6 +364,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('id');
                 expect(response.body).to.have.property('localAtendimento');
                 expect(response.body).to.have.property('unidade');
@@ -375,6 +391,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -399,6 +416,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
@@ -419,6 +437,8 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
+
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -439,6 +459,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
+                cy.log(JSON.stringify(response.body));
             })
         })
 
@@ -456,6 +477,7 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
+                cy.log(JSON.stringify(response.body));
             })
         })
     })
