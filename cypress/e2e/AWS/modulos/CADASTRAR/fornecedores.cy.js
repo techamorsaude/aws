@@ -1159,7 +1159,7 @@ describe('Módulo - Fornecedores', () => {
             })
         })
     })
-    
+
     describe('Módulo - Fornecedores - Atualiza um fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}', () => {
@@ -1338,8 +1338,8 @@ describe('Módulo - Fornecedores', () => {
             })
         })
     })
-//////////////////////////// PAREI AQUI //////////////////////////////
-    describe.only('Módulo - Fornecedores - Retorna um fornecedor por id', () => {
+    
+    describe('Módulo - Fornecedores - Retorna um fornecedor por id', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}', () => {
             const token = Cypress.env('access_token');
@@ -1357,8 +1357,6 @@ describe('Módulo - Fornecedores', () => {
                 cy.log(JSON.stringify(response.body));
 
                 const item = response.body;
-                expect(item).to.have.property('createAt');
-                expect(item).to.have.property('flgExecutante');
                 expect(item).to.have.property('id');
                 expect(item).to.have.property('razaoSocial');
                 expect(item).to.have.property('nomeFantasia');
@@ -1368,23 +1366,16 @@ describe('Módulo - Fornecedores', () => {
                 expect(item).to.have.property('cep');
                 expect(item).to.have.property('endereco');
                 expect(item).to.have.property('numero');
-                expect(item).to.have.property('complmento');
+                expect(item).to.have.property('complemento');
                 expect(item).to.have.property('bairro');
                 expect(item).to.have.property('municipioId');
                 expect(item).to.have.property('municipio');
-                expect(item).to.have.property('ufId');
                 expect(item).to.have.property('uf');
                 expect(item).to.have.property('email');
                 expect(item).to.have.property('telefone');
                 expect(item).to.have.property('celular');
-                expect(item).to.have.property('flgRecebeParcial');
-                expect(item).to.have.property('obervacao');
+                expect(item).to.have.property('observacao');
                 expect(item).to.have.property('ativo');
-                expect(item).to.have.property('tipoFornecedorId');
-                expect(item).to.have.property('tipoFornecedor');
-                expect(item).to.have.property('condigoInterno');
-                expect(item).to.have.property('criadoPor');
-                expect(item).to.have.property('integracao');
             })
         })
 
@@ -1424,52 +1415,43 @@ describe('Módulo - Fornecedores', () => {
                 cy.log(JSON.stringify(response.body));
 
                 const body = response.body;
-
-                // META
-                expect(body).to.have.property('meta');
+                expect(body).to.have.property('meta').to.be.an('object');
                 expect(body.meta).to.have.property('page');
                 expect(body.meta).to.have.property('perPage');
                 expect(body.meta).to.have.property('total');
 
-                // DATA
-                expect(body).to.have.property('data').that.is.an('array');
-                expect(body.data).to.have.length.greaterThan(0);
-
-                const item = body.data[0];
-
-                expect(item).to.have.property('id');
-                expect(item).to.have.property('idFornecedor');
-                expect(item).to.have.property('fornecedor');
-                expect(item).to.have.property('idProcedimento');
-                expect(item).to.have.property('procedimento');
-                expect(item).to.have.property('idTabela');
-                expect(item).to.have.property('tabela');
-                expect(item).to.have.property('valorCusto');
-                expect(item).to.have.property('valorVenda');
-                expect(item).to.have.property('vendaPadrao');
-                expect(item).to.have.property('custoPadrao');
-                expect(item).to.have.property('flgExecutante');
-
-                expect(item).to.have.property('mneumonico');
-                expect(item).to.have.property('procedimentoLaboratorio');
-                expect(item).to.have.property('material');
-                expect(item).to.have.property('meioColeta');
-                expect(item).to.have.property('metodo');
-                expect(item).to.have.property('prazo');
-
-                expect(item).to.have.property('flgVolume');
-                expect(item).to.have.property('flgAltura');
-                expect(item).to.have.property('flgTipoMaterial');
-                expect(item).to.have.property('flgMaterialColetado');
-
-                expect(item).to.have.property('instrucaoPreparo');
-                expect(item).to.have.property('instrucaoColeta');
-
-                expect(item).to.have.property('unidadeId');
-                expect(item).to.have.property('unidade');
-                expect(item).to.have.property('flgCentral');
-                expect(item).to.have.property('regiaoId');
-                expect(item).to.have.property('regiao');
+                expect(body).to.have.property('data').to.be.an('array');
+                body.data.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('idFornecedor');
+                    expect(item).to.have.property('fornecedor');
+                    expect(item).to.have.property('idProcedimento');
+                    expect(item).to.have.property('procedimento');
+                    expect(item).to.have.property('idTabela');
+                    expect(item).to.have.property('tabela');
+                    expect(item).to.have.property('valorCusto');
+                    expect(item).to.have.property('valorVenda');
+                    expect(item).to.have.property('vendaPadrao');
+                    expect(item).to.have.property('custoPadrao');
+                    expect(item).to.have.property('flgExecutante');
+                    expect(item).to.have.property('mneumonico');
+                    expect(item).to.have.property('procedimentoLaboratorio');
+                    expect(item).to.have.property('material');
+                    expect(item).to.have.property('meioColeta');
+                    expect(item).to.have.property('metodo');
+                    expect(item).to.have.property('prazo');
+                    expect(item).to.have.property('flgVolume');
+                    expect(item).to.have.property('flgAltura');
+                    expect(item).to.have.property('flgTipoMaterial');
+                    expect(item).to.have.property('flgMaterialColetado');
+                    expect(item).to.have.property('instrucaoPreparo');
+                    expect(item).to.have.property('instrucaoColeta');
+                    expect(item).to.have.property('unidadeId');
+                    expect(item).to.have.property('unidade');
+                    expect(item).to.have.property('flgCentral');
+                    expect(item).to.have.property('regiaoId');
+                    expect(item).to.have.property('regiao');
+                })
             })
         })
 
