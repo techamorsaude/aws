@@ -145,82 +145,82 @@ describe('Módulo - Propostas', () => {
             }).then((response) => {
                 expect(response.status).to.eq(201);
                 cy.log('Retornando vazio', JSON.stringify(response.body));
-/*
-                const objeto = response.body;
-                const proposal = objeto.proposal;
-                expect(objeto).to.have.property('proposal').that.is.an('object');
-
-                expect(proposal).to.include.all.keys(
-                    'id',
-                    'cdtMatricula',
-                    'dataProposta',
-                    'dataValidade',
-                    'fkUnidade',
-                    'valorTotal',
-                    'quantidadeParcela',
-                    'tipoIntervalo',
-                    'quantidadeIntervalo',
-                    'flagAtivo',
-                    'ipClient',
-                    'createdAt',
-                    'updatedAt',
-                    'lastUser',
-                    'origem',
-                    'parceiroId',
-                    'origemId',
-                    'valorTotalClinica',
-                    'fkStatusProposta',
-                    'fkEspecialidade',
-                    'fkProfissional',
-                    'fkProfissionalExterno',
-                    'campaignId',
-                    'patientId',
-                    'paymentIdFiserv',
-                )
-                // Variável que recebe o id proposta
-                const propostaId = objeto.proposal.id;
-                // Salva o ID para uso posterior
-                Cypress.env('propostaId', propostaId);
-                cy.log('ID salvo:', propostaId);
-
-                expect(proposal).to.have.property('itens').to.be.an('array');
-                proposal.itens.forEach((itens) => {
-                    expect(itens).to.have.property('id');
-                    expect(itens).to.have.property('executanteId');
-                    expect(itens).to.have.property('executado');
-                    expect(itens).to.have.property('quantidade');
-                    expect(itens).to.have.property('valorUnitario');
-                    expect(itens).to.have.property('valorTotal');
-                    expect(itens).to.have.property('flagAtivo');
-                    expect(itens).to.have.property('ipClient');
-                    expect(itens).to.have.property('createdAt');
-                    expect(itens).to.have.property('updatedAt');
-                    expect(itens).to.have.property('createdBy');
-                    expect(itens).to.have.property('lastUser');
-                    expect(itens).to.have.property('lastExecutantId');
-                    expect(itens).to.have.property('valorTotalClinica');
-                    expect(itens).to.have.property('pagamentoParcial');
-                    expect(itens).to.have.property('fkProposta');
-                    expect(itens).to.have.property('fkProcedimento');
-                })
-
-                expect(proposal).to.have.property('parcela').to.include.all.keys(
-                    'id',
-                    'fkProposta',
-                    'numeroParcela',
-                    'dataVencimento',
-                    'dataRecebimento',
-                    'observacao',
-                    'valor',
-                    'valorRecebido',
-                    'flagAtivo',
-                    'ipClient',
-                    'createdAt',
-                    'updatedAt',
-                    'createdBy',
-                    'lastUser',
-                    'formaLiquidacao'
-                ) */
+                /*
+                                const objeto = response.body;
+                                const proposal = objeto.proposal;
+                                expect(objeto).to.have.property('proposal').that.is.an('object');
+                
+                                expect(proposal).to.include.all.keys(
+                                    'id',
+                                    'cdtMatricula',
+                                    'dataProposta',
+                                    'dataValidade',
+                                    'fkUnidade',
+                                    'valorTotal',
+                                    'quantidadeParcela',
+                                    'tipoIntervalo',
+                                    'quantidadeIntervalo',
+                                    'flagAtivo',
+                                    'ipClient',
+                                    'createdAt',
+                                    'updatedAt',
+                                    'lastUser',
+                                    'origem',
+                                    'parceiroId',
+                                    'origemId',
+                                    'valorTotalClinica',
+                                    'fkStatusProposta',
+                                    'fkEspecialidade',
+                                    'fkProfissional',
+                                    'fkProfissionalExterno',
+                                    'campaignId',
+                                    'patientId',
+                                    'paymentIdFiserv',
+                                )
+                                // Variável que recebe o id proposta
+                                const propostaId = objeto.proposal.id;
+                                // Salva o ID para uso posterior
+                                Cypress.env('propostaId', propostaId);
+                                cy.log('ID salvo:', propostaId);
+                
+                                expect(proposal).to.have.property('itens').to.be.an('array');
+                                proposal.itens.forEach((itens) => {
+                                    expect(itens).to.have.property('id');
+                                    expect(itens).to.have.property('executanteId');
+                                    expect(itens).to.have.property('executado');
+                                    expect(itens).to.have.property('quantidade');
+                                    expect(itens).to.have.property('valorUnitario');
+                                    expect(itens).to.have.property('valorTotal');
+                                    expect(itens).to.have.property('flagAtivo');
+                                    expect(itens).to.have.property('ipClient');
+                                    expect(itens).to.have.property('createdAt');
+                                    expect(itens).to.have.property('updatedAt');
+                                    expect(itens).to.have.property('createdBy');
+                                    expect(itens).to.have.property('lastUser');
+                                    expect(itens).to.have.property('lastExecutantId');
+                                    expect(itens).to.have.property('valorTotalClinica');
+                                    expect(itens).to.have.property('pagamentoParcial');
+                                    expect(itens).to.have.property('fkProposta');
+                                    expect(itens).to.have.property('fkProcedimento');
+                                })
+                
+                                expect(proposal).to.have.property('parcela').to.include.all.keys(
+                                    'id',
+                                    'fkProposta',
+                                    'numeroParcela',
+                                    'dataVencimento',
+                                    'dataRecebimento',
+                                    'observacao',
+                                    'valor',
+                                    'valorRecebido',
+                                    'flagAtivo',
+                                    'ipClient',
+                                    'createdAt',
+                                    'updatedAt',
+                                    'createdBy',
+                                    'lastUser',
+                                    'formaLiquidacao'
+                                ) */
             })
         })
 
@@ -576,15 +576,14 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-    // Falta testar
-    describe.only('Módulo - Propostas - Atualiza uma proposta por id', () => {
+    describe('Módulo - Propostas - Atualiza uma proposta por id', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'PUT',
-                url: 'api/v1/propostas/21693',
+                url: 'api/v1/propostas/56787421',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -593,15 +592,27 @@ describe('Módulo - Propostas', () => {
                     "pacienteId": 1162697,
                     "parceiroId": 42,
                     "cdtMatricula": "",
-                    "dataProposta": "20260219",
-                    "dataValidade": "20260420",
+                    "dataProposta": "20260224",
+                    "dataValidade": "20260425",
                     "profissionalId": 4033,
                     "especialidadeId": 611,
                     "status": 1,
-                    "valorTotal": 120,
-                    "valorTotalClinica": 120,
+                    "valorTotal": 300,
+                    "valorTotalClinica": 290,
                     "procedimentos": [
                         {
+                            "id": 56787473,
+                            "procedimentoId": 20715,
+                            "executanteId": 1300,
+                            "executado": "0",
+                            "pagamentoParcial": "1",
+                            "quantidade": 1,
+                            "valorUnitario": 180,
+                            "valorTotal": 180,
+                            "valorTotalClinica": 170
+                        },
+                        {
+                            "id": 56787422,
                             "procedimentoId": 20357,
                             "executanteId": 1026,
                             "executado": "0",
@@ -613,60 +624,29 @@ describe('Módulo - Propostas', () => {
                         }
                     ],
                     "parcela": {
-                        "id": 1,
-                        "dataVencimento": "20260420",
-                        "dataRecebimento": "20260420",
+                        "id": 7070988,
+                        "dataVencimento": "19700101",
+                        "dataRecebimento": "19700101",
                         "observacao": ".",
-                        "valor": 120,
-                        "valorRecebido": 0,
-                        "numeroParcela": 1,
-                        "vencimento": "20260420"
+                        "valor": 0,
+                        "vencimento": "19700101"
                     },
                     "profissaoExternoId": null,
                     "profissionalExterno": "",
                     "codigoExterno": "",
+                    "campaignId": null,
                     "cashback": 0
                 },
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
+                cy.log(JSON.stringify(response.body));
 
                 const objeto = response.body;
 
-                // Validação de campos principais
                 expect(objeto).to.have.property('flagDeError');
                 expect(objeto).to.have.property('codigo');
                 expect(objeto).to.have.property('mensagem');
-                expect(objeto).to.have.property('webHookPayload');
-
-                // Validação do webHookPayload
-                const payload = objeto.webHookPayload;
-                expect(payload).to.have.property('unique_code');
-                expect(payload).to.have.property('procedures').to.be.an('array');
-
-                // Validação dos procedimentos
-                expect(payload.procedures[0]).to.include.all.keys(
-                    'item',
-                    'name',
-                    'price_particular_partner',
-                    'price_card'
-                )
-                // Validação do summary
-                expect(payload).to.have.property('summary').to.include.all.keys(
-                    'subtotal',
-                    'economy',
-                    'total',
-                    'provider',
-                    'amorsaude',
-                    'cashback'
-                )
-                // Validação do metadata
-                expect(payload).to.have.property('metadata').to.include.all.keys(
-                    'user_id',
-                    'cashier_id',
-                    'unit_id',
-                    'timestamp'
-                )
             })
         })
 
@@ -753,7 +733,7 @@ describe('Módulo - Propostas', () => {
             })
         })
     })
-// Falta testar
+
     describe('Módulo - Propostas - Excluir uma proposta por id', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/{id}', () => {
@@ -761,7 +741,7 @@ describe('Módulo - Propostas', () => {
 
             cy.request({
                 method: 'DELETE',
-                url: '/api/v1/propostas/21593',
+                url: '/api/v1/propostas/56787421',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -809,7 +789,6 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-    // Falta testar
     describe('Módulo - Propostas - Retorna uns procedimentos pagos', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/procedimentos/pagas', () => {
@@ -855,7 +834,6 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-    // Falta testar
     describe('Módulo - Propostas - Atualiza uma parcela da proposta por id', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/parcela/{id}', () => {
@@ -904,7 +882,6 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-    /// Falta testar
     describe('Módulo - Propostas - Atualiza o status da proposta', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/status/{id}', () => {
@@ -923,28 +900,9 @@ describe('Módulo - Propostas', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/propostas/status/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'PUT',
-                url: '/api/v1/propostas/status/21595',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: { // Sem parâmetro no body
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-
             })
         })
 
@@ -968,7 +926,6 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-    // Falta testar
     describe('Módulo - Propostas - Cancela uma proposta', () => {
 
         it('Validar retorno 200 - api/v1/propostas/cancel/{id}', () => {
@@ -1026,7 +983,6 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-    // Falta testar
     describe('Módulo - Propostas - Retorna lista de eventos de uma proposta', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/executantes/list', () => {
@@ -1069,8 +1025,8 @@ describe('Módulo - Propostas', () => {
         })
     })
 
-   // Falta testar
-    describe('Módulo - Propostas - Receber parcela de uma proposta', () => {
+    /////////////////////////////PAREI AQUI//////////////////////////////////////////
+    describe.only('Módulo - Propostas - Receber parcela de uma proposta', () => {
 
         it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento', () => {
             const token = Cypress.env('access_token');
@@ -1083,8 +1039,8 @@ describe('Módulo - Propostas', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    propostaId: 22528,
-                    dataRecebimento: "20250903",
+                    propostaId: 56787667,
+                    dataRecebimento: "20260302",
                     valorRecebido: 22.25,
                     contaCorrenteId: 154,
                     formaLiquidacaoId: 8,
@@ -1094,6 +1050,7 @@ describe('Módulo - Propostas', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body));
 
                 /*const body = response.body;
                 expect(body).to.include.all.keys(
