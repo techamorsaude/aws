@@ -7,9 +7,9 @@ describe('Módulo - Perfil de Acesso', () => {
     cy.refreshToken()
   });
 
-  describe.only('Módulo - Perfil de Acesso - Cria um novo Perfil de acesso', () => {
+  describe('Módulo - Perfil de Acesso - Cria um novo Perfil de acesso', () => {
 
-    it.only('Validar retorno 201 - /api/v1/perfil-acesso', () => {
+    it('Validar retorno 201 - /api/v1/perfil-acesso', () => {
       const token = Cypress.env('access_token');
       const perfilCriado = "testeQa";
 

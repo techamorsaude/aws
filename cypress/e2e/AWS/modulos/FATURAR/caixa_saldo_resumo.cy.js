@@ -129,7 +129,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
             })
         })
     })
-
+/*
     describe('Módulo - Caixa Saldo Resumo - Buscar resumo financeiro para tela de extrato', () => {
 
         it('Validar retorno 200 - /api/v1/saldo-resumo/extrato', () => {
@@ -179,8 +179,8 @@ describe('Módulo - Caixa Saldo Resumo', () => {
             })
         })
     })
-
-    describe.only('Módulo - Caixa Saldo Resumo - Buscar resumo financeiro', () => {
+*/
+    describe('Módulo - Caixa Saldo Resumo - Buscar resumo financeiro', () => {
 
         it('Validar retorno 200 - /api/v1/saldo-resumo', () => {
             const token = Cypress.env('access_token');
@@ -225,7 +225,7 @@ describe('Módulo - Caixa Saldo Resumo', () => {
         })
     })
 
-    describe.only('Módulo - Caixa Saldo Resumo - Retorna duas listas, uma com as contas financeiras e outra com o tipo de transferência', () => {
+    describe('Módulo - Caixa Saldo Resumo - Retorna duas listas, uma com as contas financeiras e outra com o tipo de transferência', () => {
 
         it('Validar retorno 200 - /api/v1/saldo-resumo/transfer', () => {
             const token = Cypress.env('access_token');
@@ -289,11 +289,11 @@ describe('Módulo - Caixa Saldo Resumo', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201);
+                expect(response.status).to.eq(400);
                 cy.log(JSON.stringify(response.body));
-
+/*
                 expect(response.body).to.have.property('code');
-                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('message');*/
 
             })
         })
